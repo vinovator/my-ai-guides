@@ -33,8 +33,7 @@
             <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Techniques</div>
             <a href="#conditional" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Conditional
                 Logic</a>
-            <a href="#memory" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Persistence
-                (Memory)</a>
+            <a href="#memory" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Persistence</a>
             <a href="#human"
                 class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Human-in-the-loop</a>
             <a href="#subgraphs" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Subgraphs</a>
@@ -43,125 +42,81 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">LangGraph Refresher</h1>
-        <p class="text-lg text-gray-600 mb-8">Stateful, Cyclic, Graph-based orchestration for production agents.</p>
+        <p class="text-lg text-gray-600 mb-8">Stateful, Cyclic, Graph-based orchestration.</p>
 
-        <!-- Section 1: Foundations -->
+        <!-- Section 1 -->
         <section id="foundations" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
             <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
-            <div class="grid md:grid-cols-2 gap-6">
-                <div>
-                    <h3 class="font-bold text-blue-600 mb-2">What is it?</h3>
-                    <p class="text-sm text-gray-600 mb-4">A library to build stateful, multi-actor applications with
-                        LLMs. It extends LangChain to handle <strong>cycles</strong> (loops), which are essential for
-                        agentic behaviors like "Plan -> Execute -> Reflect -> Retry".</p>
-                </div>
-                <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="font-bold text-gray-900 mb-2">When to use?</h3>
-                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
-                        <li>You need <strong>loops</strong> (retries, refinement).</li>
-                        <li>You need <strong>persistence</strong> (pause/resume conversation).</li>
-                        <li>You need <strong>fine-grained control</strong> over state.</li>
-                        <li>Production-grade reliability is priority.</li>
-                    </ul>
-                </div>
-            </div>
+            <p class="text-sm text-gray-600">A library to build stateful, multi-actor applications with LLMs. Unlike
+                DAGs (CrewAI), LangGraph allows <strong>loops</strong> (cycles).</p>
         </section>
 
-        <!-- Section 2: Core Concepts -->
+        <!-- Section 2 -->
         <section id="state" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">2. Core Theory: The State</h2>
-            <p class="mb-4 text-gray-600">LangGraph is distinct because it passes a shared <strong>State Object</strong>
-                to every node. Nodes modify this state.</p>
+            <h2 class="text-2xl font-bold mb-6">2. State & Schema</h2>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from typing import TypedDict, Annotated
 import operator
 
-# The Schema
 class AgentState(TypedDict):
-    # 'operator.add' means: when a node returns a message, APPEND it to this list
-    # instead of overwriting the whole list.
+    # 'operator.add' appends messages instead of overwriting
     messages: Annotated[list, operator.add]
-    current_step: str
-    tool_output: dict</code></pre>
+    current_step: str</code></pre>
             </div>
         </section>
 
         <section id="nodes" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">3. Building the Graph</h2>
+            <h2 class="text-2xl font-bold mb-6">3. Nodes & Edges</h2>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from langgraph.graph import StateGraph, END
 
-# 1. Define Nodes (Python Functions)
-def chatbot(state: AgentState):
-    return {"messages": ["Hello from AI"]}
+def chatbot(state): return {"messages": ["Hello"]}
 
-def tool_node(state: AgentState):
-    return {"messages": ["Tool Result"]}
-
-# 2. Add to Graph
 workflow = StateGraph(AgentState)
 workflow.add_node("chatbot", chatbot)
-workflow.add_node("tools", tool_node)
-
-# 3. Define Flow (Edges)
 workflow.set_entry_point("chatbot")
-workflow.add_edge("chatbot", "tools")
-workflow.add_edge("tools", END) # End of execution
-
-# 4. Compile
+workflow.add_edge("chatbot", END)
 app = workflow.compile()</code></pre>
             </div>
         </section>
 
-        <!-- Section 3: Techniques -->
+        <!-- Section 3 -->
         <section id="conditional" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Conditional Edges (Routing)</h2>
-            <p class="mb-4 text-gray-600">How agents make decisions (loops). "If tool called, go to Tool Node. Else,
-                End."</p>
-            <pre><code class="language-python">def router(state: AgentState):
-    last_msg = state["messages"][-1]
-    if "tool_calls" in last_msg:
-        return "tools" # Go to 'tools' node
-    return "end"       # Go to END
+            <h2 class="text-2xl font-bold mb-6">Technique: Conditional Logic</h2>
+            <p class="mb-4 text-gray-600">Routing based on state content.</p>
+            <pre><code class="language-python">def route(state):
+    return "tools" if "tool_calls" in state["messages"][-1] else "end"
 
-workflow.add_conditional_edges(
-    "chatbot", # From this node
-    router,    # Run this logic
-    {"tools": "tools", "end": END} # Map output to next node
-)</code></pre>
+workflow.add_conditional_edges("chatbot", route, {"tools": "tools", "end": END})</code></pre>
         </section>
 
         <section id="memory" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Persistence (Checkpointing)</h2>
-            <p class="mb-4 text-gray-600">LangGraph can save the state after every step. This allows "Time Travel" and
-                session resumption.</p>
+            <h2 class="text-2xl font-bold mb-6">Technique: Persistence</h2>
             <pre><code class="language-python">from langgraph.checkpoint.memory import MemorySaver
-
-checkpointer = MemorySaver()
-app = workflow.compile(checkpointer=checkpointer)
-
-# Run with a thread_id
-config = {"configurable": {"thread_id": "session_1"}}
-app.invoke({"messages": ["Hi"]}, config=config)
-
-# Run again, it remembers "Hi"
-app.invoke({"messages": ["My name is Bob"]}, config=config)</code></pre>
+app = workflow.compile(checkpointer=MemorySaver())
+app.invoke(inputs, config={"configurable": {"thread_id": "1"}})</code></pre>
         </section>
 
         <section id="human" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Human-in-the-loop</h2>
-            <p class="mb-4 text-gray-600">Pause execution before a specific node to let a human edit state or approve
-                actions.</p>
-            <pre><code class="language-python"># Interrupt BEFORE entering the 'action' node
-app = workflow.compile(
-    checkpointer=checkpointer,
-    interrupt_before=["action"] 
-)
+            <pre><code class="language-python"># Pause BEFORE entering 'action' node
+app = workflow.compile(interrupt_before=["action"])</code></pre>
+        </section>
 
-# The graph will run until it hits 'action', then pause.
-# You can inspect state, update it, and then resume.
-app.update_state(config, {"messages": ["Human override!"]})
-app.invoke(None, config=config) # Resume</code></pre>
+        <!-- NEW SECTION: SUBGRAPHS -->
+        <section id="subgraphs" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Technique: Subgraphs</h2>
+            <p class="mb-4 text-gray-600">You can treat an entire Graph as a Node in another Graph. Essential for
+                scaling.</p>
+            <pre><code class="language-python"># Define a smaller graph
+sub_builder = StateGraph(SubState)
+sub_builder.add_node("worker", worker_node)
+sub_graph = sub_builder.compile()
+
+# Add it to parent graph as a node
+parent_builder = StateGraph(ParentState)
+parent_builder.add_node("subteam", sub_graph) # <--- Graph as a Node
+parent_builder.add_edge("start", "subteam")</code></pre>
         </section>
 
     </main>

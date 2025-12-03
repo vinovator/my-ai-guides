@@ -26,11 +26,7 @@
                 class="text-xs text-gray-500 hover:text-purple-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Foundations</div>
-            <a href="#concept" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Conversational
-                Paradigm</a>
-
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Core Agents</div>
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Core Agents</div>
             <a href="#assistant"
                 class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">AssistantAgent</a>
             <a href="#proxy" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">UserProxyAgent</a>
@@ -46,98 +42,53 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">AutoGen Refresher</h1>
-        <p class="text-lg text-gray-600 mb-8">Microsoft's conversational framework. Best for code execution and dynamic
-            agent teams.</p>
+        <p class="text-lg text-gray-600 mb-8">Microsoft's conversational framework.</p>
 
-        <!-- Section 1: Foundations -->
-        <section id="concept" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
-            <p class="text-sm text-gray-600 mb-4">AutoGen defines an "Agent" as anything that can send/receive messages.
-                The core loop is a <strong>Conversation</strong>. One agent speaks, another replies (either by executing
-                code or using LLM), until a termination condition is met.</p>
+        <!-- Section 1: Agents -->
+        <section id="assistant" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. AssistantAgent</h2>
+            <p class="text-sm text-gray-600 mb-4">The "Brain". Uses LLM to generate plans/code. No execution.</p>
+            <pre><code class="language-python">from autogen import AssistantAgent
+assistant = AssistantAgent(name="Coder", llm_config={"config_list": [...]})</code></pre>
         </section>
 
-        <!-- Section 2: Core Concepts -->
-        <section id="assistant" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">2. The Two Main Agents</h2>
-            <div class="grid md:grid-cols-2 gap-6 mb-6">
-                <div class="border p-4 rounded bg-white">
-                    <h3 class="font-bold text-purple-700">AssistantAgent</h3>
-                    <p class="text-xs text-gray-500">The "Brain". Uses an LLM to generate plans, write code, or answer
-                        queries. It typically cannot execute code.</p>
-                </div>
-                <div class="border p-4 rounded bg-white">
-                    <h3 class="font-bold text-purple-700">UserProxyAgent</h3>
-                    <p class="text-xs text-gray-500">The "Body". It acts on behalf of the user. It can execute
-                        Python/Bash code detected in the message, or ask the human for input.</p>
-                </div>
-            </div>
-            <pre><code class="language-python">from autogen import AssistantAgent, UserProxyAgent
+        <section id="proxy" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">2. UserProxyAgent</h2>
+            <p class="mb-4 text-gray-600">The "Executor". Acts for the user and executes code.</p>
+            <pre><code class="language-python">from autogen import UserProxyAgent
+user_proxy = UserProxyAgent(name="User", human_input_mode="NEVER")</code></pre>
+        </section>
 
-config_list = [{"model": "gpt-4", "api_key": "..."}]
-
-assistant = AssistantAgent(
-    name="Coder",
-    llm_config={"config_list": config_list}
-)
-
-user_proxy = UserProxyAgent(
+        <!-- NEW SECTION: CODE EXECUTION -->
+        <section id="code" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Technique: Code Execution</h2>
+            <p class="mb-4 text-gray-600">The UserProxy can be configured to run code safely, often in Docker.</p>
+            <pre><code class="language-python">user_proxy = UserProxyAgent(
     name="Executor",
-    human_input_mode="NEVER", # Automated
     code_execution_config={
-        "work_dir": "coding",
-        "use_docker": False # Set True for safety
+        "work_dir": "workspace", # Where files are saved
+        "use_docker": False,     # Set True for production safety
+        "last_n_messages": 3
     }
 )
-
-# Start the conversation
-user_proxy.initiate_chat(assistant, message="Plot NVDA vs TSLA stock YTD.")</code></pre>
+# If the assistant sends a markdown code block, this proxy will run it automatically.</code></pre>
         </section>
 
-        <!-- Section 3: Techniques -->
         <section id="group" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Group Chat (Orchestrator)</h2>
-            <p class="mb-4 text-gray-600">For >2 agents, you need a <strong>GroupChatManager</strong>. It uses an LLM to
-                decide who speaks next (Speaker Selection).</p>
+            <h2 class="text-2xl font-bold mb-6">Technique: Group Chat</h2>
             <pre><code class="language-python">from autogen import GroupChat, GroupChatManager
-
-# 1. Define Agents
-coder = AssistantAgent(name="Coder", ...)
-pm = AssistantAgent(name="PM", system_message="Critique plans.", ...)
-reviewer = AssistantAgent(name="Reviewer", system_message="Check code.", ...)
-
-# 2. Create Group
-groupchat = GroupChat(
-    agents=[user_proxy, coder, pm, reviewer], 
-    messages=[], 
-    max_round=10,
-    speaker_selection_method="auto" # Or "round_robin"
-)
-
-# 3. Create Manager
+groupchat = GroupChat(agents=[...], messages=[], max_round=10)
 manager = GroupChatManager(groupchat=groupchat, llm_config=...)
-
-# 4. Start
-user_proxy.initiate_chat(manager, message="Build a calculator.")</code></pre>
+user_proxy.initiate_chat(manager, message="Hello")</code></pre>
         </section>
 
         <section id="tools" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Registering Tools</h2>
-            <p class="mb-4 text-gray-600">AutoGen (v0.2+) supports OpenAI tool calling cleanly.</p>
+            <h2 class="text-2xl font-bold mb-6">Technique: Tool Registration</h2>
             <pre><code class="language-python">from autogen import register_function
-
-def add(a: int, b: int) -> int:
-    return a + b
-
-# Registering connects the Python function to BOTH agents:
-# 1. The caller (Assistant) gets the tool definition in its system prompt.
-# 2. The executor (UserProxy) gets the ability to actually run the function.
 register_function(
-    add,
-    caller=assistant,
-    executor=user_proxy,
-    name="add",
-    description="Adds two integers."
+    my_func,
+    caller=assistant, # LLM
+    executor=user_proxy # Runtime
 )</code></pre>
         </section>
     </main>

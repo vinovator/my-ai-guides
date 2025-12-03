@@ -38,37 +38,40 @@
 
         <section id="pipeline" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
             <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Philosophy</h2>
-            <p class="text-sm text-gray-600">Haystack (v2) uses a directed graph of <strong>Components</strong>. You
-                explicitly connect `output` of one to `input` of another. It's great for debugging complex flows.</p>
+            <p class="text-sm text-gray-600">Haystack (v2) uses a directed graph of components. You explicitly connect
+                `output` of one to `input` of another.</p>
+        </section>
+
+        <!-- NEW SECTION: COMPONENTS -->
+        <section id="components" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">2. Components</h2>
+            <p class="mb-4 text-gray-600">Components are the building blocks. Each has `run()` and distinct
+                inputs/outputs.</p>
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-sky-50 p-3 rounded"><strong>Generators:</strong> Interact with LLMs (OpenAI,
+                    HuggingFace).</div>
+                <div class="bg-sky-50 p-3 rounded"><strong>Retrievers:</strong> Fetch documents from Vector DBs.</div>
+                <div class="bg-sky-50 p-3 rounded"><strong>Builders:</strong> Construct prompts dynamically.</div>
+            </div>
+            <pre><code class="language-python">from haystack.components.generators import OpenAIGenerator
+# Init component
+llm = OpenAIGenerator(model="gpt-4")</code></pre>
         </section>
 
         <section id="example" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Building a Pipeline</h2>
+            <h2 class="text-2xl font-bold mb-6">3. Example RAG Pipeline</h2>
             <pre><code class="language-python">from haystack import Pipeline
-from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
-from haystack.components.generators import OpenAIGenerator
 from haystack.components.builders import PromptBuilder
 
-# 1. Define Components
-prompt_template = """
-Given the context: {{ documents }}
-Answer: {{ query }}
-"""
-builder = PromptBuilder(template=prompt_template)
-llm = OpenAIGenerator(model="gpt-4")
+template = "Answer: {{ query }} based on {{ documents }}"
+builder = PromptBuilder(template=template)
 
-# 2. Add to Pipeline
 pipe = Pipeline()
-pipe.add_component("retriever", retriever)
 pipe.add_component("builder", builder)
 pipe.add_component("llm", llm)
-
-# 3. Connect (Explicit Wiring)
-pipe.connect("retriever.documents", "builder.documents")
 pipe.connect("builder", "llm")
 
-# 4. Run
-pipe.run({"retriever": {"query": "Hello"}, "builder": {"query": "Hello"}})</code></pre>
+pipe.run({"builder": {"query": "Hello"}})</code></pre>
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
