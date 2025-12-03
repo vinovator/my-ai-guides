@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LangGraph Refresher</title>
+    <title>LangGraph Comprehensive Refresher</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,124 +20,148 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
         <div class="p-6 border-b">
             <h1 class="font-bold text-xl text-blue-700">LangGraph</h1><a href="index.html"
                 class="text-xs text-gray-500 hover:text-blue-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <a href="#concepts" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Core Concepts</a>
-            <a href="#state" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">State & Graph</a>
-            <a href="#basic" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Basic Example</a>
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Core Theory</div>
+            <a href="#state" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">State & Schema</a>
+            <a href="#nodes" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Nodes & Edges</a>
+
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Techniques</div>
             <a href="#conditional" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Conditional
-                Edges</a>
+                Logic</a>
             <a href="#memory" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Persistence
                 (Memory)</a>
             <a href="#human"
                 class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Human-in-the-loop</a>
+            <a href="#subgraphs" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Subgraphs</a>
         </nav>
     </aside>
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
-        <h1 class="text-4xl font-bold mb-8">LangGraph Refresher</h1>
+        <h1 class="text-4xl font-bold mb-4">LangGraph Refresher</h1>
+        <p class="text-lg text-gray-600 mb-8">Stateful, Cyclic, Graph-based orchestration for production agents.</p>
 
-        <section id="concepts" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
-            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
-            <p class="mb-4">LangGraph is a library for building stateful, multi-actor applications with LLMs. Unlike
-                CrewAI (which is DAG/process-focused), LangGraph is <strong>cyclic</strong>. It allows loops, making it
-                ideal for agentic behaviors where an agent may need to try, fail, correct, and try again.</p>
-            <div class="grid grid-cols-2 gap-4 mt-4">
-                <div class="bg-blue-50 p-4 rounded"><strong>Nodes</strong>: Functions that do work (call LLM, run tool).
+        <!-- Section 1: Foundations -->
+        <section id="foundations" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <h3 class="font-bold text-blue-600 mb-2">What is it?</h3>
+                    <p class="text-sm text-gray-600 mb-4">A library to build stateful, multi-actor applications with
+                        LLMs. It extends LangChain to handle <strong>cycles</strong> (loops), which are essential for
+                        agentic behaviors like "Plan -> Execute -> Reflect -> Retry".</p>
                 </div>
-                <div class="bg-blue-50 p-4 rounded"><strong>Edges</strong>: Control flow (Go from A to B).</div>
-                <div class="bg-blue-50 p-4 rounded"><strong>State</strong>: Shared data object passed between nodes.
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    <h3 class="font-bold text-gray-900 mb-2">When to use?</h3>
+                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
+                        <li>You need <strong>loops</strong> (retries, refinement).</li>
+                        <li>You need <strong>persistence</strong> (pause/resume conversation).</li>
+                        <li>You need <strong>fine-grained control</strong> over state.</li>
+                        <li>Production-grade reliability is priority.</li>
+                    </ul>
                 </div>
-                <div class="bg-blue-50 p-4 rounded"><strong>Conditional Edges</strong>: Logic to decide where to go next
-                    (If/Else).</div>
             </div>
         </section>
 
+        <!-- Section 2: Core Concepts -->
         <section id="state" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">1. Defining State</h2>
-            <p class="mb-4">The `State` is a TypedDict that holds the context. Every node receives this state, modifies
-                it, and passes it on.</p>
-            <pre><code class="language-python">from typing import TypedDict, Annotated
+            <h2 class="text-2xl font-bold mb-6">2. Core Theory: The State</h2>
+            <p class="mb-4 text-gray-600">LangGraph is distinct because it passes a shared <strong>State Object</strong>
+                to every node. Nodes modify this state.</p>
+            <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
+                <pre><code class="language-python">from typing import TypedDict, Annotated
 import operator
 
-# 'add' reducer allows messages to be appended rather than overwritten
+# The Schema
 class AgentState(TypedDict):
+    # 'operator.add' means: when a node returns a message, APPEND it to this list
+    # instead of overwriting the whole list.
     messages: Annotated[list, operator.add]
     current_step: str
-    user_info: dict</code></pre>
+    tool_output: dict</code></pre>
+            </div>
         </section>
 
-        <section id="basic" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">2. Basic Graph Structure</h2>
-            <pre><code class="language-python">from langgraph.graph import StateGraph, END
+        <section id="nodes" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">3. Building the Graph</h2>
+            <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
+                <pre><code class="language-python">from langgraph.graph import StateGraph, END
 
-# 1. Define Nodes (Functions)
+# 1. Define Nodes (Python Functions)
 def chatbot(state: AgentState):
-    return {"messages": ["Hello from bot!"]}
+    return {"messages": ["Hello from AI"]}
 
 def tool_node(state: AgentState):
-    return {"messages": ["Tool result"]}
+    return {"messages": ["Tool Result"]}
 
-# 2. Build Graph
+# 2. Add to Graph
 workflow = StateGraph(AgentState)
-
-# 3. Add Nodes
 workflow.add_node("chatbot", chatbot)
 workflow.add_node("tools", tool_node)
 
-# 4. Add Edges (Flow)
+# 3. Define Flow (Edges)
 workflow.set_entry_point("chatbot")
 workflow.add_edge("chatbot", "tools")
-workflow.add_edge("tools", END)
+workflow.add_edge("tools", END) # End of execution
 
-# 5. Compile
-app = workflow.compile()
-
-# 6. Run
-result = app.invoke({"messages": ["Hi"]})</code></pre>
+# 4. Compile
+app = workflow.compile()</code></pre>
+            </div>
         </section>
 
+        <!-- Section 3: Techniques -->
         <section id="conditional" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">3. Conditional Edges (Router)</h2>
-            <p class="mb-4">This is how agents make decisions. After a node runs, a function decides which node runs
-                next.</p>
-            <pre><code class="language-python">def route_tools(state: AgentState):
-    last_message = state["messages"][-1]
-    if "tool_calls" in last_message:
-        return "tools" # Name of the node to go to
-    return "end" # Special END node
+            <h2 class="text-2xl font-bold mb-6">Technique: Conditional Edges (Routing)</h2>
+            <p class="mb-4 text-gray-600">How agents make decisions (loops). "If tool called, go to Tool Node. Else,
+                End."</p>
+            <pre><code class="language-python">def router(state: AgentState):
+    last_msg = state["messages"][-1]
+    if "tool_calls" in last_msg:
+        return "tools" # Go to 'tools' node
+    return "end"       # Go to END
 
 workflow.add_conditional_edges(
-    "chatbot",      # From this node
-    route_tools,    # Run this logic
-    {               # Map logic output to Nodes
-        "tools": "tools",
-        "end": END
-    }
+    "chatbot", # From this node
+    router,    # Run this logic
+    {"tools": "tools", "end": END} # Map output to next node
 )</code></pre>
         </section>
 
         <section id="memory" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">4. Persistence (Memory)</h2>
-            <p class="mb-4">LangGraph uses "Checkpointers" to save state. This allows you to pause, resume, or keep
-                history across sessions.</p>
+            <h2 class="text-2xl font-bold mb-6">Technique: Persistence (Checkpointing)</h2>
+            <p class="mb-4 text-gray-600">LangGraph can save the state after every step. This allows "Time Travel" and
+                session resumption.</p>
             <pre><code class="language-python">from langgraph.checkpoint.memory import MemorySaver
 
-memory = MemorySaver()
-app = workflow.compile(checkpointer=memory)
+checkpointer = MemorySaver()
+app = workflow.compile(checkpointer=checkpointer)
 
-# Need a thread_id to track the session
-config = {"configurable": {"thread_id": "user-123"}}
-
-# First run
+# Run with a thread_id
+config = {"configurable": {"thread_id": "session_1"}}
 app.invoke({"messages": ["Hi"]}, config=config)
 
-# Second run (Remembers "Hi")
+# Run again, it remembers "Hi"
 app.invoke({"messages": ["My name is Bob"]}, config=config)</code></pre>
+        </section>
+
+        <section id="human" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Technique: Human-in-the-loop</h2>
+            <p class="mb-4 text-gray-600">Pause execution before a specific node to let a human edit state or approve
+                actions.</p>
+            <pre><code class="language-python"># Interrupt BEFORE entering the 'action' node
+app = workflow.compile(
+    checkpointer=checkpointer,
+    interrupt_before=["action"] 
+)
+
+# The graph will run until it hits 'action', then pause.
+# You can inspect state, update it, and then resume.
+app.update_state(config, {"messages": ["Human override!"]})
+app.invoke(None, config=config) # Resume</code></pre>
         </section>
 
     </main>

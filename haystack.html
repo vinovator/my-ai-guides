@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Haystack Refresher</title>
+    <title>Haystack Comprehensive Refresher</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,7 +20,7 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
         <div class="p-6 border-b">
             <h1 class="font-bold text-xl text-sky-600">Haystack</h1><a href="index.html"
                 class="text-xs text-gray-500 hover:text-sky-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
@@ -28,48 +28,47 @@
         <nav class="p-4 space-y-1">
             <a href="#pipeline" class="block px-4 py-2 rounded text-sm hover:bg-sky-50 text-gray-700">Pipelines</a>
             <a href="#components" class="block px-4 py-2 rounded text-sm hover:bg-sky-50 text-gray-700">Components</a>
-            <a href="#example" class="block px-4 py-2 rounded text-sm hover:bg-sky-50 text-gray-700">Code Example</a>
+            <a href="#example" class="block px-4 py-2 rounded text-sm hover:bg-sky-50 text-gray-700">RAG Example</a>
         </nav>
     </aside>
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
-        <h1 class="text-4xl font-bold mb-8">Haystack (Deepset)</h1>
+        <h1 class="text-4xl font-bold mb-4">Haystack (Deepset)</h1>
+        <p class="text-lg text-gray-600 mb-8">Explicit, modular pipelines for RAG and Agents.</p>
 
-        <section id="pipeline" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
-            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
-            <p class="mb-4">Haystack (v2.0+) is built on <strong>Pipelines</strong>. You explicitly connect components
-                (Retrievers, Generators, Routers) together. It is explicit, debuggable, and modular.</p>
+        <section id="pipeline" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Philosophy</h2>
+            <p class="text-sm text-gray-600">Haystack (v2) uses a directed graph of <strong>Components</strong>. You
+                explicitly connect `output` of one to `input` of another. It's great for debugging complex flows.</p>
         </section>
 
         <section id="example" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Basic RAG Pipeline</h2>
+            <h2 class="text-2xl font-bold mb-6">Technique: Building a Pipeline</h2>
             <pre><code class="language-python">from haystack import Pipeline
 from haystack.components.retrievers.in_memory import InMemoryBM25Retriever
 from haystack.components.generators import OpenAIGenerator
 from haystack.components.builders import PromptBuilder
 
-# 1. Initialize Components
-retriever = InMemoryBM25Retriever(document_store=doc_store)
-generator = OpenAIGenerator(model="gpt-4")
-
-template = """
-Answer the question based on context: {{ documents }}
-Question: {{ question }}
+# 1. Define Components
+prompt_template = """
+Given the context: {{ documents }}
+Answer: {{ query }}
 """
-prompt_builder = PromptBuilder(template=template)
+builder = PromptBuilder(template=prompt_template)
+llm = OpenAIGenerator(model="gpt-4")
 
-# 2. Build Pipeline
+# 2. Add to Pipeline
 pipe = Pipeline()
 pipe.add_component("retriever", retriever)
-pipe.add_component("prompt_builder", prompt_builder)
-pipe.add_component("llm", generator)
+pipe.add_component("builder", builder)
+pipe.add_component("llm", llm)
 
-# 3. Connect them
-pipe.connect("retriever", "prompt_builder.documents")
-pipe.connect("prompt_builder", "llm")
+# 3. Connect (Explicit Wiring)
+pipe.connect("retriever.documents", "builder.documents")
+pipe.connect("builder", "llm")
 
 # 4. Run
-pipe.run({"retriever": {"query": "What is X?"}, "prompt_builder": {"question": "What is X?"}})</code></pre>
+pipe.run({"retriever": {"query": "Hello"}, "builder": {"query": "Hello"}})</code></pre>
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>

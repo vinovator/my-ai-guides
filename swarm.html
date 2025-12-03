@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Swarm Refresher</title>
+    <title>Swarm Comprehensive Refresher</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -20,14 +20,13 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
         <div class="p-6 border-b">
             <h1 class="font-bold text-xl text-gray-800">Swarm</h1><a href="index.html"
                 class="text-xs text-gray-500 hover:text-gray-900"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <a href="#concept" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">Concept:
-                Handoffs</a>
+            <a href="#handoff" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">The Handoff</a>
             <a href="#basic" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">Basic Code</a>
             <a href="#context" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">Context
                 Variables</a>
@@ -35,65 +34,64 @@
     </aside>
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
-        <h1 class="text-4xl font-bold mb-8">OpenAI Swarm Refresher</h1>
+        <h1 class="text-4xl font-bold mb-4">OpenAI Swarm</h1>
+        <p class="text-lg text-gray-600 mb-8">Experimental pattern for lightweight agent "Handoffs".</p>
 
-        <section id="concept" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
-            <h2 class="text-2xl font-bold mb-4">The Handoff Pattern</h2>
-            <p class="mb-4">Swarm (experimental) is built on one simple idea: <strong>Handoffs</strong>. An agent is
-                just a set of instructions and tools. One of those tools can be "Transfer to Agent B".</p>
-            <p class="text-sm text-gray-600">Unlike CrewAI or AutoGen, Swarm has no global state management or complex
-                graph. It's just function calls returning a new Agent object.</p>
+        <section id="handoff" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Philosophy</h2>
+            <p class="text-sm text-gray-600">Swarm is stateless. An agent is just a set of instructions. To
+                "Orchestrate", Agent A simply calls a function that returns Agent B. This is called a
+                <strong>Handoff</strong>.
+            </p>
         </section>
 
         <section id="basic" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Basic Implementation</h2>
+            <h2 class="text-2xl font-bold mb-6">Technique: The Handoff</h2>
             <pre><code class="language-python">from swarm import Swarm, Agent
 
 client = Swarm()
 
-# 1. Define Handoff Function
-def transfer_to_spanish_agent():
-    """Transfer spanish speaking users to this agent."""
+# 1. Define Handoff Logic
+def transfer_to_spanish():
+    """Transfer spanish users here."""
     return spanish_agent
 
 # 2. Define Agents
 english_agent = Agent(
-    name="English Agent",
-    instructions="You only speak English.",
-    functions=[transfer_to_spanish_agent]
+    name="English",
+    instructions="You speak English.",
+    functions=[transfer_to_spanish] # <--- The Handoff Tool
 )
 
 spanish_agent = Agent(
-    name="Spanish Agent",
-    instructions="Tu solo hablas español.",
+    name="Spanish",
+    instructions="Tu hablas español.",
 )
 
 # 3. Run
+# If user says "Hola", agent calls 'transfer_to_spanish', and Swarm switches active agent.
 response = client.run(
     agent=english_agent,
-    messages=[{"role": "user", "content": "Hola. I want to speak spanish."}]
+    messages=[{"role": "user", "content": "Hola"}]
 )
-
-print(response.messages[-1]["content"])</code></pre>
+print(response.messages[-1]['content'])</code></pre>
         </section>
 
         <section id="context" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">Context Variables</h2>
-            <p>Pass data between agents using context variables.</p>
+            <h2 class="text-2xl font-bold mb-6">Technique: Context Variables</h2>
+            <p class="mb-4 text-gray-600">Since Swarm is stateless, you pass data manually.</p>
             <pre><code class="language-python">def greet(context_variables):
     name = context_variables.get("name", "User")
-    return f"Hello, {name}!"
+    return f"Hello {name}"
 
 agent = Agent(functions=[greet])
 
-response = client.run(
+client.run(
     agent=agent,
-    messages=[{"role": "user", "content": "Hi!"}],
+    messages=[...],
     context_variables={"name": "Alice"}
-)
-</code></pre>
+)</code></pre>
         </section>
-
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>

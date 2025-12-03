@@ -20,51 +20,56 @@
 </head>
 
 <body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
         <div class="p-6 border-b">
             <h1 class="font-bold text-xl text-blue-800">Semantic Kernel</h1><a href="index.html"
                 class="text-xs text-gray-500 hover:text-blue-800"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <a href="#concept" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">The Copilot
-                Engine</a>
-            <a href="#kernel" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">1. The Kernel</a>
-            <a href="#plugins" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">2. Plugins
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Foundations</div>
+            <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">What is SK?</a>
+
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Core Concepts</div>
+            <a href="#kernel" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">The Kernel</a>
+            <a href="#plugins" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Plugins
                 (Functions)</a>
-            <a href="#planners" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">3. Planners
+            <a href="#planners" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Planners
                 (Agents)</a>
         </nav>
     </aside>
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
-        <h1 class="text-4xl font-bold mb-8">Semantic Kernel (Microsoft)</h1>
+        <h1 class="text-4xl font-bold mb-4">Semantic Kernel (SK)</h1>
+        <p class="text-lg text-gray-600 mb-8">Microsoft's SDK for integrating LLMs with existing code. The engine behind
+            "Copilot".</p>
 
-        <section id="concept" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
-            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
-            <p class="mb-4">Semantic Kernel (SK) is the <strong>Open Source SDK</strong> that powers Microsoft's Copilot
-                stack. Unlike LangChain which tries to do everything, SK focuses on three clear concepts to connect LLMs
-                to your code:</p>
-            <ul class="list-disc ml-5 space-y-2">
-                <li><strong>The Kernel:</strong> The central orchestrator.</li>
-                <li><strong>Plugins:</strong> Your existing API/Code wrapped for the AI.</li>
-                <li><strong>Planners:</strong> The AI logic that decides which plugin to call (the "Agent" part).</li>
-            </ul>
+        <!-- Section 1: Foundations -->
+        <section id="intro" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
+            <p class="text-sm text-gray-600 mb-4">SK is not just a chatbot library; it's a lightweight SDK to mix
+                <strong>Native Code</strong> (C#, Python) with <strong>Semantic Functions</strong> (LLM Prompts). It is
+                designed for Enterprise integration.
+            </p>
+            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-600">
+                <strong>Why use SK?</strong> When you want to build a "Copilot" inside your own app that triggers your
+                own APIs securely.
+            </div>
         </section>
 
+        <!-- Section 2: Core Concepts -->
         <section id="kernel" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">1. The Kernel</h2>
-            <p>The kernel is the context holder. You attach AI services and Plugins to it.</p>
+            <h2 class="text-2xl font-bold mb-6">2. The Kernel</h2>
+            <p class="mb-4 text-gray-600">The central object. You attach "Services" (AI Models) and "Plugins" (Tools) to
+                it.</p>
             <pre><code class="language-python">import semantic_kernel as sk
 from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
 
-# 1. Initialize Kernel
 kernel = sk.Kernel()
 
-# 2. Add AI Service (OpenAI or Azure OpenAI)
-service_id = "default"
+# Add OpenAI Service
 kernel.add_service(
     OpenAIChatCompletion(
-        service_id=service_id, 
+        service_id="chat-gpt", 
         ai_model_id="gpt-4", 
         api_key="..."
     )
@@ -72,40 +77,38 @@ kernel.add_service(
         </section>
 
         <section id="plugins" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">2. Plugins (The Core)</h2>
-            <p>SK treats "Tools" as <strong>Plugins</strong>. A plugin is just a class with annotated functions.</p>
+            <h2 class="text-2xl font-bold mb-6">3. Plugins (Native Functions)</h2>
+            <p class="mb-4 text-gray-600">SK uses decorators to expose Python functions to the LLM.</p>
             <pre><code class="language-python">from semantic_kernel.functions import kernel_function
 
-class MathPlugin:
+class LightPlugin:
     @kernel_function(
-        description="Adds two numbers",
-        name="Add"
+        description="Turns the light on or off",
+        name="ChangeState"
     )
-    def add(self, number1: float, number2: float) -> float:
-        return number1 + number2
+    def change_state(self, state: bool) -> str:
+        return f"Light is now {'on' if state else 'off'}"
 
-# Import Plugin into Kernel
-math_plugin = kernel.add_plugin(MathPlugin(), plugin_name="Math")
-
-# Invoke directly (Manual)
-result = await kernel.invoke(math_plugin["Add"], number1=5, number2=5)
-print(result) # 10</code></pre>
+# Add to Kernel
+kernel.add_plugin(LightPlugin(), plugin_name="Lights")</code></pre>
         </section>
 
+        <!-- Section 3: Techniques -->
         <section id="planners" class="mb-12">
-            <h2 class="text-2xl font-bold mb-4">3. Planners (The "Agent")</h2>
-            <p>A Planner takes a user goal (e.g., "Calculate 5+5") and automatically constructs a plan using the
-                available plugins.</p>
+            <h2 class="text-2xl font-bold mb-6">Technique: Planners (The Agent)</h2>
+            <p class="mb-4 text-gray-600">A Planner uses the LLM to look at available plugins and solve a user goal
+                automatically.</p>
             <pre><code class="language-python">from semantic_kernel.planners import FunctionCallingStepwisePlanner
 
-# 1. Create Planner
-planner = FunctionCallingStepwisePlanner(service_id=service_id)
+# 1. Initialize Planner
+planner = FunctionCallingStepwisePlanner(service_id="chat-gpt")
 
-# 2. Execute Goal
-# The planner will see it has a 'Math' plugin and choose to use it.
-result = await planner.invoke(kernel, "What is 10 plus 20?")
+# 2. Ask it to do something that requires the Plugin
+goal = "Turn on the lights."
+result = await planner.invoke(kernel, goal)
 
-print(result.final_answer)</code></pre>
+print(result.final_answer) 
+# Output: "Light is now on" (After calling the python function)</code></pre>
         </section>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
