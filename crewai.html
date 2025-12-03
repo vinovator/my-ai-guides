@@ -28,7 +28,6 @@
         <nav class="p-4 space-y-1">
             <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Foundations</div>
             <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">What & Why</a>
-            <a href="#comparison" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">vs Others</a>
 
             <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Core Concepts</div>
             <a href="#agents" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Agents &
@@ -36,13 +35,22 @@
             <a href="#tasks" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Tasks &
                 Outputs</a>
 
+            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Advanced Control</div>
+            <a href="#context" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Context
+                Passing</a>
+            <a href="#structured" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Structured
+                Output</a>
+            <a href="#async" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Async
+                Execution</a>
+
             <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Techniques</div>
             <a href="#hierarchical"
                 class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Hierarchical Process</a>
+            <a href="#planning" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Planning
+                Mode</a>
             <a href="#memory" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Memory
                 Systems</a>
-            <a href="#callbacks" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Callbacks &
-                Human</a>
+            <a href="#callbacks" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">Callbacks</a>
             <a href="#flows" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 text-gray-700">CrewAI Flows</a>
         </nav>
     </aside>
@@ -57,117 +65,174 @@
             <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                    <h3 class="font-bold text-orange-600 mb-2">What is it?</h3>
-                    <p class="text-sm text-gray-600 mb-4">An orchestration framework that treats agents as "employees"
-                        with distinct roles, goals, and backstories. It excels at automating known workflows (Sequential
-                        or Hierarchical) rather than open-ended conversations.</p>
+                    <h3 class="font-bold text-orange-600 mb-2">Philosophy</h3>
+                    <p class="text-sm text-gray-600 mb-4">CrewAI is designed to mimic a human organization. You don't
+                        just write a prompt; you hire an "Agent" with a job title (Role), a mission (Goal), and a
+                        personality (Backstory). This constraint reduces hallucinations because the LLM stays "in
+                        character".</p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
-                    <h3 class="font-bold text-gray-900 mb-2">When to use CrewAI?</h3>
+                    <h3 class="font-bold text-gray-900 mb-2">When to use?</h3>
                     <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
-                        <li>You have a known process (e.g., "Research -> Write -> Edit").</li>
-                        <li>You want distinct "personas".</li>
-                        <li>You need simple delegation without complex graph logic.</li>
+                        <li><strong>Automating Jobs:</strong> "I need a Researcher, a Writer, and an Editor."</li>
+                        <li><strong>Known Processes:</strong> You know the steps (A->B->C), you just need AI to do them
+                            intelligently.</li>
+                        <li><strong>Tool Delegation:</strong> You want agents to autonomously use search, scraping, or
+                            internal APIs.</li>
                     </ul>
                 </div>
-            </div>
-        </section>
-
-        <section id="comparison" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Comparative Landscape</h2>
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm text-left text-gray-500">
-                    <thead class="text-xs text-gray-700 uppercase bg-gray-100">
-                        <tr>
-                            <th class="px-6 py-3">Feature</th>
-                            <th class="px-6 py-3 text-orange-600 font-bold">CrewAI</th>
-                            <th class="px-6 py-3">LangGraph</th>
-                        </tr>
-                    </thead>
-                    <tbody class="bg-white border-b">
-                        <tr class="border-b">
-                            <td class="px-6 py-4 font-medium">Paradigm</td>
-                            <td class="px-6 py-4">Role & Process Driven</td>
-                            <td class="px-6 py-4">State & Graph Driven</td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 font-medium">Complexity</td>
-                            <td class="px-6 py-4">Low (High Abstraction)</td>
-                            <td class="px-6 py-4">High (Low Level)</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </section>
 
         <!-- Section 2: Core Concepts -->
         <section id="agents" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">2. Agents & Roles</h2>
-            <p class="mb-4 text-gray-600">Agents are the "Doers". They wrap an LLM with specific instructions.</p>
+            <p class="mb-4 text-gray-600">Agents are the distinct workers. Defining a good agent requires "Prompt
+                Engineering" in the form of a Backstory.</p>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from crewai import Agent
 
 researcher = Agent(
     role='Senior Researcher',
     goal='Uncover groundbreaking developments in {topic}',
-    backstory="You are a veteran analyst who digs deep.",
-    verbose=True,
-    memory=True, # Enables Short/Long term memory
-    tools=[]     # Optional list of tools
+    # Backstory is crucial: It tells the LLM HOW to behave and what tone to use.
+    backstory="You are a veteran analyst. You are skeptical of hype and prefer data.",
+    verbose=True,      # Logs thinking process to console
+    memory=True,       # Enables RAG memory (Short/Long term)
+    allow_delegation=False, # Can this agent ask others for help?
+    tools=[],          # List of tools available to this agent
+    max_iter=5         # Safety limit to prevent infinite loops
 )</code></pre>
             </div>
         </section>
 
-        <!-- NEW SECTION: TASKS -->
         <section id="tasks" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">3. Tasks & Outputs</h2>
-            <p class="mb-4 text-gray-600">Tasks are the unit of work. They must have a clear description and an expected
-                output format.</p>
+            <p class="mb-4 text-gray-600">Tasks are the specific assignments. A good task is descriptive and
+                result-oriented.</p>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from crewai import Task
 
 report_task = Task(
-    description='Research {topic} and identify 5 key trends.',
-    expected_output='A bulleted list of trends with sources.',
+    description='Research {topic}. Focus on Q3 trends.',
+    # Expected Output is MANDATORY. It guides the LLM on format.
+    expected_output='A bulleted list of trends with 3 citations each.',
     agent=researcher,
-    output_file='report.md', # Automatically saves output to file
-    human_input=False,       # Set True to ask user for review
-    async_execution=False    # Set True for parallel run
+    output_file='report.md' # Automatically saves the result to a file
 )</code></pre>
             </div>
+        </section>
+
+        <!-- NEW SECTION: ADVANCED CONTROL -->
+        <section id="context" class="mb-12 bg-orange-50 p-8 rounded-xl border border-orange-100">
+            <h2 class="text-2xl font-bold mb-4 text-orange-800">Advanced: Context Passing</h2>
+            <p class="text-sm text-gray-700 mb-4">
+                By default, CrewAI's `Process.sequential` passes the output of Task 1 to Task 2.
+                But what if Task 3 needs the output of Task 1 AND Task 2, or if you are skipping tasks?
+                <br><br>
+                Use the <code>context</code> parameter to explicit pass outputs from specific previous tasks.
+            </p>
+            <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
+                <pre><code class="language-python"># 1. Define previous tasks
+research_task = Task(...)
+analysis_task = Task(...)
+
+# 2. Define downstream task with EXPLICIT context
+writing_task = Task(
+    description="Write a summary combining research and analysis.",
+    expected_output="A summary paragraph.",
+    agent=writer,
+    # The writer will receive the outputs of BOTH tasks as input context
+    context=[research_task, analysis_task] 
+)</code></pre>
+            </div>
+        </section>
+
+        <section id="structured" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Advanced: Structured Output</h2>
+            <p class="mb-4 text-gray-600">For production, you rarely want just text. You want JSON or Python objects.
+                CrewAI integrates Pydantic for this.</p>
+            <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
+                <pre><code class="language-python">from pydantic import BaseModel
+
+class Trend(BaseModel):
+    name: str
+    impact_score: int
+
+class MarketReport(BaseModel):
+    summary: str
+    trends: list[Trend]
+
+# The agent will FORCE the output to match this schema
+task = Task(
+    ...,
+    output_pydantic=MarketReport 
+    # OR use output_json=True for a raw dict
+)
+
+# Accessing the result
+result = crew.kickoff()
+print(result.pydantic.trends[0].name) # Type-safe access!</code></pre>
+            </div>
+        </section>
+
+        <section id="async" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Advanced: Async Execution</h2>
+            <p class="mb-4 text-gray-600">Tasks usually block. If you have two independent research tasks, run them in
+                parallel to save time.</p>
+            <pre><code class="language-python"># These two run simultaneously
+task_1 = Task(..., async_execution=True)
+task_2 = Task(..., async_execution=True)
+
+# This task waits for both to finish (if it uses them as context)
+task_3 = Task(..., context=[task_1, task_2])</code></pre>
         </section>
 
         <!-- Section 3: Techniques -->
         <section id="hierarchical" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Hierarchical Process</h2>
-            <p class="mb-4 text-gray-600">A <strong>Manager Agent</strong> (LLM) plans the work and delegates it to
-                workers automatically.</p>
+            <p class="mb-4 text-gray-600">Instead of a relay race (Sequential), use a Boss (Manager). The Manager takes
+                the Goal and breaks it down, assigning tasks to workers dynamically.</p>
 
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from crewai import Process, Crew
 from langchain_openai import ChatOpenAI
 
+# The Manager needs a 'smart' model (GPT-4 class) to plan effectively
 manager_llm = ChatOpenAI(model="gpt-4")
 
 crew = Crew(
     agents=[researcher, writer],
     tasks=[task1, task2],
-    process=Process.hierarchical,        # <--- The Key Change
-    manager_llm=manager_llm,             # <--- Mandatory for Hierarchical
-    memory=True
+    process=Process.hierarchical,        
+    manager_llm=manager_llm
 )</code></pre>
             </div>
         </section>
 
-        <section id="memory" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Memory Systems</h2>
-            <div class="bg-orange-50 p-4 rounded-lg mb-4 text-sm">
-                <strong>Types:</strong> Short-term (RAG), Long-term (ChromaDB), Entity Memory.
-            </div>
+        <section id="planning" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Technique: Planning Mode</h2>
+            <p class="mb-4 text-gray-600">Enabling <code>planning=True</code> adds a special "Plan" step before
+                execution starts. The Crew analyzes all tasks and agents to create a global execution strategy.</p>
             <pre><code class="language-python">crew = Crew(
     agents=[...],
     tasks=[...],
-    memory=True, # Enables all memory layers automatically
+    planning=True, # <--- Adds a planning step at the start
+    verbose=True
+)</code></pre>
+        </section>
+
+        <section id="memory" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6">Technique: Memory Systems</h2>
+            <p class="mb-4 text-gray-600">CrewAI has a sophisticated memory layer to prevent redundancy.</p>
+            <ul class="list-disc ml-6 mb-4 text-gray-600">
+                <li><strong>Short-term:</strong> RAG over the current run's outputs.</li>
+                <li><strong>Long-term:</strong> SQLite/ChromaDB storage of past run insights.</li>
+                <li><strong>Entity:</strong> Extractions of key subjects (e.g., "Tesla", "Elon").</li>
+            </ul>
+            <pre><code class="language-python">crew = Crew(
+    ...,
+    memory=True, 
     embedder={
         "provider": "openai",
         "config": {"model": 'text-embedding-3-small'}
@@ -177,28 +242,40 @@ crew = Crew(
 
         <section id="callbacks" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Callbacks</h2>
-            <p class="mb-4 text-gray-600">Trigger functions when a task is completed.</p>
-            <pre><code class="language-python">def on_complete(output):
-    print(f"Finished: {output.raw}")
+            <p class="mb-4 text-gray-600">Hooks for observability or side-effects (e.g., logging to a database).</p>
+            <div class="grid md:grid-cols-2 gap-4 mb-4">
+                <div class="bg-white border p-3 rounded">
+                    <strong>task_callback:</strong> Runs after a specific Task finishes. Good for saving intermediate
+                    results.
+                </div>
+                <div class="bg-white border p-3 rounded">
+                    <strong>step_callback:</strong> Runs after every single Agent step (thought/action). Good for
+                    detailed debugging.
+                </div>
+            </div>
+            <pre><code class="language-python">def log_step(step_output):
+    print(f"Agent took a step: {step_output}")
 
-task = Task(..., callback=on_complete)</code></pre>
+agent = Agent(..., step_callback=log_step)</code></pre>
         </section>
 
         <section id="flows" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: CrewAI Flows (v0.80+)</h2>
-            <p class="mb-4 text-gray-600">Event-driven orchestration for chaining Crews.</p>
+            <p class="mb-4 text-gray-600">For building complex applications, simple Crews aren't enough. Flows allow you
+                to chain Crews, run python logic, and handle state.</p>
             <pre><code class="language-python">from crewai.flow.flow import Flow, listen, start
 
 class ContentPipeline(Flow):
     
     @start()
-    def step_one(self):
-        return "Topic"
+    def generate_topics(self):
+        return ["AI", "Space"]
 
-    @listen(step_one)
-    def step_two(self, topic):
-        # Create a dynamic crew
-        return Crew(...).kickoff(inputs={"topic": topic})
+    @listen(generate_topics)
+    def research_topic(self, topics):
+        # You can spin up a Crew dynamically here
+        crew = Crew(...)
+        return crew.kickoff(inputs={"topic": topics[0]})
 
 flow = ContentPipeline()
 flow.kickoff()</code></pre>
