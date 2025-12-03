@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Semantic Kernel Refresher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 flex">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+        <div class="p-6 border-b">
+            <h1 class="font-bold text-xl text-blue-800">Semantic Kernel</h1><a href="index.html"
+                class="text-xs text-gray-500 hover:text-blue-800"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+        </div>
+        <nav class="p-4 space-y-1">
+            <a href="#concept" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">The Copilot
+                Engine</a>
+            <a href="#kernel" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">1. The Kernel</a>
+            <a href="#plugins" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">2. Plugins
+                (Functions)</a>
+            <a href="#planners" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">3. Planners
+                (Agents)</a>
+        </nav>
+    </aside>
+
+    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+        <h1 class="text-4xl font-bold mb-8">Semantic Kernel (Microsoft)</h1>
+
+        <section id="concept" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
+            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
+            <p class="mb-4">Semantic Kernel (SK) is the <strong>Open Source SDK</strong> that powers Microsoft's Copilot
+                stack. Unlike LangChain which tries to do everything, SK focuses on three clear concepts to connect LLMs
+                to your code:</p>
+            <ul class="list-disc ml-5 space-y-2">
+                <li><strong>The Kernel:</strong> The central orchestrator.</li>
+                <li><strong>Plugins:</strong> Your existing API/Code wrapped for the AI.</li>
+                <li><strong>Planners:</strong> The AI logic that decides which plugin to call (the "Agent" part).</li>
+            </ul>
+        </section>
+
+        <section id="kernel" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">1. The Kernel</h2>
+            <p>The kernel is the context holder. You attach AI services and Plugins to it.</p>
+            <pre><code class="language-python">import semantic_kernel as sk
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+
+# 1. Initialize Kernel
+kernel = sk.Kernel()
+
+# 2. Add AI Service (OpenAI or Azure OpenAI)
+service_id = "default"
+kernel.add_service(
+    OpenAIChatCompletion(
+        service_id=service_id, 
+        ai_model_id="gpt-4", 
+        api_key="..."
+    )
+)</code></pre>
+        </section>
+
+        <section id="plugins" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">2. Plugins (The Core)</h2>
+            <p>SK treats "Tools" as <strong>Plugins</strong>. A plugin is just a class with annotated functions.</p>
+            <pre><code class="language-python">from semantic_kernel.functions import kernel_function
+
+class MathPlugin:
+    @kernel_function(
+        description="Adds two numbers",
+        name="Add"
+    )
+    def add(self, number1: float, number2: float) -> float:
+        return number1 + number2
+
+# Import Plugin into Kernel
+math_plugin = kernel.add_plugin(MathPlugin(), plugin_name="Math")
+
+# Invoke directly (Manual)
+result = await kernel.invoke(math_plugin["Add"], number1=5, number2=5)
+print(result) # 10</code></pre>
+        </section>
+
+        <section id="planners" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">3. Planners (The "Agent")</h2>
+            <p>A Planner takes a user goal (e.g., "Calculate 5+5") and automatically constructs a plan using the
+                available plugins.</p>
+            <pre><code class="language-python">from semantic_kernel.planners import FunctionCallingStepwisePlanner
+
+# 1. Create Planner
+planner = FunctionCallingStepwisePlanner(service_id=service_id)
+
+# 2. Execute Goal
+# The planner will see it has a 'Math' plugin and choose to use it.
+result = await planner.invoke(kernel, "What is 10 plus 20?")
+
+print(result.final_answer)</code></pre>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Phidata Refresher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 flex">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+        <div class="p-6 border-b">
+            <h1 class="font-bold text-xl text-emerald-600">Phidata</h1><a href="index.html"
+                class="text-xs text-gray-500 hover:text-emerald-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+        </div>
+        <nav class="p-4 space-y-1">
+            <a href="#assistant" class="block px-4 py-2 rounded text-sm hover:bg-emerald-50 text-gray-700">The
+                Assistant</a>
+            <a href="#storage" class="block px-4 py-2 rounded text-sm hover:bg-emerald-50 text-gray-700">Storage &
+                Memory</a>
+            <a href="#knowledge" class="block px-4 py-2 rounded text-sm hover:bg-emerald-50 text-gray-700">Knowledge
+                Base</a>
+        </nav>
+    </aside>
+
+    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+        <h1 class="text-4xl font-bold mb-8">Phidata Refresher</h1>
+
+        <section id="assistant" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
+            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
+            <p class="mb-4">Phidata focuses on solving the <strong>Memory</strong> and <strong>Knowledge</strong>
+                problem. It treats Agents as "Assistants" that have built-in persistent storage (Postgres) and knowledge
+                bases (Vector DBs).</p>
+        </section>
+
+        <section id="storage" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">1. Assistant with Storage</h2>
+            <p>Automatically saves chat history to a database.</p>
+            <pre><code class="language-python">from phi.assistant import Assistant
+from phi.storage.agent.postgres import PgAgentStorage
+
+storage = PgAgentStorage(table_name="agent_sessions", db_url="postgresql://...")
+
+agent = Assistant(
+    name="MemoryAgent",
+    storage=storage,
+    show_tool_calls=True,
+    add_history_to_messages=True, # Remembers context
+)
+
+agent.print_response("My name is Bob.")
+# Restart script...
+agent.print_response("What is my name?") # Returns "Bob"</code></pre>
+        </section>
+
+        <section id="knowledge" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">2. Assistant with Knowledge</h2>
+            <p>Connects to vector databases (PDFs, Wikis) effortlessly.</p>
+            <pre><code class="language-python">from phi.knowledge.pdf import PDFUrlKnowledgeBase
+from phi.vectordb.pgvector import PgVector2
+
+knowledge_base = PDFUrlKnowledgeBase(
+    urls=["https://example.com/report.pdf"],
+    vector_db=PgVector2(collection="reports", db_url="...")
+)
+# Load once
+knowledge_base.load(recreate=False)
+
+agent = Assistant(knowledge_base=knowledge_base, search_knowledge=True)
+agent.print_response("Summarize the report.")</code></pre>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+
+</html>

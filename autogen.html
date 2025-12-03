@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AutoGen Refresher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 flex">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+        <div class="p-6 border-b">
+            <h1 class="font-bold text-xl text-purple-700">AutoGen</h1><a href="index.html"
+                class="text-xs text-gray-500 hover:text-purple-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+        </div>
+        <nav class="p-4 space-y-1">
+            <a href="#foundations"
+                class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Foundations</a>
+            <a href="#agents" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Assistant &
+                UserProxy</a>
+            <a href="#groupchat" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Group Chat
+                Manager</a>
+            <a href="#tools" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Function
+                Calling</a>
+            <a href="#code" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Code Execution</a>
+        </nav>
+    </aside>
+
+    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+        <h1 class="text-4xl font-bold mb-8">Microsoft AutoGen Refresher</h1>
+
+        <section id="foundations" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
+            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
+            <p class="mb-4">AutoGen abstracts multi-agent systems as <strong>conversations</strong>. Agents send
+                messages to each other. Some agents are LLMs (Assistant), some are code executors (UserProxy), and some
+                are humans.</p>
+        </section>
+
+        <section id="agents" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">1. Two Main Agent Types</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                <div class="bg-white p-4 border rounded">
+                    <h3 class="font-bold text-purple-700">AssistantAgent</h3>
+                    <p class="text-sm">The "AI". It proposes plans, writes code, and answers questions. It typically
+                        cannot run code itself.</p>
+                </div>
+                <div class="bg-white p-4 border rounded">
+                    <h3 class="font-bold text-purple-700">UserProxyAgent</h3>
+                    <p class="text-sm">The "Executor". It acts as a proxy for the human. It can execute code detected in
+                        the Assistant's reply and send the result back.</p>
+                </div>
+            </div>
+
+            <pre><code class="language-python">from autogen import AssistantAgent, UserProxyAgent
+
+config_list = [{"model": "gpt-4", "api_key": "..."}]
+
+# The AI
+assistant = AssistantAgent(
+    name="Assistant",
+    llm_config={"config_list": config_list}
+)
+
+# The Executor
+user_proxy = UserProxyAgent(
+    name="User_Proxy",
+    code_execution_config={"work_dir": "coding", "use_docker": False},
+    human_input_mode="TERMINATE" # Ask human only if termination msg not found
+)
+
+# Start Conversation
+user_proxy.initiate_chat(
+    assistant,
+    message="Plot a chart of NVDA and TSLA stock price change YTD."
+)</code></pre>
+        </section>
+
+        <section id="groupchat" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">2. Group Chat (Orchestrator)</h2>
+            <p class="mb-4">For more than 2 agents, you use a `GroupChat` and a `GroupChatManager` to decide who speaks
+                next.</p>
+            <pre><code class="language-python">from autogen import GroupChat, GroupChatManager
+
+coder = AssistantAgent(name="Coder", llm_config=llm_config)
+pm = AssistantAgent(name="Product_Manager", system_message="Manage the plan.", llm_config=llm_config)
+reviewer = AssistantAgent(name="Reviewer", system_message="Review code.", llm_config=llm_config)
+
+# Define the Group
+groupchat = GroupChat(
+    agents=[user_proxy, coder, pm, reviewer], 
+    messages=[], 
+    max_round=12
+)
+
+# Define the Manager (The "Speaker Selection" logic)
+manager = GroupChatManager(groupchat=groupchat, llm_config=llm_config)
+
+# Start
+user_proxy.initiate_chat(manager, message="Build a snake game in Python.")</code></pre>
+        </section>
+
+        <section id="tools" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">3. Registering Tools</h2>
+            <pre><code class="language-python">from autogen import register_function
+
+def calculator(a: int, b: int) -> int:
+    return a + b
+
+# Register for both agents (One knows how to call, one knows how to execute)
+register_function(
+    calculator,
+    caller=assistant,  # The LLM who will "call" it
+    executor=user_proxy, # The local runtime that runs it
+    name="calculator",
+    description="Adds two numbers"
+)</code></pre>
+        </section>
+
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+
+</html>

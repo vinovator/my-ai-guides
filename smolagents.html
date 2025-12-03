@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Smolagents Refresher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 flex">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+        <div class="p-6 border-b">
+            <h1 class="font-bold text-xl text-yellow-600">Smolagents</h1><a href="index.html"
+                class="text-xs text-gray-500 hover:text-yellow-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+        </div>
+        <nav class="p-4 space-y-1">
+            <a href="#concept" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">Code vs Tool
+                Agents</a>
+            <a href="#codeagent" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">CodeAgent
+                Example</a>
+            <a href="#hf" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">Hub Integration</a>
+        </nav>
+    </aside>
+
+    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+        <h1 class="text-4xl font-bold mb-8">Smolagents (Hugging Face)</h1>
+
+        <section id="concept" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
+            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
+            <p class="mb-4">Most agents output JSON. <strong>Smolagents</strong> (formerly transformers.agents) output
+                <strong>Code</strong>. The LLM writes a Python script to solve the task, and the framework executes it
+                in a sandbox. This is often more efficient than multiple JSON turn-taking.
+            </p>
+        </section>
+
+        <section id="codeagent" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">CodeAgent (The Core)</h2>
+            <pre><code class="language-python">from smolagents import CodeAgent, HfApiModel
+
+# 1. Define Model (e.g., Qwen, Llama, or OpenAI)
+model = HfApiModel(model_id="Qwen/Qwen2.5-Coder-32B-Instruct")
+
+# 2. Create Agent
+agent = CodeAgent(
+    tools=[], 
+    model=model, 
+    add_base_tools=True # Adds search, calculator, etc.
+)
+
+# 3. Run
+# The agent will write python code to solve this, print the result, and return it.
+result = agent.run("What is the 10th fibonacci number multiplied by the distance to the moon in km?")
+print(result)</code></pre>
+        </section>
+
+        <section id="hf" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">Sharing to Hub</h2>
+            <p>You can easily push your agent to the Hugging Face Hub.</p>
+            <pre><code class="language-python">agent.push_to_hub("my-username/my-cool-agent")</code></pre>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+
+</html>

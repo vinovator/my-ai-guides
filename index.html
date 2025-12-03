@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Frameworks Documentation Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: #f8fafc;
+        }
+
+        .card-hover:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    </style>
+</head>
+
+<body class="text-gray-800">
+
+    <nav class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <i class="fas fa-layer-group text-indigo-600 text-xl mr-3"></i>
+                    <span class="font-bold text-xl tracking-tight text-gray-900">AI Frameworks <span
+                            class="text-gray-500 font-normal">Hub</span></span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-xs font-mono bg-indigo-100 text-indigo-800 px-2 py-1 rounded">v3.1
+                        Comprehensive</span>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <div class="mb-12">
+            <h1 class="text-3xl font-extrabold text-gray-900">Agent Reference Library</h1>
+            <p class="mt-2 text-lg text-gray-500">Comprehensive documentation for the top 10 AI orchestration
+                frameworks.</p>
+        </div>
+
+        <!-- Microsoft Ecosystem -->
+        <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-6">Microsoft Ecosystem</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+
+            <!-- Semantic Kernel -->
+            <a href="semantickernel.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-blue-700 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-brain text-blue-700 text-2xl"></i>
+                            <span class="text-xs font-mono text-gray-400">The Copilot Engine</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-700">Semantic Kernel</h3>
+                        <p class="text-gray-600 text-sm">Microsoft's official SDK. Connects LLMs to existing code via
+                            Plugins, Planners, and Memories. Supports C# & Python.</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Production</span>
+                        <span class="text-indigo-600 text-sm font-medium">Open Guide <i
+                                class="fas fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </a>
+
+            <!-- AutoGen -->
+            <a href="autogen.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-purple-600 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-comments text-purple-600 text-2xl"></i>
+                            <span class="text-xs font-mono text-gray-400">Research Agentic</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-purple-600">AutoGen</h3>
+                        <p class="text-gray-600 text-sm">Multi-agent conversation patterns. Best for code execution and
+                            dynamic group chats.</p>
+                    </div>
+                    <div class="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-between items-center">
+                        <span class="text-xs text-gray-500">Research</span>
+                        <span class="text-indigo-600 text-sm font-medium">Open Guide <i
+                                class="fas fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+
+        <!-- Orchestration -->
+        <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-6">Orchestration & Workflow</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <!-- CrewAI -->
+            <a href="crewai.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-orange-500 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-users-cog text-orange-600 text-2xl"></i>
+                            <span class="text-xs font-mono text-gray-400">Process-Driven</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-orange-600">CrewAI</h3>
+                        <p class="text-gray-600 text-sm">Role-playing autonomous agents. Best for sequential automation
+                            and "job-like" delegation.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- LangGraph -->
+            <a href="langgraph.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-blue-600 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-project-diagram text-blue-600 text-2xl"></i>
+                            <span class="text-xs font-mono text-gray-400">Graph-Based</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600">LangGraph</h3>
+                        <p class="text-gray-600 text-sm">Stateful orchestration with nodes and edges. Best for cycles,
+                            human-in-the-loop, and production.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Haystack -->
+            <a href="haystack.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-sky-500 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-search text-sky-500 text-2xl"></i>
+                            <span class="text-xs font-mono text-gray-400">Pipeline</span>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-sky-600">Haystack</h3>
+                        <p class="text-gray-600 text-sm">Mature pipeline framework by Deepset. Strong modularity for RAG
+                            and Agents.</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Lightweight & Code-First -->
+        <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider mb-6">Lightweight, Data & Experimental</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+
+            <!-- Smolagents -->
+            <a href="smolagents.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-yellow-400 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-rocket text-yellow-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-yellow-600">Smolagents</h3>
+                        <p class="text-gray-600 text-sm">Hugging Face's code-centric agents.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- PydanticAI -->
+            <a href="pydanticai.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-red-500 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-code text-red-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-red-600">PydanticAI</h3>
+                        <p class="text-gray-600 text-sm">Type-safe, production-ready agents.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- LlamaIndex -->
+            <a href="llamaindex.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-green-500 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-database text-green-600 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-green-600">LlamaIndex</h3>
+                        <p class="text-gray-600 text-sm">Reasoning over data sources.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Phidata -->
+            <a href="phidata.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-emerald-400 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-memory text-emerald-500 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-emerald-600">Phidata</h3>
+                        <p class="text-gray-600 text-sm">Memory & Database first agents.</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- Swarm -->
+            <a href="swarm.html" class="block group">
+                <div
+                    class="bg-white rounded-xl overflow-hidden border border-gray-200 transition-all duration-300 card-hover h-full flex flex-col">
+                    <div class="h-1 bg-gray-800 w-full"></div>
+                    <div class="p-6 flex-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <i class="fas fa-robot text-gray-800 text-2xl"></i>
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-gray-600">Swarm</h3>
+                        <p class="text-gray-600 text-sm">Lightweight handoffs.</p>
+                    </div>
+                </div>
+            </a>
+
+        </div>
+    </main>
+</body>
+
+</html>

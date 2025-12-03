@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>PydanticAI Refresher</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .sidebar {
+            height: 100vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 text-gray-800 flex">
+    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto">
+        <div class="p-6 border-b">
+            <h1 class="font-bold text-xl text-red-600">PydanticAI</h1><a href="index.html"
+                class="text-xs text-gray-500 hover:text-red-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+        </div>
+        <nav class="p-4 space-y-1">
+            <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-red-50 text-gray-700">Type-Safe Agents</a>
+            <a href="#basic" class="block px-4 py-2 rounded text-sm hover:bg-red-50 text-gray-700">Basic Agent</a>
+            <a href="#deps" class="block px-4 py-2 rounded text-sm hover:bg-red-50 text-gray-700">Dependency
+                Injection</a>
+            <a href="#stream" class="block px-4 py-2 rounded text-sm hover:bg-red-50 text-gray-700">Streaming</a>
+        </nav>
+    </aside>
+
+    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+        <h1 class="text-4xl font-bold mb-8">PydanticAI Refresher</h1>
+
+        <section id="intro" class="mb-12 bg-white p-6 rounded-lg shadow-sm border">
+            <h2 class="text-2xl font-bold mb-4">Philosophy</h2>
+            <p class="mb-4">Built by the creators of Pydantic. It brings production-grade engineering to Agents:
+                <strong>Type Safety</strong>, <strong>Dependency Injection</strong>, and <strong>Streaming</strong> by
+                default. It is not a graph, it's a framework for reliable function execution.
+            </p>
+        </section>
+
+        <section id="basic" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">1. Basic Agent</h2>
+            <pre><code class="language-python">from pydantic_ai import Agent
+
+# Define agent with a system prompt
+agent = Agent(
+    'openai:gpt-4o',
+    system_prompt='Be concise and helpful.'
+)
+
+# Run synchronously
+result = agent.run_sync('Where does "hello world" come from?')
+print(result.data)</code></pre>
+        </section>
+
+        <section id="deps" class="mb-12">
+            <h2 class="text-2xl font-bold mb-4">2. Dependency Injection</h2>
+            <p>Unlike other frameworks using global variables, PydanticAI injects dependencies (DB connections, API
+                keys) into tools at runtime.</p>
+            <pre><code class="language-python">from dataclasses import dataclass
+from pydantic_ai import RunContext
+
+@dataclass
+class MyDeps:
+    user_id: int
+    db_conn: str
+
+agent = Agent('openai:gpt-4o', deps_type=MyDeps)
+
+@agent.tool
+async def get_user_name(ctx: RunContext[MyDeps]) -> str:
+    # Access deps safely
+    print(f"Fetching for {ctx.deps.user_id} using {ctx.deps.db_conn}")
+    return "Alice"
+
+result = agent.run_sync('Who am I?', deps=MyDeps(user_id=123, db_conn="postgres://..."))</code></pre>
+        </section>
+    </main>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+</body>
+
+</html>
