@@ -3,123 +3,721 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>LangGraph Comprehensive Refresher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangGraph: The Enterprise Masterclass</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            color: #1f2937;
         }
 
-        .sidebar {
-            height: 100vh;
-            overflow-y: auto;
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        /* Typography refinements */
+        h3 {
+            color: #111827;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            line-height: 1.75;
+            color: #4b5563;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Inline Code Styling */
+        code:not([class*="language-"]) {
+            color: #2563eb;
+            /* Blue-600 */
+            background: #eff6ff;
+            /* Blue-50 */
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-weight: 500;
+        }
+
+        pre code {
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+
+        .chapter-number {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Smooth fade for interactive elements */
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
         }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
-        <div class="p-6 border-b">
-            <h1 class="font-bold text-xl text-blue-700">LangGraph</h1><a href="index.html"
-                class="text-xs text-gray-500 hover:text-blue-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
-        </div>
-        <nav class="p-4 space-y-1">
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Core Theory</div>
-            <a href="#state" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">State & Schema</a>
-            <a href="#nodes" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Nodes & Edges</a>
+<body class="bg-gray-50 flex h-screen overflow-hidden">
 
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Techniques</div>
-            <a href="#conditional" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Conditional
-                Logic</a>
-            <a href="#memory" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Persistence</a>
-            <a href="#human"
-                class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Human-in-the-loop</a>
-            <a href="#subgraphs" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Subgraphs</a>
+    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b bg-gray-50">
+            <h1 class="font-bold text-xl text-blue-700 tracking-tight flex items-center">
+                <i class="fas fa-project-diagram mr-2"></i>LangGraph
+            </h1>
+            <a href="index.html"
+                class="text-xs text-gray-500 hover:text-blue-600 transition-colors mt-1 block font-medium">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Hub
+            </a>
+            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Enterprise Guide</p>
+        </div>
+
+        <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Core Philosophy</p>
+            <a href="#foundations"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">1</span>
+                The Cycle Paradigm
+            </a>
+            <a href="#primitives"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">2</span>
+                State, Nodes & Edges
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Building Agents</p>
+            <a href="#tools"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">3</span>
+                The Reasoning Loop
+            </a>
+            <a href="#persistence"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">4</span>
+                Persistence (Memory)
+            </a>
+            <a href="#hitl"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">5</span>
+                Human-in-the-Loop
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Advanced Patterns</p>
+            <a href="#timetravel"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">6</span>
+                Time Travel
+            </a>
+            <a href="#subgraphs"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">7</span>
+                Subgraphs
+            </a>
+            <a href="#mapreduce"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">8</span>
+                Map-Reduce
+            </a>
+
+            <div class="mt-8 px-4 pb-8">
+                <a href="#master-template"
+                    class="block text-center px-4 py-3 rounded-lg bg-blue-600 text-white font-bold text-sm shadow-md hover:bg-blue-700 transition-all">
+                    <i class="fas fa-download mr-2"></i> Master Template
+                </a>
+            </div>
         </nav>
     </aside>
 
-    <main class="lg:ml-64 flex-1 p-8 md:p-12">
-        <h1 class="text-4xl font-bold mb-4">LangGraph Refresher</h1>
-        <p class="text-lg text-gray-600 mb-8">Stateful, Cyclic, Graph-based orchestration.</p>
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
 
-        <!-- Section 1 -->
-        <section id="foundations" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
-            <p class="text-sm text-gray-600">A library to build stateful, multi-actor applications with LLMs. Unlike
-                DAGs (CrewAI), LangGraph allows <strong>loops</strong> (cycles).</p>
-        </section>
+        <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
+            <h1 class="text-5xl font-extrabold mb-6 text-gray-900 tracking-tight leading-tight">The LangGraph <span
+                    class="text-blue-600">Masterclass</span></h1>
+            <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
+                Move beyond linear Chains. Learn to build <strong>Cyclic</strong>, <strong>Stateful</strong>, and
+                <strong>Multi-Actor</strong> agents capable of reasoning, reflection, and self-correction.
+            </p>
+        </header>
 
-        <!-- Section 2 -->
-        <section id="state" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">2. State & Schema</h2>
-            <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
-                <pre><code class="language-python">from typing import TypedDict, Annotated
-import operator
+        <div class="max-w-4xl mx-auto space-y-24 pb-24">
 
+            <section id="foundations">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Paradigm Shift: From Chains to Loops</h2>
+                </div>
+
+                <div class="prose max-w-none text-gray-700">
+                    <p>
+                        To understand LangGraph, we must first revisit the fundamental limitations of its predecessor,
+                        the "Chain."
+                        In traditional orchestration frameworks (like standard LangChain or simple scripts), workflows
+                        are modeled as
+                        <strong>Directed Acyclic Graphs (DAGs)</strong>.
+                    </p>
+                    <p>
+                        In a DAG, data flows in a straight, predictable line: <em>Input &rarr; Step A &rarr; Step B
+                            &rarr; Output</em>.
+                        This linear model works perfectly for simple, repetitive tasks like "Summarize this text" or
+                        "Translation."
+                        However, it fails to model true "agency."
+                    </p>
+                    <p>
+                        <strong>True agency requires cycles.</strong> A human solving a complex problem does not think
+                        in a straight line.
+                        We think, act, observe the result, and then <em>think again</em> based on that observation. If
+                        we make a mistake, we correct it.
+                        If we need more info, we search for it. This is a loop.
+                    </p>
+                    <p>
+                        LangGraph is a library that allows you to model workflows as <strong>Cyclic Graphs</strong>
+                        (specifically, state machines).
+                        It shifts the architectural paradigm from a "Pipeline" to a "Loop," enabling agents that can
+                        reason, retry, and correct themselves until a goal is met.
+                    </p>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 my-8 rounded-r-lg shadow-sm">
+                    <h3 class="text-blue-800 mt-0 text-lg font-bold">Concept: The Cognitive Loop</h3>
+                    <p class="text-blue-700 mb-0">
+                        Instead of a pre-determined set of steps, we build a graph where the "Agent" node and the
+                        "Tools" node feed into each other
+                        indefinitely until a specific condition (e.g., "Answer Ready") triggers an exit.
+                    </p>
+                </div>
+
+                <div class="mermaid my-8 flex justify-center">
+                    graph LR
+                    subgraph "Traditional Chain (DAG)"
+                    A[Input] --> B[Prompt] --> C[LLM] --> D[Output]
+                    end
+
+                    subgraph "LangGraph (Cyclic)"
+                    E[Input] --> F((Agent))
+                    F --> G{Decision}
+                    G -->|Use Tool| H[Execute Tool]
+                    H -->|Result| F
+                    G -->|Done| I[Output]
+                    end
+
+                    style F fill:#bfdbfe,stroke:#2563eb,stroke-width:2px
+                    style H fill:#fef08a,stroke:#eab308,stroke-width:2px
+                </div>
+            </section>
+
+            <section id="primitives">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Theoretical Primitives</h2>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">A. The State ($S$)</h3>
+                <p>
+                    The State is the "memory" of your application. In a standard Python script, variables are passed
+                    between functions locally
+                    and disappear when the function returns. In LangGraph, the State is a shared, persistent schema that
+                    all components read from and write to.
+                </p>
+                <p>
+                    <strong>Intuition:</strong> Think of the State as a <strong>Shared Whiteboard</strong> in a meeting
+                    room.
+                    Every worker (Node) looks at the whiteboard, does some work, and writes their results back onto the
+                    whiteboard for the next person to see.
+                    We typically use <code>TypedDict</code> to define the structure of this whiteboard, ensuring strict
+                    typing and validation.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/state.py</div>
+                    <pre><code class="language-python">from typing import TypedDict, Annotated
+from langgraph.graph.message import add_messages
+
+# The Schema
 class AgentState(TypedDict):
-    # 'operator.add' appends messages instead of overwriting
-    messages: Annotated[list, operator.add]
-    current_step: str</code></pre>
-            </div>
-        </section>
+    # 'messages': The conversational memory
+    # 'add_messages': A special reducer function.
+    # It tells LangGraph: "When a node returns a message, APPEND it to this list; 
+    # do not overwrite the existing list."
+    messages: Annotated[list, add_messages]
+    
+    # You can add custom keys for business logic
+    # documents: list[str]
+    # user_intent: str</code></pre>
+                </div>
 
-        <section id="nodes" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">3. Nodes & Edges</h2>
-            <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
-                <pre><code class="language-python">from langgraph.graph import StateGraph, END
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">B. Nodes & Edges</h3>
+                <p>
+                    The graph is composed of two primary elements:
+                </p>
+                <ul class="list-disc list-inside">
+                    <li><strong>Nodes ($V$):</strong> The "workers." These are standard Python functions. A node
+                        receives the current State, performs an action (e.g., calling an LLM, searching a database,
+                        formatting data), and returns an update to the State.</li>
+                    <li><strong>Edges ($E$):</strong> The "traffic controllers." They define the control flow rules.
+                        <ul class="list-disc pl-8 mt-2 text-sm">
+                            <li><strong>Normal Edges:</strong> "After Node A is done, always go to Node B."</li>
+                            <li><strong>Conditional Edges:</strong> "After Node A, check the State. If result is 'Good',
+                                go to End. If 'Bad', loop back to Node A."</li>
+                        </ul>
+                    </li>
+                </ul>
 
-def chatbot(state): return {"messages": ["Hello"]}
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/graph.py</div>
+                    <pre><code class="language-python">from langgraph.graph import StateGraph, START, END
 
+# 1. Define the Node Logic
+def chatbot_node(state: AgentState):
+    # Logic: Read state -> Call LLM -> Return Update
+    return {"messages": ["Hello World"]}
+
+# 2. Initialize the Graph
 workflow = StateGraph(AgentState)
-workflow.add_node("chatbot", chatbot)
-workflow.set_entry_point("chatbot")
-workflow.add_edge("chatbot", END)
+
+# 3. Add Nodes
+workflow.add_node("chatbot", chatbot_node)
+
+# 4. Add Edges
+workflow.add_edge(START, "chatbot") # Entry Point
+workflow.add_edge("chatbot", END)   # Exit Point
+
+# 5. Compile (Freezes the structure)
 app = workflow.compile()</code></pre>
-            </div>
-        </section>
+                </div>
+            </section>
 
-        <!-- Section 3 -->
-        <section id="conditional" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Conditional Logic</h2>
-            <p class="mb-4 text-gray-600">Routing based on state content.</p>
-            <pre><code class="language-python">def route(state):
-    return "tools" if "tool_calls" in state["messages"][-1] else "end"
+            <section id="tools">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Reasoning Loop</h2>
+                </div>
+                <p>
+                    An enterprise agent shouldn't just talk; it should <em>do</em>. If the user asks "What is the
+                    weather in Tokyo?",
+                    the agent should decide to use a weather API, not just hallucinate an answer.
+                </p>
+                <p>
+                    This requires a <strong>Conditional Edge</strong>. We check the output of the LLM. If the LLM
+                    requested a "Tool Call,"
+                    we route execution to a "Tools" node. If it just replied with text, we route to "END."
+                </p>
 
-workflow.add_conditional_edges("chatbot", route, {"tools": "tools", "end": END})</code></pre>
-        </section>
+                <div class="mermaid my-8 flex justify-center">
+                    stateDiagram-v2
+                    [*] --> AgentNode
+                    AgentNode --> CheckCondition
 
-        <section id="memory" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Persistence</h2>
-            <pre><code class="language-python">from langgraph.checkpoint.memory import MemorySaver
-app = workflow.compile(checkpointer=MemorySaver())
-app.invoke(inputs, config={"configurable": {"thread_id": "1"}})</code></pre>
-        </section>
+                    CheckCondition --> ToolNode: LLM requests tool
+                    ToolNode --> AgentNode: Return Result (Loop)
 
-        <section id="human" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Human-in-the-loop</h2>
-            <pre><code class="language-python"># Pause BEFORE entering 'action' node
-app = workflow.compile(interrupt_before=["action"])</code></pre>
-        </section>
+                    CheckCondition --> End: LLM has final answer
+                    End --> [*]
+                </div>
 
-        <!-- NEW SECTION: SUBGRAPHS -->
-        <section id="subgraphs" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Subgraphs</h2>
-            <p class="mb-4 text-gray-600">You can treat an entire Graph as a Node in another Graph. Essential for
-                scaling.</p>
-            <pre><code class="language-python"># Define a smaller graph
-sub_builder = StateGraph(SubState)
-sub_builder.add_node("worker", worker_node)
-sub_graph = sub_builder.compile()
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/agent_logic.py</div>
+                    <pre><code class="language-python">from langgraph.prebuilt import ToolNode, tools_condition
 
-# Add it to parent graph as a node
-parent_builder = StateGraph(ParentState)
-parent_builder.add_node("subteam", sub_graph) # <--- Graph as a Node
-parent_builder.add_edge("start", "subteam")</code></pre>
-        </section>
+# 1. Bind tools to the model
+# This "teaches" the LLM that it has these functions available.
+llm_with_tools = llm.bind_tools([web_search, send_email])
 
+def agent_node(state):
+    # Invoking the LLM with the tool definitions
+    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+
+# 2. Build Graph with Loops
+workflow = StateGraph(AgentState)
+workflow.add_node("agent", agent_node)
+workflow.add_node("tools", ToolNode([web_search]))
+
+workflow.add_edge(START, "agent")
+
+# 3. Conditional Edge
+# 'tools_condition' is a prebuilt function.
+# Logic: If the last message has 'tool_calls', go to 'tools'. Else go to END.
+workflow.add_conditional_edges(
+    "agent",
+    tools_condition,
+)
+
+# 4. The Cycle (The most important line!)
+# After the tool executes, we MUST go back to the agent so it can 
+# read the tool output and formulate an answer.
+workflow.add_edge("tools", "agent")</code></pre>
+                </div>
+            </section>
+
+            <section id="persistence">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Persistence (Memory)</h2>
+                </div>
+                <p>
+                    In a standard web server architecture, the application forgets the variable <code>state</code> as
+                    soon as the HTTP request ends.
+                    However, users expect long-running conversations (multi-turn chat) or background tasks that last for
+                    hours.
+                </p>
+                <p>
+                    LangGraph solves this by decoupling logic from storage. By passing a <code>checkpointer</code>
+                    (like <code>MemorySaver</code> for testing, or <code>PostgresSaver</code>/<code>RedisSaver</code>
+                    for production),
+                    LangGraph automatically snapshots the state at every single step. You can pause a graph today and
+                    resume it next week.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/memory_setup.py
+                    </div>
+                    <pre><code class="language-python">from langgraph.checkpoint.memory import MemorySaver
+
+# Initialize the storage backend
+memory = MemorySaver()
+
+# Compile the graph with the checkpointer
+app = workflow.compile(checkpointer=memory)
+
+# Usage: We MUST provide a 'thread_id' to identify the session
+config = {"configurable": {"thread_id": "session_123"}}
+
+# Turn 1: User introduces themselves
+app.invoke({"messages": [("user", "My name is Gemini")]}, config=config)
+
+# Turn 2: We ask a question. 
+# Note: We do NOT need to pass the history back in. LangGraph loads it from memory.
+result = app.invoke({"messages": [("user", "What is my name?")]}, config=config)
+print(result["messages"][-1].content) 
+# Output: "Your name is Gemini."</code></pre>
+                </div>
+            </section>
+
+            <section id="hitl">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Human-in-the-Loop (HITL)</h2>
+                </div>
+                <p>
+                    In enterprise settings, autonomy is dangerous. You cannot let an agent autonomously execute
+                    high-stakes actions like
+                    "Refund $5,000" or "Deploy to Production" without oversight.
+                </p>
+                <p>
+                    LangGraph allows you to set <strong>breakpoints</strong>. You can tell the graph: <em>"Run until you
+                        reach the 'Tools' node, then STOP and wait for permission."</em>
+                    This transforms the agent from a "Black Box" into a "Co-pilot."
+                </p>
+
+                <div class="mermaid my-8 flex justify-center">
+                    sequenceDiagram
+                    participant User
+                    participant Agent
+                    participant HumanAdmin
+
+                    User->>Agent: "Refund $500"
+                    Agent->>Agent: Decide to call 'refund_tool'
+                    Agent--xHumanAdmin: INTERRUPT (Pause)
+
+                    HumanAdmin->>HumanAdmin: Review Request
+                    HumanAdmin->>Agent: Approve & Resume
+                    Agent->>Agent: Execute 'refund_tool'
+                    Agent->>User: "Refund Complete"
+                </div>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/hitl_config.py</div>
+                    <pre><code class="language-python"># 1. Compile with interrupt
+# This tells LangGraph to pause RIGHT BEFORE entering the 'tools' node.
+app = workflow.compile(
+    checkpointer=memory,
+    interrupt_before=["tools"] 
+)
+
+# 2. Run Phase 1
+# The agent will reason, generate the tool call, and then PAUSE.
+app.invoke(inputs, config=config)
+
+# 3. Inspection (Your Admin UI)
+print("Graph paused. Waiting for approval...")
+
+# 4. Resume Phase 2
+# Passing 'None' tells LangGraph: "I have no new input, just continue 
+# from the saved checkpoint where you left off."
+app.invoke(None, config=config)</code></pre>
+                </div>
+            </section>
+
+            <section id="timetravel">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Advanced: Time Travel</h2>
+                </div>
+                <p>
+                    We discussed "Human-in-the-Loop" where you pause and approve. <strong>Time Travel</strong> is the
+                    advanced version where you
+                    <strong>modify</strong> the state before resuming. This is effectively an "Undo/Edit" button for AI.
+                </p>
+                <p>
+                    <strong>The Scenario:</strong> The Agent decides to search for "LangGraph" (too vague). You pause
+                    it.
+                    Instead of just rejecting the action, you reach into the state, edit the tool argument to "LangGraph
+                    Python Documentation",
+                    and <em>then</em> resume. The agent executes the <strong>corrected</strong> action, believing it
+                    came up with it itself.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/debugger.py</div>
+                    <pre><code class="language-python"># 1. Inspect the paused state
+snapshot = app.get_state(config)
+last_msg = snapshot.values["messages"][-1]
+
+print(last_msg.tool_calls[0]["args"]) 
+# Output: {"query": "LangGraph"} (Too vague!)
+
+# 2. Modify State (Inject new reality)
+from copy import deepcopy
+new_msg = deepcopy(last_msg)
+new_msg.tool_calls[0]["args"]["query"] = "LangGraph Python Docs"
+
+# update_state() overwrites the existing message history with our new version
+app.update_state(config, {"messages": [new_msg]})
+
+# 3. Resume with Corrected Brain
+# The agent now executes the 'web_search' tool with the SPECIFIC query.
+app.invoke(None, config=config)</code></pre>
+                </div>
+            </section>
+
+            <section id="subgraphs">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Advanced: Subgraphs</h2>
+                </div>
+                <p>
+                    <strong>The Concept: Fractal Agency.</strong> As your graph grows, putting 50 nodes (Research,
+                    Coding, QA, HR, Legal)
+                    into one flat graph becomes unmanageable ("Spaghetti Graph").
+                </p>
+                <p>
+                    The solution is to encapsulate logic. You build a "Research Agent" graph and compile it.
+                    Then, you treat that entire compiled graph as a <strong>single Node</strong> inside a larger
+                    "Company" graph.
+                    This allows you to build modular, reusable agents that can be plugged into any workflow.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/architecture.py
+                    </div>
+                    <pre><code class="language-python"># 1. Build the Child Graph (The Specialist)
+research_builder = StateGraph(ResearchState)
+research_builder.add_node("search", search_node)
+research_builder.add_edge(START, "search")
+# Compile it into a Runnable
+research_app = research_builder.compile()
+
+# 2. Build the Parent Graph (The Supervisor)
+parent_builder = StateGraph(CompanyState)
+parent_builder.add_node("manager", manager_node)
+
+# 3. Add the Child Graph as a Node
+# We add the compiled 'research_app' directly as if it were a function.
+parent_builder.add_node("research_team", research_app)
+
+# 4. Connect them
+parent_builder.add_edge("manager", "research_team")</code></pre>
+                </div>
+            </section>
+
+            <section id="mapreduce">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">8</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Advanced: Map-Reduce (Parallelism)</h2>
+                </div>
+                <p>
+                    Standard loops are sequential (Step A &rarr; Step B). Sometimes you need speed. LangGraph supports
+                    <strong>Fan-out</strong>
+                    (triggering multiple nodes simultaneously) and <strong>Fan-in</strong> (waiting for all of them to
+                    finish before proceeding).
+                </p>
+                <p>
+                    <strong>Use Case:</strong> You want to write a blog post. Instead of writing Section 1, then Section
+                    2, then Section 3,
+                    you hire 3 writers to write all sections in parallel. Then an "Editor" node collects and stitches
+                    them together.
+                </p>
+
+                <div class="mermaid my-8 flex justify-center">
+                    graph LR
+                    Planner --> Writer1
+                    Planner --> Writer2
+                    Planner --> Writer3
+
+                    Writer1 --> Editor
+                    Writer2 --> Editor
+                    Writer3 --> Editor
+
+                    style Planner fill:#bfdbfe
+                    style Editor fill:#bfdbfe
+                </div>
+            </section>
+
+            <section id="master-template" class="mb-24">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-600 text-white rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4"><i
+                            class="fas fa-code"></i></span>
+                    <h2 class="text-3xl font-bold text-gray-900">Master Enterprise Template</h2>
+                </div>
+                <p>
+                    This is the "Golden Scaffold." It consolidates everything we have learned—Memory, Tooling, Cycles,
+                    and Human-in-the-Loop logic—into
+                    a single, production-ready Python script. You can copy-paste this to start any new enterprise agent
+                    project.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-xl my-6">
+                    <div
+                        class="bg-gray-900 px-4 py-2 text-xs font-mono text-blue-200 border-b border-gray-700 flex justify-between items-center">
+                        <span>agent_template.py</span>
+                        <span class="text-gray-500 opacity-50">v1.0.0</span>
+                    </div>
+                    <pre><code class="language-python">import operator
+from typing import Annotated, TypedDict
+from langchain_openai import ChatOpenAI
+from langchain_core.tools import tool
+from langgraph.graph import StateGraph, START, END
+from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.graph.message import add_messages
+from langgraph.checkpoint.memory import MemorySaver
+
+# --- 1. CONFIG & TOOLS ---
+@tool
+def web_search(query: str):
+    """Real-time search tool."""
+    return f"Results for {query}..."
+
+tools = [web_search]
+# Bind tools so the LLM knows they exist
+llm = ChatOpenAI(model="gpt-4o")
+llm_with_tools = llm.bind_tools(tools)
+
+# --- 2. STATE ---
+class AgentState(TypedDict):
+    # 'add_messages' ensures history is preserved
+    messages: Annotated[list, add_messages]
+
+# --- 3. NODES ---
+def agent_node(state: AgentState):
+    # Simple Logic: Just call the LLM
+    return {"messages": [llm_with_tools.invoke(state["messages"])]}
+
+# --- 4. GRAPH CONSTRUCTION ---
+def build_graph():
+    workflow = StateGraph(AgentState)
+    
+    # Add the "Brain" and the "Hands"
+    workflow.add_node("agent", agent_node)
+    workflow.add_node("tools", ToolNode(tools))
+
+    # Define Flow
+    workflow.add_edge(START, "agent")
+    
+    # Conditional Logic:
+    # If LLM wants a tool -> Go to 'tools'
+    # If LLM is done -> Go to END
+    workflow.add_conditional_edges("agent", tools_condition)
+    
+    # The Loop: Tools always report back to Agent
+    workflow.add_edge("tools", "agent")
+
+    # Enterprise Features: Persistence + HITL
+    return workflow.compile(
+        checkpointer=MemorySaver(),
+        # INTERRUPT: Pause before running any tool
+        interrupt_before=["tools"]
+    )
+
+# --- 5. EXECUTION ENGINE ---
+if __name__ == "__main__":
+    app = build_graph()
+    # Unique Thread ID for memory
+    config = {"configurable": {"thread_id": "prod_1"}}
+    
+    # Phase 1: Run until interrupt
+    print("--- Starting Run ---")
+    app.invoke({"messages": [("user", "Search for LangGraph")]}, config=config)
+    
+    # Phase 2: Human Review
+    print("--- 🛑 Action Paused for Approval ---")
+    snapshot = app.get_state(config)
+    print(f"Proposed Action: {snapshot.values['messages'][-1].tool_calls[0]['name']}")
+    
+    if input("Approve? (y/n): ") == "y":
+        # Phase 3: Resume
+        print("--- Resuming ---")
+        app.invoke(None, config=config)</code></pre>
+                </div>
+            </section>
+
+        </div>
     </main>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
 </body>
