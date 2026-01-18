@@ -3,116 +3,706 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Semantic Kernel Refresher</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Semantic Kernel Masterclass: From Script to System</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
+            color: #1f2937;
         }
 
-        .sidebar {
-            height: 100vh;
-            overflow-y: auto;
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        /* Typography refinements */
+        h3 {
+            color: #111827;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            line-height: 1.75;
+            color: #4b5563;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Inline Code Styling */
+        code:not([class*="language-"]) {
+            color: #2563eb;
+            background: #eff6ff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-weight: 500;
+        }
+
+        pre code {
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+
+        .chapter-number {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* Smooth fade for interactive elements */
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
         }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
-        <div class="p-6 border-b">
-            <h1 class="font-bold text-xl text-blue-800">Semantic Kernel</h1><a href="index.html"
-                class="text-xs text-gray-500 hover:text-blue-800"><i class="fas fa-arrow-left"></i> Back to Hub</a>
-        </div>
-        <nav class="p-4 space-y-1">
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Foundations</div>
-            <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">What is SK?</a>
+<body class="bg-gray-50 flex h-screen overflow-hidden">
 
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Core Concepts</div>
-            <a href="#kernel" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">The Kernel</a>
-            <a href="#plugins" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Plugins
-                (Functions)</a>
-            <a href="#planners" class="block px-4 py-2 rounded text-sm hover:bg-blue-50 text-gray-700">Planners
-                (Agents)</a>
+    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b bg-gray-50">
+            <h1 class="font-bold text-xl text-blue-800 tracking-tight flex items-center">
+                <i class="fas fa-brain mr-2"></i>Semantic Kernel
+            </h1>
+            <a href="index.html"
+                class="text-xs text-gray-400 hover:text-blue-600 transition-colors mt-1 block font-medium">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Hub
+            </a>
+            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Masterclass Guide</p>
+        </div>
+
+        <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">The Basics</p>
+            <a href="#level0"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">0</span>
+                The Foundation
+            </a>
+            <a href="#level1"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">1</span>
+                The Doer (Plugins)
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Intelligence</p>
+            <a href="#level2"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">2</span>
+                The Knower (Memory)
+            </a>
+            <a href="#level3"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">3</span>
+                The Planner (Autonomy)
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Production</p>
+            <a href="#level4"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">4</span>
+                The Professional
+            </a>
+            <a href="#level5"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">5</span>
+                The Architect
+            </a>
+            <a href="#appendix"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                <span
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">A</span>
+                Appendix
+            </a>
+
+            <div class="mt-8 px-4 pb-8">
+                <a href="#master-template"
+                    class="block text-center px-4 py-3 rounded-lg bg-blue-600 text-white font-bold text-sm shadow-md hover:bg-blue-700 transition-all">
+                    <i class="fas fa-code mr-2"></i> Master Template
+                </a>
+            </div>
         </nav>
     </aside>
 
-    <main class="lg:ml-64 flex-1 p-8 md:p-12">
-        <h1 class="text-4xl font-bold mb-4">Semantic Kernel (SK)</h1>
-        <p class="text-lg text-gray-600 mb-8">Microsoft's SDK for integrating LLMs with existing code. The engine behind
-            "Copilot".</p>
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
 
-        <!-- Section 1: Foundations -->
-        <section id="intro" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Foundations</h2>
-            <p class="text-sm text-gray-600 mb-4">SK is not just a chatbot library; it's a lightweight SDK to mix
-                <strong>Native Code</strong> (C#, Python) with <strong>Semantic Functions</strong> (LLM Prompts). It is
-                designed for Enterprise integration.
+        <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 tracking-tight leading-tight">
+                The Semantic Kernel <span class="text-blue-700">Masterclass</span>
+            </h1>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                From Script to System. A "Zero to Hero" guide to building enterprise-grade agents with Microsoft's
+                Semantic Kernel.
             </p>
-            <div class="bg-blue-50 p-4 rounded border-l-4 border-blue-600">
-                <strong>Why use SK?</strong> When you want to build a "Copilot" inside your own app that triggers your
-                own APIs securely.
-            </div>
-        </section>
+        </header>
 
-        <!-- Section 2: Core Concepts -->
-        <section id="kernel" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">2. The Kernel</h2>
-            <p class="mb-4 text-gray-600">The central object. You attach "Services" (AI Models) and "Plugins" (Tools) to
-                it.</p>
-            <pre><code class="language-python">import semantic_kernel as sk
-from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+        <div class="max-w-4xl mx-auto space-y-24 pb-24">
 
+            <!-- LEVEL 0 -->
+            <section id="level0">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">0</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Paradigm Shift: From Chatbots to Agents</h2>
+                </div>
+
+                <div class="prose max-w-none text-gray-700">
+                    <p>
+                        To master Semantic Kernel, we must first understand the fundamental shift in AI application
+                        architecture.
+                        Traditional "Chatbots" are linear: <em>Input &rarr; LLM &rarr; Output</em>. They can talk, but
+                        they cannot <strong>do</strong>.
+                    </p>
+                    <p>
+                        <strong>True Agents require "Hands".</strong> An enterprise agent needs to modify databases,
+                        send emails, and call APIs.
+                        Semantic Kernel is Microsoft's answer to this challenge. It is not just a wrapper around OpenAI;
+                        it is a
+                        <strong>Dependency Injection Container</strong> for AI capabilities, designed to mix
+                        <strong>Native Code</strong> (C#, Python)
+                        with <strong>Semantic Code</strong> (Prompts).
+                    </p>
+                </div>
+
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 my-8 rounded-r-lg shadow-sm">
+                    <h3 class="text-blue-800 mt-0 text-lg font-bold">Concept: The Kernel as the Operating System</h3>
+                    <p class="text-blue-700 mb-0">
+                        Think of the <code>Kernel</code> as the OS. The LLM is the CPU (processing unit), and your
+                        Plugins are the Drivers
+                        that allow the CPU to talk to the hardware (APIs/DBs). The Kernel binds them all together.
+                    </p>
+                </div>
+
+                <div class="mermaid my-8 flex justify-center">
+                    graph LR
+                    subgraph "Traditional Chatbot"
+                    A[User] --> B[Prompt] --> C[LLM] --> D[Text Response]
+                    end
+
+                    subgraph "Semantic Kernel Agent"
+                    E[User] --> F((Kernel))
+                    F --> G[Planner]
+                    G -->|Selects| H["Plugin A (Email)"]
+                    G -->|Selects| I["Plugin B (CRM)"]
+                    H --> F
+                    I --> F
+                    F --> J[Action & Response]
+                    end
+
+                    style F fill:#bfdbfe,stroke:#2563eb,stroke-width:2px
+                    style G fill:#fef08a,stroke:#eab308,stroke-width:2px
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">1. The Kernel Object</h3>
+                <p>
+                    The <code>Kernel</code> is your central unit of work. You initialize it once and attach everything
+                    your agent needs to it.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/foundations.py</div>
+                    <pre><code class="language-python">import semantic_kernel as sk
+from semantic_kernel.connectors.ai.google.google_ai import GoogleAIChatCompletion
+
+# 1. Initialize the Kernel (The container)
 kernel = sk.Kernel()
 
-# Add OpenAI Service
+# 2. Add the Brain (LLM Service)
 kernel.add_service(
-    OpenAIChatCompletion(
-        service_id="chat-gpt", 
-        ai_model_id="gpt-4", 
-        api_key="..."
+    GoogleAIChatCompletion(
+        service_id="gemini",
+        ai_model_id="gemini-1.5-pro",
+        api_key="YOUR_API_KEY"
     )
 )</code></pre>
-        </section>
+                </div>
 
-        <section id="plugins" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">3. Plugins (Native Functions)</h2>
-            <p class="mb-4 text-gray-600">SK uses decorators to expose Python functions to the LLM.</p>
-            <pre><code class="language-python">from semantic_kernel.functions import kernel_function
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">2. Prompts are Functions
+                </h3>
+                <p>
+                    In SK, we stop treating prompts as "magic strings" scattered across your code. We treat them as
+                    <strong>Semantic Functions</strong>.
+                    They have inputs, outputs, and configuration, just like a Python function. This makes them
+                    reproducible and testable.
+                </p>
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python"># Creating a function from a prompt template
+summarize = kernel.create_function_from_prompt(
+    function_name="Summarize",
+    plugin_name="Writer",
+    prompt="Summarize this text in 3 bullet points: {{$input}}"
+)
 
-class LightPlugin:
+# Call it exactly like a native function
+result = await kernel.invoke(summarize, input="Semantic Kernel is...")
+print(result)</code></pre>
+                </div>
+            </section>
+
+            <!-- LEVEL 1 -->
+            <section id="level1">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Doer (Plugins & Native Functions)</h2>
+                </div>
+                <p>
+                    <strong>Goal:</strong> Give the AI "hands" to interact with the real world (APIs and Code).
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">4. Native Plugins (The Bridge)
+                </h3>
+                <p>
+                    Plugins are how you make your existing Python code visible to the LLM. You use the
+                    <code>@kernel_function</code> decorator
+                    to add metadata that the LLM uses to understand <em>what</em> your code does.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/plugins.py</div>
+                    <pre><code class="language-python">from semantic_kernel.functions import kernel_function
+from typing import Annotated
+
+class MathPlugin:
     @kernel_function(
-        description="Turns the light on or off",
-        name="ChangeState"
+        description="Adds two numbers together",
+        name="Add"
     )
-    def change_state(self, state: bool) -> str:
-        return f"Light is now {'on' if state else 'off'}"
+    def add(
+        self, 
+        number1: Annotated[float, "The first number"], 
+        number2: Annotated[float, "The second number"]
+    ) -> float:
+        return number1 + number2
 
-# Add to Kernel
-kernel.add_plugin(LightPlugin(), plugin_name="Lights")</code></pre>
-        </section>
+# Import the plugin into the kernel
+kernel.add_plugin(MathPlugin(), plugin_name="Math")</code></pre>
+                </div>
 
-        <!-- Section 3: Techniques -->
-        <section id="planners" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">Technique: Planners (The Agent)</h2>
-            <p class="mb-4 text-gray-600">A Planner uses the LLM to look at available plugins and solve a user goal
-                automatically.</p>
-            <pre><code class="language-python">from semantic_kernel.planners import FunctionCallingStepwisePlanner
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">5. Auto-Function Calling
+                    (The Magic)</h3>
+                <p>
+                    Once plugins are registered, you don't need to manually tell the LLM to call them. You set
+                    <code>FunctionChoiceBehavior.Auto()</code>,
+                    and the kernel handles the negotiation (generating the tool call, executing the code, and feeding
+                    the result back).
+                </p>
 
-# 1. Initialize Planner
-planner = FunctionCallingStepwisePlanner(service_id="chat-gpt")
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
 
-# 2. Ask it to do something that requires the Plugin
-goal = "Turn on the lights."
-result = await planner.invoke(kernel, goal)
+# Configure execution settings
+settings = kernel.get_prompt_execution_settings_from_service_id("gemini")
+settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
 
-print(result.final_answer) 
-# Output: "Light is now on" (After calling the python function)</code></pre>
-        </section>
+# Now, if you ask a math question, SK automatically calls your Python code
+result = await kernel.invoke_prompt(
+    prompt="How much is 50 plus 25?",
+    settings=settings
+)
+# Result: 75 (calculated by code, not guessed by LLM)</code></pre>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">6. State Management</h3>
+                <p>
+                    AI models are stateless. To have a conversation, you must manage the <code>ChatHistory</code>.
+                    SK provides a robust object to store user and assistant messages, which you pass into every invoke
+                    call.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">from semantic_kernel.contents import ChatHistory
+
+# 1. Create a History Object
+history = ChatHistory()
+history.add_system_message("You are a helpful assistant.")
+
+# 2. Add User Message
+history.add_user_message("My name is Vinoth.")
+
+# 3. Invoke Kernel with History
+# The Kernel sends the WHOLE history to the LLM
+result = await kernel.invoke_prompt(
+    prompt=None, # Not needed if using history
+    chat_history=history
+)
+
+# 4. Save Assistant Response back to History
+history.add_assistant_message(str(result))</code></pre>
+                </div>
+            </section>
+
+            <!-- LEVEL 2 -->
+            <section id="level2">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Knower (RAG & Memory)</h2>
+                </div>
+                <p>
+                    <strong>Goal:</strong> Give the AI a "brain" to remember facts and company policies.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">7. Embeddings 101</h3>
+                <p>
+                    Embeddings convert text into vectors (lists of numbers). Similar meanings are mathematically close
+                    in this vector space.
+                    To do RAG (Retrieval Augmented Generation), you first need an Embedding Service.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">from semantic_kernel.connectors.ai.google import GoogleAITextEmbedding
+
+kernel.add_service(
+    GoogleAITextEmbedding(service_id="embedding", ai_model_id="embedding-001")
+)</code></pre>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">8. Vector Databases & RAG
+                </h3>
+                <p>
+                    SK allows you to write memory records to a store (Volatile for testing, Qdrant/Pinecone for
+                    production) and retrieve them.
+                    RAG is simply the patterns of: <em>Search Memory &rarr; Paste into Prompt &rarr; Ask LLM</em>.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">from semantic_kernel.memory import VolatileMemoryStore, SemanticTextMemory
+
+# Setup Memory
+memory = SemanticTextMemory(storage=VolatileMemoryStore(), embeddings_generator=kernel.get_service("embedding"))
+
+# Save a fact
+await memory.save_information(collection="HR_Policies", id="info1", text="Refunds are only allowed within 30 days.")
+
+# Search (The 'Retrieval' in RAG)
+results = await memory.search("HR_Policies", "Can I get a refund?", limit=1)
+print(results[0].text)</code></pre>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">9. The RAG Plugin</h3>
+                <p>
+                    To make this "Agentic", we wrap the search logic in a Plugin. Now the LLM can decide <em>when</em>
+                    it needs to look up the policy.
+                </p>
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">class PolicyPlugin:
+    def __init__(self, memory):
+        self.memory = memory
+
+    @kernel_function(description="Searches company policies for answers", name="SearchPolicy")
+    async def search_policy(self, query: str) -> str:
+        results = await self.memory.search("HR_Policies", query, limit=1)
+        return results[0].text if results else "No policy found."
+
+# Add to kernel
+kernel.add_plugin(PolicyPlugin(memory), plugin_name="Policy")</code></pre>
+                </div>
+            </section>
+
+            <!-- LEVEL 3 -->
+            <section id="level3">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Planner (Autonomy)</h2>
+                </div>
+                <p>
+                    <strong>Goal:</strong> Stop hard-coding flows. Let the AI decide the sequence of steps.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">10. The Problem with "If/Else"
+                </h3>
+                <p>
+                    Hard-coding logic fails when you scale to 50+ plugins. You can't write an <code>if</code> statement
+                    for every possible user combination.
+                    Instead, we use a <strong>Planner</strong>.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">11. Planners (The
+                    Orchestrator)</h3>
+                <p>
+                    A Planner is a special agent that takes a user goal (e.g., "Plan a travel itinerary") and looks at
+                    all available plugins
+                    to generate a multi-step plan.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">from semantic_kernel.planners import FunctionCallingStepwisePlanner
+
+# Create the planner
+planner = FunctionCallingStepwisePlanner(service_id="gemini")
+
+# Give it a complex goal
+goal = "Check my calendar for tomorrow and book a meeting room if I'm free."
+
+# The planner figures out it needs:
+# 1. CalendarPlugin.GetEvents()
+# 2. Logic check
+# 3. ComponentPlugin.BookRoom()
+result = await planner.invoke(kernel, goal)</code></pre>
+                </div>
+
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                    <strong>Note:</strong> Effective use of Planners relies heavily on <strong>Goal-Oriented
+                        Design</strong>.
+                    Your plugin descriptions must be crystal clear about <em>what</em> they do and <em>when</em> to use
+                    them.
+                </div>
+            </section>
+
+            <!-- LEVEL 4 -->
+            <section id="level4">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Professional (Production Engineering)</h2>
+                </div>
+                <p>
+                    <strong>Goal:</strong> Make the system robust, safe, and observable.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">13. Filters (Hooks/Middleware)
+                </h3>
+                <p>
+                    In production, you never let an LLM execute code blindly. <strong>Filters</strong> allow you to runs
+                    logic
+                    <em>before</em> function execution (e.g., permission checks) and <em>after</em> (e.g., logging).
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">from semantic_kernel.filters import Filter, AutoFunctionInvocationContext
+
+class SafeGuardFilter(Filter):
+    async def on_auto_function_invocation(self, context, next):
+        # PRE-HOOK: Check for dangerous parameters
+        if "delete_database" in context.function.name:
+            raise SecurityError("Action Blocked: Database deletion is not allowed.")
+        
+        # Execute the function
+        await next(context)
+        
+        # POST-HOOK: Log the result
+        print(f"Function {context.function.name} executed successfully.")
+
+# Register the filter
+kernel.add_filter(SafeGuardFilter())</code></pre>
+                </div>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">14. Observability</h3>
+                <p>
+                    Debugging AI can be hard. SK integrates with standard logging to show you the "Thinking
+                    Process"—tokens used,
+                    latency, and the exact prompt sent to the model.
+                </p>
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python">import logging
+
+# Set up standard Python logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s"
+)
+
+# Now, when you run the kernel, you will see logs like:
+# [INFO] Function SearchPolicy execution time: 0.45s
+# [INFO] Rendered Prompt: "You are a helpful assistant..."
+# [INFO] Usage: 154 tokens</code></pre>
+                </div>
+            </section>
+
+            <!-- LEVEL 5 -->
+            <section id="level5">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Architect (Multi-Agent Systems)</h2>
+                </div>
+                <p>
+                    <strong>Goal:</strong> Building complex ecosystems where agents work together.
+                </p>
+
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">16. The Manager-Worker Pattern
+                </h3>
+                <p>
+                    As systems grow, a single Kernel can become overwhelmed with too many plugins (confusing the LLM).
+                    The solution is to split tasks into specific Kernels: a "Manager" that triages requests, and
+                    "Workers" (specialized Kernels)
+                    that execute them.
+                </p>
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
+                    <pre><code class="language-python"># Conceptual: A Manager Agent deciding which 'worker' to call
+@kernel_function(description="Delegates task to a coder or writer")
+async def manager_delegate(self, task: str) -> str:
+    if "code" in task:
+        # Pass the task to the independent 'Coder Kernel'
+        return await coder_kernel.invoke(..., input=task)
+    elif "blog" in task:
+        # Pass the task to the independent 'Writer Kernel'
+        return await writer_kernel.invoke(..., input=task)
+    return "I can handle this myself."</code></pre>
+                </div>
+                <p>
+                    You can achieve this by having one Kernel invoke another via a plugin, or by using the new
+                    <strong>Agent Framework</strong>
+                    (experimental) which formalizes this hand-off.
+                </p>
+            </section>
+
+            <!-- Master Template -->
+            <section id="master-template" class="mb-24">
+                <div class="flex items-center mb-6">
+                    <span
+                        class="bg-blue-600 text-white rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4"><i
+                            class="fas fa-code"></i></span>
+                    <h2 class="text-3xl font-bold text-gray-900">Master Enterprise Template</h2>
+                </div>
+                <p>
+                    This is the "Golden Scaffold." It consolidates everything we have learned—Plugins, Filters,
+                    Auto-Invocation,
+                    and Memory—into a single, production-ready Python script. You can copy-paste this to start any new
+                    enterprise agent
+                    project.
+                </p>
+
+                <div class="rounded-lg overflow-hidden border border-gray-200 shadow-xl my-6">
+                    <div
+                        class="bg-gray-900 px-4 py-2 text-xs font-mono text-blue-200 border-b border-gray-700 flex justify-between items-center">
+                        <span>sk_agent_template.py</span>
+                        <span class="text-gray-500 opacity-50">v1.0.0</span>
+                    </div>
+                    <pre><code class="language-python">import asyncio
+import semantic_kernel as sk
+from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.functions import kernel_function
+from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
+from semantic_kernel.contents import ChatHistory
+from semantic_kernel.filters import Filter, AutoFunctionInvocationContext
+
+# --- 1. PLUGINS (The Hands) ---
+class WebSearchPlugin:
+    @kernel_function(description="Searches the web for information", name="search")
+    def search(self, query: str) -> str:
+        return f"Results for '{query}' from the web."
+
+# --- 2. FILTERS (The Guardrails) ---
+class ApprovalFilter(Filter):
+    async def on_auto_function_invocation(self, context, next):
+        # Enterprise Feature: Human-in-the-loop simulation
+        print(f"\n[System] Agent wants to call: {context.function.name}")
+        if input("[Admin] Allow this action? (y/n): ").lower() == "y":
+            await next(context)
+        else:
+            raise Exception("Action blocked by user.")
+
+# --- 3. MAIN APP ---
+async def main():
+    # A. Initialize Kernel
+    kernel = sk.Kernel()
+    
+    # B. Add AI Service
+    kernel.add_service(
+        OpenAIChatCompletion(service_id="gpt-4", ai_model_id="gpt-4", api_key="...")
+    )
+    
+    # C. Add Plugins
+    kernel.add_plugin(WebSearchPlugin(), plugin_name="Web")
+    
+    # D. Add Filters
+    kernel.add_filter(ApprovalFilter())
+
+    # E. Execution Settings (The Brain)
+    settings = kernel.get_prompt_execution_settings_from_service_id("gpt-4")
+    settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
+
+    # F. Chat Loop (The Memory)
+    history = ChatHistory()
+    history.add_system_message("You are an enterprise assistant.")
+    
+    print("--- Semantic Kernel Enterprise Agent Started ---")
+    while True:
+        user_input = input("User: ")
+        if user_input == "exit": break
+        
+        history.add_user_message(user_input)
+        
+        # G. The Loop (Kernel handles parsing, tool calling, and response)
+        result = await kernel.invoke_prompt(
+            prompt=None,
+            chat_history=history,
+            settings=settings
+        )
+        
+        print(f"Agent: {result}")
+        history.add_assistant_message(str(result))
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
+                </div>
+            </section>
+
+            <!-- Appendix -->
+            <section id="appendix" class="mb-12 bg-gray-50 p-8 rounded-xl border border-gray-200">
+                <h2 class="text-2xl font-bold mb-4 text-gray-900">Appendix: Best Practices</h2>
+                <ul class="space-y-2">
+                    <li><strong class="text-blue-700">Prompt Engineering for Agents:</strong> Don't just describe
+                        inputs. Describe the <em>purpose</em> of the function. "Use this to calculate tax" is better
+                        than "Takes a number."</li>
+                    <li><strong class="text-blue-700">Security:</strong> Never use <code>exec()</code> based plugins in
+                        production. Strictly type your inputs.</li>
+                    <li><strong class="text-blue-700">Async Design:</strong> Agent tasks can be slow. Build your UX to
+                        handle asynchronous updates.</li>
+                </ul>
+            </section>
+
+        </div>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
 </body>
 
 </html>
