@@ -244,20 +244,25 @@
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
                     <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/foundations.py</div>
-                    <pre><code class="language-python">import semantic_kernel as sk
+                    <pre><code class="language-python">import asyncio
+import semantic_kernel as sk
 from semantic_kernel.connectors.ai.google.google_ai import GoogleAIChatCompletion
 
-# 1. Initialize the Kernel (The container)
-kernel = sk.Kernel()
+async def main():
+    # 1. Initialize the Kernel (The container)
+    kernel = sk.Kernel()
 
-# 2. Add the Brain (LLM Service)
-kernel.add_service(
-    GoogleAIChatCompletion(
-        service_id="gemini",
-        ai_model_id="gemini-1.5-pro",
-        api_key="YOUR_API_KEY"
+    # 2. Add the Brain (LLM Service)
+    kernel.add_service(
+        GoogleAIChatCompletion(
+            service_id="gemini",
+            ai_model_id="gemini-1.5-pro",
+            api_key="YOUR_API_KEY"
+        )
     )
-)</code></pre>
+
+if __name__ == "__main__":
+    asyncio.run(main())</code></pre>
                 </div>
 
                 <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">2. Prompts are Functions
@@ -276,7 +281,7 @@ summarize = kernel.create_function_from_prompt(
     prompt="Summarize this text in 3 bullet points: {{$input}}"
 )
 
-# Call it exactly like a native function
+# Call it exactly like a native function (inside async main)
 result = await kernel.invoke(summarize, input="Semantic Kernel is...")
 print(result)</code></pre>
                 </div>
@@ -293,7 +298,7 @@ print(result)</code></pre>
                     <strong>Goal:</strong> Give the AI "hands" to interact with the real world (APIs and Code).
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">4. Native Plugins (The Bridge)
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">3. Native Plugins (The Bridge)
                 </h3>
                 <p>
                     Plugins are how you make your existing Python code visible to the LLM. You use the
@@ -322,7 +327,7 @@ class MathPlugin:
 kernel.add_plugin(MathPlugin(), plugin_name="Math")</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">5. Auto-Function Calling
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">4. Auto-Function Calling
                     (The Magic)</h3>
                 <p>
                     Once plugins are registered, you don't need to manually tell the LLM to call them. You set
@@ -346,7 +351,7 @@ result = await kernel.invoke_prompt(
 # Result: 75 (calculated by code, not guessed by LLM)</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">6. State Management</h3>
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">5. State Management</h3>
                 <p>
                     AI models are stateless. To have a conversation, you must manage the <code>ChatHistory</code>.
                     SK provides a robust object to store user and assistant messages, which you pass into every invoke
@@ -386,7 +391,7 @@ history.add_assistant_message(str(result))</code></pre>
                     <strong>Goal:</strong> Give the AI a "brain" to remember facts and company policies.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">7. Embeddings 101</h3>
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">6. Embeddings 101</h3>
                 <p>
                     Embeddings convert text into vectors (lists of numbers). Similar meanings are mathematically close
                     in this vector space.
@@ -394,20 +399,33 @@ history.add_assistant_message(str(result))</code></pre>
                 </p>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <pre><code class="language-python">from semantic_kernel.connectors.ai.google import GoogleAITextEmbedding
+                    <pre><code class="language-python"># Use precise import path for safety
+from semantic_kernel.connectors.ai.google.google_ai.services.google_ai_text_embedding import GoogleAITextEmbedding
 
 kernel.add_service(
     GoogleAITextEmbedding(service_id="embedding", ai_model_id="embedding-001")
 )</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">8. Vector Databases & RAG
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">7. Vector Databases & RAG
                 </h3>
                 <p>
                     SK allows you to write memory records to a store (Volatile for testing, Qdrant/Pinecone for
                     production) and retrieve them.
                     RAG is simply the patterns of: <em>Search Memory &rarr; Paste into Prompt &rarr; Ask LLM</em>.
                 </p>
+
+                <div class="mermaid my-8 flex justify-center">
+                    graph LR
+                    A[User Query] --> B[Embed Query]
+                    B --> C[(Vector DB)]
+                    C -->|Retrieve Matches| D[Context]
+                    D --> E[Construct Prompt]
+                    E --> F((LLM))
+                    F --> G[Answer]
+                    style C fill:#fef08a,stroke:#eab308,stroke-width:2px
+                    style F fill:#bfdbfe,stroke:#2563eb,stroke-width:2px
+                </div>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
                     <pre><code class="language-python">from semantic_kernel.memory import VolatileMemoryStore, SemanticTextMemory
@@ -423,7 +441,7 @@ results = await memory.search("HR_Policies", "Can I get a refund?", limit=1)
 print(results[0].text)</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">9. The RAG Plugin</h3>
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">8. The RAG Plugin</h3>
                 <p>
                     To make this "Agentic", we wrap the search logic in a Plugin. Now the LLM can decide <em>when</em>
                     it needs to look up the policy.
@@ -454,15 +472,20 @@ kernel.add_plugin(PolicyPlugin(memory), plugin_name="Policy")</code></pre>
                     <strong>Goal:</strong> Stop hard-coding flows. Let the AI decide the sequence of steps.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">10. The Problem with "If/Else"
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">9. The Problem with "If/Else"
                 </h3>
                 <p>
                     Hard-coding logic fails when you scale to 50+ plugins. You can't write an <code>if</code> statement
                     for every possible user combination.
                     Instead, we use a <strong>Planner</strong>.
                 </p>
+                <div class="bg-blue-50 border-l-4 border-blue-500 p-4 my-4">
+                    <strong>How it works:</strong> The Planner specifically asks the LLM "What should I do next given
+                    these tools?" The LLM replies with a function call Plan, the Kernel executes it, and this loop
+                    continues until the user's goal is met.
+                </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">11. Planners (The
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">10. Planners (The
                     Orchestrator)</h3>
                 <p>
                     A Planner is a special agent that takes a user goal (e.g., "Plan a travel itinerary") and looks at
@@ -505,7 +528,7 @@ result = await planner.invoke(kernel, goal)</code></pre>
                     <strong>Goal:</strong> Make the system robust, safe, and observable.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">13. Filters (Hooks/Middleware)
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">11. Filters (Hooks/Middleware)
                 </h3>
                 <p>
                     In production, you never let an LLM execute code blindly. <strong>Filters</strong> allow you to runs
@@ -518,6 +541,9 @@ result = await planner.invoke(kernel, goal)</code></pre>
 
 class SafeGuardFilter(Filter):
     async def on_auto_function_invocation(self, context, next):
+        # NOTE: 'on_auto_...' triggers only when the LLM effectively *chooses* a tool.
+        # Use 'on_function_invocation' if you want to catch manual calls too.
+        
         # PRE-HOOK: Check for dangerous parameters
         if "delete_database" in context.function.name:
             raise SecurityError("Action Blocked: Database deletion is not allowed.")
@@ -532,7 +558,7 @@ class SafeGuardFilter(Filter):
 kernel.add_filter(SafeGuardFilter())</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">14. Observability</h3>
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">12. Observability</h3>
                 <p>
                     Debugging AI can be hard. SK integrates with standard logging to show you the "Thinking
                     Process"—tokens used,
@@ -565,7 +591,7 @@ logging.basicConfig(
                     <strong>Goal:</strong> Building complex ecosystems where agents work together.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">16. The Manager-Worker Pattern
+                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">13. The Manager-Worker Pattern
                 </h3>
                 <p>
                     As systems grow, a single Kernel can become overwhelmed with too many plugins (confusing the LLM).
@@ -615,12 +641,16 @@ async def manager_delegate(self, task: str) -> str:
                         <span class="text-gray-500 opacity-50">v1.0.0</span>
                     </div>
                     <pre><code class="language-python">import asyncio
+import os
+from dotenv import load_dotenv # Added for safety
 import semantic_kernel as sk
-from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
+from semantic_kernel.connectors.ai.google.google_ai import GoogleAIChatCompletion # Consistent with tutorial
 from semantic_kernel.functions import kernel_function
 from semantic_kernel.connectors.ai.function_choice_behavior import FunctionChoiceBehavior
 from semantic_kernel.contents import ChatHistory
 from semantic_kernel.filters import Filter, AutoFunctionInvocationContext
+
+load_dotenv() # Load API keys
 
 # --- 1. PLUGINS (The Hands) ---
 class WebSearchPlugin:
@@ -643,10 +673,19 @@ async def main():
     # A. Initialize Kernel
     kernel = sk.Kernel()
     
-    # B. Add AI Service
+    # B. Add AI Service (Gemini Example)
+    # Note: easily swappable for OpenAIChatCompletion
     kernel.add_service(
-        OpenAIChatCompletion(service_id="gpt-4", ai_model_id="gpt-4", api_key="...")
+        GoogleAIChatCompletion(
+            service_id="gemini", 
+            ai_model_id="gemini-1.5-flash", 
+            api_key=os.getenv("GOOGLE_API_KEY")
+        )
     )
+    # Generic Open AI example for reference:
+    # kernel.add_service(
+    #     OpenAIChatCompletion(service_id="gpt-4", ai_model_id="gpt-4", api_key=os.getenv("OPENAI_API_KEY"))
+    # )
     
     # C. Add Plugins
     kernel.add_plugin(WebSearchPlugin(), plugin_name="Web")
@@ -655,7 +694,7 @@ async def main():
     kernel.add_filter(ApprovalFilter())
 
     # E. Execution Settings (The Brain)
-    settings = kernel.get_prompt_execution_settings_from_service_id("gpt-4")
+    settings = kernel.get_prompt_execution_settings_from_service_id("gemini")
     settings.function_choice_behavior = FunctionChoiceBehavior.Auto()
 
     # F. Chat Loop (The Memory)
