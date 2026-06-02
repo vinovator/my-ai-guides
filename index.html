@@ -5,278 +5,233 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>AI Hub</title>
+    <meta name="description" content="Agentic AI reference library — comprehensive framework guides and multi-lesson tutorials, all open source.">
     <meta property="og:title" content="AI Hub">
     <meta property="og:description"
         content="Comprehensive guides for top AI orchestration frameworks (CrewAI, AutoGen, LangGraph, and more) and deep-dive multi-lesson tutorials (Neo4j and growing).">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vinovator.github.io/my-ai-guides/">
+    <meta property="og:image" content="https://vinovator.github.io/my-ai-guides/og-image.svg">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml"
         href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/layer-group.svg">
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Class-based dark mode so we can toggle at runtime.
+        tailwind.config = { darkMode: 'class' };
+    </script>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background-color: #f8fafc;
         }
 
-        .card-hover:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        /* Skip link, visually hidden until focused. */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 1rem;
+            background: #4f46e5;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            z-index: 100;
+            font-weight: 600;
+            transition: top 150ms;
         }
+        .skip-link:focus { top: 1rem; outline: none; }
+
+        /* Global focus-visible ring for keyboard users. */
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible {
+            outline: none;
+            box-shadow: 0 0 0 2px #fff, 0 0 0 4px #6366f1;
+            border-radius: 0.5rem;
+        }
+        .dark a:focus-visible,
+        .dark button:focus-visible,
+        .dark input:focus-visible {
+            box-shadow: 0 0 0 2px #111827, 0 0 0 4px #818cf8;
+        }
+
+        /* Smooth scroll for jump-nav. */
+        html { scroll-behavior: smooth; }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col min-h-screen transition-colors">
 
-    <!-- Tailwind class marker (do not remove). The renderer below emits these classes
-         dynamically; this hidden block guarantees Tailwind's CDN scanner generates
-         them on first paint without needing a regex safelist. -->
-    <div hidden aria-hidden="true" class="lg:grid-cols-3 lg:grid-cols-4 bg-blue-50 bg-purple-50 bg-orange-50 bg-sky-50 bg-yellow-50 bg-red-50 bg-green-50 bg-emerald-50 bg-teal-50 bg-gray-50 bg-gray-100 text-blue-600 text-blue-700 text-purple-600 text-purple-700 text-orange-600 text-orange-700 text-sky-500 text-sky-700 text-yellow-500 text-yellow-700 text-red-500 text-red-700 text-green-600 text-green-700 text-emerald-500 text-emerald-600 text-emerald-700 text-teal-500 text-teal-600 text-teal-700 text-gray-400 text-gray-600 text-gray-700 border-blue-100 border-purple-100 border-orange-100 border-sky-100 border-yellow-100 border-red-100 border-green-100 border-emerald-100 border-teal-100 border-gray-100 hover:border-blue-400 hover:border-purple-400 hover:border-orange-400 hover:border-sky-400 hover:border-yellow-400 hover:border-red-400 hover:border-green-400 hover:border-emerald-400 hover:border-teal-400 hover:border-gray-400 group-hover:text-blue-600 group-hover:text-purple-600 group-hover:text-orange-600 group-hover:text-sky-600 group-hover:text-yellow-600 group-hover:text-red-600 group-hover:text-green-600 group-hover:text-emerald-600 group-hover:text-teal-600 group-hover:text-gray-600"></div>
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Tailwind class marker (do not remove). The renderer emits these classes
+         dynamically; this hidden block guarantees the CDN scanner generates them
+         on first paint. Add new accent colors here when you add a new card accent. -->
+    <div hidden aria-hidden="true" class="lg:grid-cols-3 lg:grid-cols-4 bg-blue-50 bg-purple-50 bg-orange-50 bg-cyan-50 bg-yellow-50 bg-red-50 bg-fuchsia-50 bg-green-50 bg-emerald-50 bg-teal-50 bg-indigo-50 bg-gray-50 bg-gray-100 bg-blue-900/40 bg-purple-900/40 bg-orange-900/40 bg-cyan-900/40 bg-yellow-900/40 bg-red-900/40 bg-fuchsia-900/40 bg-green-900/40 bg-emerald-900/40 bg-teal-900/40 bg-indigo-900/40 text-blue-300 text-blue-600 text-blue-700 text-purple-300 text-purple-600 text-purple-700 text-orange-300 text-orange-600 text-orange-700 text-cyan-300 text-cyan-600 text-cyan-700 text-yellow-300 text-yellow-500 text-yellow-700 text-red-300 text-red-500 text-red-700 text-fuchsia-300 text-fuchsia-600 text-fuchsia-700 text-green-300 text-green-600 text-green-700 text-emerald-300 text-emerald-500 text-emerald-600 text-emerald-700 text-teal-300 text-teal-500 text-teal-600 text-teal-700 text-indigo-300 text-indigo-400 text-indigo-600 text-indigo-700 text-gray-400 text-gray-500 text-gray-600 text-gray-700 border-blue-100 border-blue-800 border-purple-100 border-purple-800 border-orange-100 border-orange-800 border-cyan-100 border-cyan-800 border-yellow-100 border-yellow-800 border-red-100 border-red-800 border-fuchsia-100 border-fuchsia-800 border-green-100 border-green-800 border-emerald-100 border-emerald-800 border-teal-100 border-teal-800 border-indigo-100 border-indigo-800 border-gray-100 hover:border-blue-400 hover:border-purple-400 hover:border-orange-400 hover:border-cyan-400 hover:border-yellow-400 hover:border-red-400 hover:border-fuchsia-400 hover:border-green-400 hover:border-emerald-400 hover:border-teal-400 hover:border-indigo-400 hover:border-gray-400 dark:hover:border-blue-500 dark:hover:border-purple-500 dark:hover:border-orange-500 dark:hover:border-cyan-500 dark:hover:border-yellow-500 dark:hover:border-red-500 dark:hover:border-fuchsia-500 dark:hover:border-green-500 dark:hover:border-emerald-500 dark:hover:border-teal-500 dark:hover:border-indigo-500 dark:hover:border-gray-500 group-hover:text-blue-600 group-hover:text-purple-600 group-hover:text-orange-600 group-hover:text-cyan-600 group-hover:text-yellow-600 group-hover:text-red-600 group-hover:text-fuchsia-600 group-hover:text-green-600 group-hover:text-emerald-600 group-hover:text-teal-600 group-hover:text-indigo-600 group-hover:text-gray-600 dark:group-hover:text-blue-300 dark:group-hover:text-purple-300 dark:group-hover:text-orange-300 dark:group-hover:text-cyan-300 dark:group-hover:text-yellow-300 dark:group-hover:text-red-300 dark:group-hover:text-fuchsia-300 dark:group-hover:text-green-300 dark:group-hover:text-emerald-300 dark:group-hover:text-teal-300 dark:group-hover:text-indigo-300 dark:group-hover:text-gray-300 bg-green-500 bg-blue-500 bg-purple-500 bg-orange-500 bg-cyan-500 bg-yellow-500 bg-red-500 bg-fuchsia-500 bg-emerald-500 bg-teal-500 bg-indigo-500"></div>
 
     <!-- Navbar -->
-    <nav class="bg-white/80 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
+    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16">
+            <div class="flex justify-between items-center h-16">
                 <div class="flex items-center">
-                    <div
-                        class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg p-1.5 mr-3 shadow-md">
+                    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg p-1.5 mr-3 shadow-md">
                         <i class="fas fa-layer-group text-sm"></i>
                     </div>
-                    <span class="font-bold text-xl tracking-tight text-gray-900">AI <span
-                            class="text-indigo-600">Hub</span></span>
+                    <span class="font-bold text-xl tracking-tight text-gray-900 dark:text-gray-100">
+                        AI <span class="text-indigo-600 dark:text-indigo-400">Hub</span>
+                    </span>
                 </div>
+                <button id="theme-toggle"
+                    class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-base"></i>
+                    <i class="fas fa-sun hidden dark:inline text-base"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <header class="bg-white border-b border-gray-200 pt-20 pb-16">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-gray-900 tracking-tight mb-4">
-                The Agentic AI <span
-                    class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-blue-600">Reference
-                    Library</span>
-            </h1>
-            <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
-                Master the top orchestration frameworks and dive deep with hands-on tutorials. From "Zero to Hero" guides to production-ready templates.
-            </p>
+    <!-- Sticky category jump-nav (appears once you scroll past the hero) -->
+    <div id="sticky-nav"
+        class="sticky top-16 z-40 -translate-y-full opacity-0 transition-all duration-300 bg-gray-50/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 overflow-x-auto">
+            <div id="sticky-nav-pills" class="flex items-center gap-2 whitespace-nowrap"></div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <header class="hero bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-20 grid lg:grid-cols-5 gap-12 items-center">
+            <div class="lg:col-span-3">
+                <p class="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-4">
+                    <i class="fas fa-sparkles mr-1"></i> The Agentic AI Reference Library
+                </p>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-6">
+                    Build agents.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-teal-500">
+                        Ship the stack.
+                    </span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 dark:text-gray-400 leading-relaxed mb-6 max-w-2xl">
+                    Comprehensive guides for the top agent frameworks and deep-dive tutorials on the supporting infrastructure. Zero to production, no fluff.
+                </p>
+                <p id="hero-stats" class="text-sm text-gray-600 dark:text-gray-300 font-medium mb-8 flex flex-wrap items-center gap-y-2"></p>
+                <div class="flex flex-wrap gap-3">
+                    <a href="#cat-tutorials"
+                        class="inline-flex items-center px-5 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md hover:shadow-lg transition-all">
+                        <i class="fas fa-graduation-cap mr-2"></i> Start with a tutorial
+                    </a>
+                    <a href="#cat-vendor-ecosystems"
+                        class="inline-flex items-center px-5 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 text-gray-700 dark:text-gray-200 font-semibold transition-all">
+                        Browse frameworks <i class="fas fa-arrow-right ml-2 text-sm"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Visual: stacked card preview -->
+            <div class="lg:col-span-2 relative hidden lg:block" aria-hidden="true">
+                <div class="absolute inset-0 bg-gradient-to-br from-indigo-100 via-blue-50 to-teal-50 dark:from-indigo-900/30 dark:via-blue-900/20 dark:to-teal-900/20 rounded-3xl blur-2xl"></div>
+                <div class="relative space-y-3">
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg transform rotate-2">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/40 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-project-diagram text-indigo-600 dark:text-indigo-300"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">LangGraph</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Stateful Graph</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg ml-8">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-teal-50 dark:bg-teal-900/40 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-circle-nodes text-teal-700 dark:text-teal-300"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">Google ADK</p>
+                                <p class="text-xs text-gray-500 dark:text-gray-400">Agent SDK</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg transform -rotate-1">
+                        <div class="h-1.5 bg-green-500 -mx-4 -mt-4 mb-3 rounded-t-xl"></div>
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-green-50 dark:bg-green-900/40 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-project-diagram text-green-600 dark:text-green-300"></i>
+                            </div>
+                            <div>
+                                <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">Neo4j</p>
+                                <p class="text-xs text-green-700 dark:text-green-300 font-semibold"><i class="fas fa-book-open mr-1"></i>2 lessons</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
+    <main id="main" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow w-full">
+
+        <!-- Filter -->
+        <div class="mb-12 max-w-md">
+            <label for="card-filter" class="sr-only">Filter guides and tutorials</label>
+            <div class="relative">
+                <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-sm"></i>
+                <input id="card-filter" type="search" autocomplete="off" placeholder="Filter by name, tag, or keyword…"
+                    class="w-full pl-11 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none text-sm transition-colors">
+            </div>
+        </div>
+
+        <!-- Recently updated strip -->
+        <div id="recent-strip"></div>
+
+        <!-- Categorized hub -->
         <div id="hub"></div>
+
+        <!-- No-results state -->
+        <div id="filter-empty" class="hidden text-center py-16">
+            <i class="fas fa-magnifying-glass-minus text-4xl text-gray-300 dark:text-gray-600 mb-4"></i>
+            <p class="text-gray-500 dark:text-gray-400">No matches. Try a different keyword or clear the filter.</p>
+        </div>
     </main>
 
-    <footer class="bg-gray-50 border-t border-gray-200 py-12">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <div class="mb-4 md:mb-0">
-                <span class="font-bold text-gray-900 tracking-tight">AI Hub</span>
-                <p class="text-sm text-gray-500 mt-1">Curated guides for the next generation of software.</p>
-            </div>
-            <div class="flex space-x-6 text-gray-400">
-                <a href="#" class="hover:text-gray-900 transition-colors"><i class="fab fa-github text-xl"></i></a>
-                <a href="#" class="hover:text-gray-900 transition-colors"><i class="fab fa-twitter text-xl"></i></a>
+    <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                <div>
+                    <div class="flex items-center mb-2">
+                        <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg p-1 mr-2">
+                            <i class="fas fa-layer-group text-xs"></i>
+                        </div>
+                        <span class="font-bold text-gray-900 dark:text-gray-100 tracking-tight">AI Hub</span>
+                    </div>
+                    <p class="text-sm text-gray-500 dark:text-gray-400">Curated guides for the next generation of software.</p>
+                </div>
+                <div class="text-xs text-gray-500 dark:text-gray-400 md:text-right">
+                    <p>Built with HTML, Tailwind, Prism, Mermaid &middot; MIT Licensed</p>
+                    <p class="mt-1">&copy; <span id="copy-year">2026</span> AI Hub</p>
+                </div>
             </div>
         </div>
     </footer>
 
-    <script>
-        // ---------------------------------------------------------------------
-        // Hub card registry.
-        // To add a new entry: append one object to CARDS with the right category.
-        //   - type:'guide'    -> single-page .html file
-        //   - type:'tutorial' -> folder of .md lessons rendered by tutorial.html
-        // ---------------------------------------------------------------------
-
-        const CATEGORIES = [
-            { name: 'Tutorials',               cols: 3 },
-            { name: 'Microsoft Ecosystem',     cols: 3 },
-            { name: 'Google Ecosystem',        cols: 3 },
-            { name: 'Orchestration & Workflow', cols: 3 },
-            { name: 'Emerging Frameworks',     cols: 4 },
-        ];
-
-        const CARDS = [
-            // ----- Microsoft Ecosystem -----
-            {
-                type: 'guide', category: 'Microsoft Ecosystem',
-                title: 'Semantic Kernel', href: 'semantickernel.html',
-                icon: 'fa-brain', accent: 'blue', iconColor: 'text-blue-700',
-                badge: 'The Copilot Engine',
-                tags: ['Python', 'C#', 'Java'],
-                description: "Microsoft's enterprise SDK. Connects LLMs to existing code via Plugins, Planners, and Memories.",
-            },
-            {
-                type: 'guide', category: 'Microsoft Ecosystem',
-                title: 'AutoGen', href: 'autogen.html',
-                icon: 'fa-comments', accent: 'purple',
-                badge: 'Research Agentic',
-                tags: ['Python', '.NET'],
-                description: 'Multi-agent conversation patterns. Orchestrate dynamic group chats for complex problem solving.',
-            },
-
-            // ----- Google Ecosystem -----
-            {
-                type: 'guide', category: 'Google Ecosystem',
-                title: 'Google ADK', href: 'googleadk.html',
-                icon: 'fa-circle-nodes', accent: 'teal', iconColor: 'text-teal-700',
-                badge: 'Agent Dev Kit',
-                tags: ['Python', 'Gemini', 'Vertex AI'],
-                description: "Google's official Agent Development Kit. Code-first, model-agnostic, with workflow agents, callbacks, evals, and a path to Vertex AI Agent Engine.",
-            },
-
-            // ----- Orchestration & Workflow -----
-            {
-                type: 'guide', category: 'Orchestration & Workflow',
-                title: 'LangGraph', href: 'langgraph.html',
-                icon: 'fa-project-diagram', accent: 'blue',
-                badge: 'Graph-Based',
-                tags: ['Python', 'JS/TS'],
-                description: 'Build stateful, cyclic graphs. The standard for human-in-the-loop and complex flows.',
-            },
-            {
-                type: 'guide', category: 'Orchestration & Workflow',
-                title: 'CrewAI', href: 'crewai.html',
-                icon: 'fa-users-cog', accent: 'orange',
-                badge: 'Process-Driven',
-                tags: ['Python'],
-                description: 'Role-playing agents. Best for structured, process-driven automation tasks.',
-            },
-            {
-                type: 'guide', category: 'Orchestration & Workflow',
-                title: 'Haystack', href: 'haystack.html',
-                icon: 'fa-search', accent: 'sky', iconColor: 'text-sky-500',
-                badge: 'Pipeline',
-                tags: ['Python'],
-                description: 'Industrial strength NLP pipelines. Strong modularity for RAG and Search.',
-            },
-
-            // ----- Emerging Frameworks -----
-            {
-                type: 'guide', category: 'Emerging Frameworks',
-                title: 'Smolagents', href: 'smolagents.html',
-                icon: 'fa-rocket', accent: 'yellow', iconColor: 'text-yellow-500',
-                badge: 'Code-Centric',
-                tags: ['Python'],
-                description: "Hugging Face's minimal, code-centric agents.",
-            },
-            {
-                type: 'guide', category: 'Emerging Frameworks',
-                title: 'PydanticAI', href: 'pydanticai.html',
-                icon: 'fa-code', accent: 'red', iconColor: 'text-red-500',
-                badge: 'Type-Safe',
-                tags: ['Python'],
-                description: 'Type-safe, validation-first agents for production.',
-            },
-            {
-                type: 'guide', category: 'Emerging Frameworks',
-                title: 'LlamaIndex', href: 'llamaindex.html',
-                icon: 'fa-database', accent: 'green',
-                badge: 'Data-Centric',
-                tags: ['Python', 'TS'],
-                description: 'Data-centric reasoning engines over your data.',
-            },
-            {
-                type: 'guide', category: 'Emerging Frameworks',
-                title: 'Phidata', href: 'phidata.html',
-                icon: 'fa-memory', accent: 'emerald', iconColor: 'text-emerald-500',
-                badge: 'Memory-First',
-                tags: ['Python'],
-                description: 'Memory & Database first agentic systems.',
-            },
-            {
-                type: 'guide', category: 'Emerging Frameworks',
-                title: 'Swarm', href: 'swarm.html',
-                icon: 'fa-robot', accent: 'gray',
-                iconBg: 'bg-gray-100', iconColor: 'text-gray-700', tagText: 'text-gray-600',
-                badge: 'Handoff-Pattern',
-                tags: ['Python'],
-                description: 'Lightweight experimentation for agent handoffs.',
-            },
-
-            // ----- Tutorials -----
-            {
-                type: 'tutorial', category: 'Tutorials',
-                title: 'Neo4j', href: 'tutorial.html?slug=Neo4j',
-                icon: 'fa-project-diagram', accent: 'emerald',
-                badge: 'Tutorial',
-                tags: ['Cypher', 'GraphRAG', 'Python'],
-                description: 'From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.',
-            },
-        ];
-
-        // ---------------------------------------------------------------------
-        // Renderer.
-        // ---------------------------------------------------------------------
-
-        function escapeHtml(s) {
-            return String(s)
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&quot;');
-        }
-
-        function badgeHtml(card) {
-            const a = card.accent;
-            if (card.type === 'tutorial') {
-                return `<span class="text-xs font-mono text-${a}-700 bg-${a}-50 border border-${a}-100 px-2 py-1 rounded uppercase tracking-wide font-bold">${escapeHtml(card.badge || 'Tutorial')}</span>`;
-            }
-            return `<span class="text-xs font-mono text-gray-400 bg-gray-50 px-2 py-1 rounded">${escapeHtml(card.badge)}</span>`;
-        }
-
-        function cardHtml(card) {
-            const a = card.accent;
-            const iconBg = card.iconBg || `bg-${a}-50`;
-            const iconColor = card.iconColor || `text-${a}-600`;
-            const titleHover = card.titleHover || `group-hover:text-${a}-600`;
-            const tagBg = card.tagBg || `bg-${a}-50`;
-            const tagText = card.tagText || `text-${a}-700`;
-            const tagsHtml = (card.tags || []).map(t =>
-                `<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium ${tagBg} ${tagText}">${escapeHtml(t)}</span>`
-            ).join('');
-            return `
-                <a href="${escapeHtml(card.href)}" class="block group h-full">
-                    <div class="bg-white rounded-xl border border-gray-200 p-6 h-full flex flex-col hover:shadow-md hover:border-${a}-400 transition-all duration-300">
-                        <div class="flex items-center justify-between mb-4">
-                            <div class="w-12 h-12 ${iconBg} rounded-lg flex items-center justify-center">
-                                <i class="fas ${card.icon} ${iconColor} text-xl"></i>
-                            </div>
-                            ${badgeHtml(card)}
-                        </div>
-                        <h3 class="text-xl font-bold text-gray-900 mb-2 ${titleHover} transition-colors">${escapeHtml(card.title)}</h3>
-                        <p class="text-gray-600 text-sm leading-relaxed mb-6 flex-1">${escapeHtml(card.description)}</p>
-                        <div class="pt-4 border-t border-gray-100 flex items-center gap-2">${tagsHtml}</div>
-                    </div>
-                </a>
-            `;
-        }
-
-        function sectionHtml(cat, cards) {
-            if (!cards.length) return '';
-            return `
-                <div class="mb-16">
-                    <div class="flex items-center mb-8">
-                        <h2 class="text-sm font-bold text-gray-400 uppercase tracking-wider whitespace-nowrap mr-4">${escapeHtml(cat.name)}</h2>
-                        <div class="h-px bg-gray-200 flex-1"></div>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${cat.cols} gap-6">
-                        ${cards.map(cardHtml).join('')}
-                    </div>
-                </div>
-            `;
-        }
-
-        function renderHub() {
-            const hub = document.getElementById('hub');
-            hub.innerHTML = CATEGORIES
-                .map(cat => sectionHtml(cat, CARDS.filter(c => c.category === cat.name)))
-                .join('');
-        }
-
-        renderHub();
-    </script>
+    <script src="hub.js" defer></script>
 </body>
 
 </html>

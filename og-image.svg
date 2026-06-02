@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="AI Hub — The Agentic AI Reference Library">
+    <defs>
+        <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f8fafc"/>
+            <stop offset="100%" stop-color="#e0e7ff"/>
+        </linearGradient>
+        <linearGradient id="brand" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4f46e5"/>
+            <stop offset="100%" stop-color="#2563eb"/>
+        </linearGradient>
+        <linearGradient id="word" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#4f46e5"/>
+            <stop offset="100%" stop-color="#0ea5e9"/>
+        </linearGradient>
+    </defs>
+
+    <rect width="1200" height="630" fill="url(#bg)"/>
+
+    <!-- Decorative dot grid -->
+    <g fill="#c7d2fe" opacity="0.45">
+        <circle cx="920" cy="120" r="6"/>
+        <circle cx="980" cy="120" r="6"/>
+        <circle cx="1040" cy="120" r="6"/>
+        <circle cx="920" cy="180" r="6"/>
+        <circle cx="980" cy="180" r="6"/>
+        <circle cx="1040" cy="180" r="6"/>
+        <circle cx="920" cy="240" r="6"/>
+        <circle cx="980" cy="240" r="6"/>
+        <circle cx="1040" cy="240" r="6"/>
+        <circle cx="1100" cy="120" r="6"/>
+        <circle cx="1100" cy="180" r="6"/>
+        <circle cx="1100" cy="240" r="6"/>
+        <circle cx="920" cy="300" r="6"/>
+        <circle cx="980" cy="300" r="6"/>
+        <circle cx="1040" cy="300" r="6"/>
+        <circle cx="1100" cy="300" r="6"/>
+    </g>
+
+    <!-- Logo block -->
+    <rect x="80" y="80" width="64" height="64" rx="14" fill="url(#brand)"/>
+    <g stroke="#fff" stroke-width="5" stroke-linecap="round" fill="none" opacity="0.95">
+        <path d="M100 100 L124 100"/>
+        <path d="M100 112 L124 112"/>
+        <path d="M100 124 L124 124"/>
+    </g>
+
+    <!-- AI Hub wordmark -->
+    <text x="80" y="290" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="140" font-weight="900" fill="#0f172a" letter-spacing="-4">AI <tspan fill="url(#word)">Hub</tspan></text>
+
+    <!-- Tagline -->
+    <text x="82" y="350" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="34" font-weight="500" fill="#475569">The Agentic AI Reference Library</text>
+
+    <!-- Stats row -->
+    <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="22" fill="#334155" font-weight="600">
+        <circle cx="92" cy="488" r="6" fill="#6366f1"/>
+        <text x="108" y="496">Comprehensive guides</text>
+
+        <circle cx="380" cy="488" r="6" fill="#6366f1"/>
+        <text x="396" y="496">Multi-lesson tutorials</text>
+
+        <circle cx="660" cy="488" r="6" fill="#6366f1"/>
+        <text x="676" y="496">Open source · MIT</text>
+    </g>
+
+    <!-- Bottom rule + URL -->
+    <line x1="80" y1="550" x2="1120" y2="550" stroke="#cbd5e1" stroke-width="1"/>
+    <text x="80" y="585" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="20" fill="#64748b">vinovator.github.io/my-ai-guides</text>
+</svg>
