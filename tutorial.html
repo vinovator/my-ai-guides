@@ -298,7 +298,7 @@
         }
 
         async function loadManifest(slug) {
-            const text = await fetchMd(`${slug}/blueprint.md`);
+            const text = await fetchMd(`tutorials/${slug}/blueprint.md`);
             return {
                 text,
                 title: parseTutorialTitle(text),
@@ -413,7 +413,7 @@
             let mdText;
             if (lesson) {
                 try {
-                    mdText = await fetchMd(`${slug}/${lesson}.md`);
+                    mdText = await fetchMd(`tutorials/${slug}/${lesson}.md`);
                 } catch {
                     renderError('Lesson not found.');
                     return;

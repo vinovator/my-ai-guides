@@ -131,7 +131,7 @@
         // ---- Tutorials -------------------------------------------------------
         {
             type: 'tutorial', category: 'Tutorials',
-            title: 'Neo4j', href: 'tutorial.html?slug=Neo4j',
+            title: 'Neo4j', href: 'tutorial.html?slug=neo4j',
             icon: 'fa-project-diagram', accent: 'green',
             badge: 'Tutorial',
             tags: ['Cypher', 'GraphRAG', 'Python'],

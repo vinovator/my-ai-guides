@@ -20,9 +20,10 @@ Top-level layout:
 │   ├── googleadk.html
 │   ├── …
 │   └── swarm.html
-├── <slug>/            # each tutorial is a folder at the repo root (e.g. Neo4j/)
-│   ├── blueprint.md   # landing page + lesson manifest
-│   └── lesson-*.md    # one lesson per file
+├── tutorials/         # multi-lesson tutorials (one folder per tutorial)
+│   └── <slug>/        # e.g. neo4j/ — lowercase slug
+│       ├── blueprint.md   # landing page + lesson manifest
+│       └── lesson-*.md    # one lesson per file
 ├── README.md
 ├── CLAUDE.md
 └── .nojekyll          # disables Jekyll on GitHub Pages so .md files are served raw
@@ -89,15 +90,11 @@ The hub has more than card rendering. Each of these lives in `hub.js`:
 
 In addition to the per-framework HTML guides, the repo supports **multi-lesson tutorials authored in plain Markdown**. A single shared viewer (`tutorial.html`) loads and renders them in the browser — same Tailwind/Prism/Mermaid stack, still zero build step.
 
-- **Layout**: each tutorial lives in a folder named `<slug>/` directly at the repo root (e.g. `Neo4j/blueprint.md`, `Neo4j/lesson-01-foo.md`, …). There is no `tutorials/` parent — "tutorial" is implicit from the folder shape and the `tutorial.html?slug=` URL.
+- **Layout**: each tutorial lives in a folder under `tutorials/<slug>/` at the repo root (e.g. `tutorials/neo4j/blueprint.md`, `tutorials/neo4j/lesson-01-foo.md`, …). Slugs are **lowercase** — they appear in the URL (`?slug=neo4j`) and case-sensitivity is a foot-gun on case-sensitive servers.
 - **`blueprint.md` is both the landing page AND the manifest.** The viewer renders it as the tutorial home and parses every Markdown link of the form `[Title](filename.md)` to build the sidebar/lesson list, in source order. There is no separate JSON manifest — keep the lesson order accurate by ordering the links in `blueprint.md`.
 - **URL pattern**: `tutorial.html?slug=<slug>` opens the blueprint; `tutorial.html?slug=<slug>&lesson=<file-stem>` opens a specific lesson (`<file-stem>` is the lesson filename without `.md`).
 - **Authoring**: write normal Markdown. Fenced ```mermaid blocks render as diagrams; fenced ```python/```bash/```cypher/etc. blocks get Prism syntax highlighting. Lesson titles in the sidebar come from the link text in `blueprint.md`, not from inside the lesson files.
 - **Adding a tutorial**: the user drops the `<slug>/` folder; then prompt Claude to add the hub card — a single `{ type:'tutorial', category:'Tutorials', title:…, href:'tutorial.html?slug=<slug>', lessons:N, … }` object appended to `CARDS` in `hub.js`.
-
-### Slug collision rule
-
-A tutorial folder must not share a slug with an existing guide's `.html` file in `guides/`. Today's guide slugs (don't reuse as tutorial folder names): `autogen, crewai, googleadk, haystack, langgraph, llamaindex, phidata, pydanticai, semantickernel, smolagents, swarm`. Routing would still work — `tutorial.html?slug=foo` resolves on its own — but having `guides/foo.html` and `foo/` represent overlapping topics is confusing for both readers and authors.
 
 ## Scaling decisions
 
@@ -106,7 +103,6 @@ This site has deliberately avoided a build step. That's good for now, but a few 
 | Threshold | What strains | Recommended response |
 | --- | --- | --- |
 | **~15 cards** | Per-card accent palette runs out of visually distinct colors. | Drop per-card accents; assign accents *per category* instead. Simpler registry, still gives the page rhythm. |
-| **~5 tutorials** | Root folder pollution: each tutorial is a top-level folder. | Move tutorials into `tutorials/<slug>/`. Requires updating `fetch()` paths in `tutorial.html` (one line) and `href` in the corresponding `CARDS` entries. |
 | **~8 cards per category** | Category sections turn into walls. | Sub-categorize (split into two `CATEGORIES` entries), or add a "Show all (N)" disclosure that hides past the first 6. |
 | **Authors forget to update `updated:`** | Already an issue at any size. | Replace with a tiny build script (`pre-commit` or a `make` target) that runs `git log -1 --format=%cs <file>` and bakes the date into `hub.js`. Crosses the no-build-step line, but the script is ~10 lines. |
 | **Users ask "where do I read about X?"** | Filter only searches metadata, not the actual guide bodies. | Add [pagefind](https://pagefind.app/) — drops a static JSON index into `_pagefind/` at build time. Pure static site, still GitHub Pages compatible. |
