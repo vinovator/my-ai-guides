@@ -1,0 +1,1081 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google ADK Masterclass: Building Production Agents on Vertex AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        h3 {
+            color: #111827;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+        }
+
+        p {
+            margin-bottom: 1.25rem;
+            line-height: 1.75;
+            color: #4b5563;
+        }
+
+        ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+
+        ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        code:not([class*="language-"]) {
+            color: #0f766e;
+            background: #f0fdfa;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-weight: 500;
+        }
+
+        pre code {
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+
+        pre.mermaid {
+            background: #ffffff !important;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            border-radius: 8px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .chapter-number {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 150ms;
+        }
+
+        .callout {
+            border-left: 4px solid #14b8a6;
+            background: #f0fdfa;
+            padding: 0.85rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+            color: #134e4a;
+        }
+
+        .callout p {
+            color: #134e4a;
+            margin-bottom: 0;
+        }
+
+        .callout strong {
+            color: #0f766e;
+        }
+
+        .warn {
+            border-left: 4px solid #f59e0b;
+            background: #fffbeb;
+            padding: 0.85rem 1.25rem;
+            margin: 1.5rem 0;
+            border-radius: 0 6px 6px 0;
+            color: #78350f;
+        }
+
+        .warn p {
+            color: #78350f;
+            margin-bottom: 0;
+        }
+
+        .warn strong {
+            color: #b45309;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+
+    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b bg-gray-50">
+            <h1 class="font-bold text-xl text-teal-800 tracking-tight flex items-center">
+                <i class="fas fa-circle-nodes mr-2"></i>Google ADK
+            </h1>
+            <a href="index.html"
+                class="text-xs text-gray-400 hover:text-teal-600 transition-colors mt-1 block font-medium">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Hub
+            </a>
+            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Masterclass Guide</p>
+        </div>
+
+        <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">The Basics</p>
+            <a href="#level0"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">0</span>
+                The Foundation
+            </a>
+            <a href="#level1"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">1</span>
+                Your First Agent
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Capabilities</p>
+            <a href="#level2"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">2</span>
+                Tools
+            </a>
+            <a href="#level3"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">3</span>
+                Sessions, State &amp; Memory
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Composition</p>
+            <a href="#level4"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">4</span>
+                Multi-Agent Systems
+            </a>
+            <a href="#level5"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">5</span>
+                Callbacks &amp; Guardrails
+            </a>
+
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Production</p>
+            <a href="#level6"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">6</span>
+                Evaluation
+            </a>
+            <a href="#level7"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">7</span>
+                Deployment
+            </a>
+            <a href="#appendix"
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">A</span>
+                Appendix
+            </a>
+
+            <div class="mt-8 px-4 pb-8">
+                <a href="#master-template"
+                    class="block text-center px-4 py-3 rounded-lg bg-teal-600 text-white font-bold text-sm shadow-md hover:bg-teal-700 transition-all">
+                    <i class="fas fa-code mr-2"></i> Master Template
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+
+        <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 tracking-tight leading-tight">
+                The Google ADK <span class="text-teal-700">Masterclass</span>
+            </h1>
+            <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
+                From your first Python agent to a production multi-agent system deployed on Vertex AI Agent Engine. A code-first tour of Google's official Agent Development Kit.
+            </p>
+        </header>
+
+        <div class="max-w-4xl mx-auto space-y-24 pb-24">
+
+            <!-- LEVEL 0 -->
+            <section id="level0">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">0</span>
+                    <h2 class="text-3xl font-bold text-gray-900">The Foundation: What ADK Is and Isn't</h2>
+                </div>
+
+                <p>
+                    Google released the <strong>Agent Development Kit (ADK)</strong> at Cloud Next 2025 as the same open-source toolkit that powers agents inside Google's own products. It is a code-first, Python-native framework for building, testing, and shipping agentic systems — single agents, hierarchies of specialists, or tool-using workflows. Java and TypeScript ports exist; this guide focuses on Python because that is where the API is most complete.
+                </p>
+
+                <p>
+                    Three commitments define ADK and explain most of its design choices:
+                </p>
+
+                <ul>
+                    <li><strong>Code-first.</strong> Agents are Python objects, not YAML or graphs in a UI. You compose, test, and debug with normal language tools.</li>
+                    <li><strong>Model-agnostic.</strong> Gemini is the default and the deepest integration, but ADK runs on Anthropic, OpenAI, Mistral, Ollama, and anything reachable through LiteLLM.</li>
+                    <li><strong>Deployment-ready.</strong> The same agent runs locally in a dev loop, in a container on Cloud Run, or on the managed Vertex AI Agent Engine with one command.</li>
+                </ul>
+
+                <h3>The runtime, in one picture</h3>
+
+                <p>
+                    Every ADK app has the same shape. A <code>Runner</code> orchestrates a turn: it receives a user message, hands it to the root <code>Agent</code>, lets the agent call the LLM and tools, persists everything to a <code>Session</code>, and emits events you stream to the user.
+                </p>
+
+                <pre class="mermaid">
+flowchart LR
+    U([User]) -->|message| R[Runner]
+    R -->|invoke| A[Agent]
+    A -->|prompt + tools| LLM[(LLM<br/>Gemini / Claude / GPT)]
+    LLM -->|tool call| A
+    A -->|execute| T[Tools]
+    T -->|result| A
+    A -->|response| R
+    R -->|persists| S[(SessionService<br/>state + history)]
+    R -->|events| U
+                </pre>
+
+                <h3>Where ADK fits next to other frameworks</h3>
+
+                <ul>
+                    <li><strong>vs. LangGraph.</strong> Both model agentic flows. LangGraph is graph-first; ADK is class-first with workflow primitives (Sequential / Parallel / Loop) when you need explicit orchestration. ADK ships an opinionated runtime, a CLI, an eval framework, and Vertex deployment in the box.</li>
+                    <li><strong>vs. CrewAI.</strong> Both model role-based collaborations. ADK is closer to the metal: you can build the same patterns but you also have callbacks, streaming, MCP, and direct LLM control.</li>
+                    <li><strong>vs. AutoGen.</strong> AutoGen optimizes for emergent conversation between agents; ADK leans toward predictable, testable hierarchies with explicit delegation rules.</li>
+                </ul>
+
+                <div class="callout">
+                    <p><strong>Mental model:</strong> ADK is "FastAPI for agents." Lightweight imports, normal Python objects, a CLI that runs your code, and a clear path from <code>localhost</code> to managed prod.</p>
+                </div>
+            </section>
+
+            <!-- LEVEL 1 -->
+            <section id="level1">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Your First Agent</h2>
+                </div>
+
+                <h3>Install and authenticate</h3>
+
+                <pre><code class="language-bash">pip install google-adk
+
+# Use either the Gemini Developer API (free tier, no GCP needed)…
+export GOOGLE_API_KEY="your-gemini-api-key"
+export GOOGLE_GENAI_USE_VERTEXAI=False
+
+# …or Vertex AI (production GCP).
+export GOOGLE_CLOUD_PROJECT="your-project-id"
+export GOOGLE_CLOUD_LOCATION="us-central1"
+export GOOGLE_GENAI_USE_VERTEXAI=True</code></pre>
+
+                <p>
+                    A working agent fits in 12 lines. The agent has a model, a description, an instruction (its system prompt), and zero or more tools.
+                </p>
+
+                <pre><code class="language-python">from google.adk.agents import Agent
+
+def get_weather(city: str) -> dict:
+    """Returns the current weather for a given city."""
+    # Replace with a real API call in production.
+    return {"city": city, "condition": "sunny", "temp_c": 24}
+
+root_agent = Agent(
+    name="weather_agent",
+    model="gemini-2.5-flash",
+    description="A friendly assistant that answers weather questions.",
+    instruction="Use the get_weather tool when the user asks about weather. Be concise.",
+    tools=[get_weather],
+)</code></pre>
+
+                <div class="callout">
+                    <p><strong>Zero ceremony tools.</strong> Pass a plain Python function and ADK wraps it as a <code>FunctionTool</code> automatically. The function's <strong>docstring becomes the tool description</strong> and its type hints become the JSON schema the model sees. Write good docstrings — they are now part of your prompt.</p>
+                </div>
+
+                <h3>Run it locally with one CLI command</h3>
+
+                <p>
+                    Save the agent in <code>weather_agent/agent.py</code> (the folder name becomes the app name) and point the dev UI at the parent directory:
+                </p>
+
+                <pre><code class="language-bash"># From the parent of weather_agent/
+adk web
+
+# Or a terminal REPL:
+adk run weather_agent</code></pre>
+
+                <p>
+                    <code>adk web</code> opens a browser-based playground at <code>http://localhost:8000</code> with chat, event traces, and a session inspector. <code>adk run</code> is a stdin/stdout loop for fast iteration.
+                </p>
+
+                <h3>Programmatic invocation</h3>
+
+                <p>
+                    For tests, jobs, or anything embedded, you drive the agent yourself through <code>Runner</code>:
+                </p>
+
+                <pre><code class="language-python">import asyncio
+from google.adk.runners import Runner
+from google.adk.sessions import InMemorySessionService
+from google.genai import types
+
+APP, USER, SESSION = "weather_app", "u1", "s1"
+
+session_service = InMemorySessionService()
+runner = Runner(agent=root_agent, app_name=APP, session_service=session_service)
+
+async def main():
+    await session_service.create_session(app_name=APP, user_id=USER, session_id=SESSION)
+    message = types.Content(role="user", parts=[types.Part(text="Weather in Tokyo?")])
+
+    async for event in runner.run_async(user_id=USER, session_id=SESSION, new_message=message):
+        if event.is_final_response():
+            print(event.content.parts[0].text)
+
+asyncio.run(main())</code></pre>
+
+                <p>
+                    Every step the agent takes — model call, tool call, tool response, final answer — surfaces as an <code>Event</code>. The same event stream powers the web UI, the eval framework, and your production observability.
+                </p>
+            </section>
+
+            <!-- LEVEL 2 -->
+            <section id="level2">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Tools: Giving Agents Hands</h2>
+                </div>
+
+                <p>
+                    A tool is anything the LLM can call to affect the world or fetch information. ADK gives you five flavors and they all plug into the same <code>tools=[...]</code> list.
+                </p>
+
+                <h3>1. Python functions (the default)</h3>
+
+                <pre><code class="language-python">def book_flight(origin: str, destination: str, date: str) -> dict:
+    """Books a one-way flight. Date must be in YYYY-MM-DD format."""
+    # call your booking API
+    return {"confirmation": "ABC123", "price_usd": 412}</code></pre>
+
+                <p>Add it to <code>tools=[book_flight]</code> and the model can call it. Use <code>Pydantic</code> models as parameters when you need richer schemas.</p>
+
+                <h3>2. Built-in Google tools</h3>
+
+                <pre><code class="language-python">from google.adk.tools import google_search, built_in_code_execution
+
+agent = Agent(
+    name="research_agent",
+    model="gemini-2.5-pro",
+    instruction="Use google_search for facts and code_execution for math.",
+    tools=[google_search, built_in_code_execution],
+)</code></pre>
+
+                <p>
+                    These are first-party Google tools that run server-side inside the Gemini call — no extra latency, no extra auth.
+                </p>
+
+                <h3>3. MCP (Model Context Protocol) servers</h3>
+
+                <p>
+                    Any MCP server — official Neo4j, GitHub, filesystem, your own — drops in as a toolset:
+                </p>
+
+                <pre><code class="language-python">from google.adk.tools.mcp_tool import MCPToolset, StdioServerParameters
+
+# Spin up a local MCP server as a subprocess and expose its tools.
+mcp_toolset = MCPToolset(
+    connection_params=StdioServerParameters(
+        command="npx",
+        args=["-y", "@modelcontextprotocol/server-filesystem", "/workspace"],
+    ),
+)
+
+agent = Agent(
+    name="fs_agent",
+    model="gemini-2.5-flash",
+    instruction="Help the user read and write files in /workspace.",
+    tools=[mcp_toolset],
+)</code></pre>
+
+                <h3>4. OpenAPI specs</h3>
+
+                <pre><code class="language-python">from google.adk.tools.openapi_tool import OpenAPIToolset
+
+openapi_tools = OpenAPIToolset(spec_str=open("petstore.yaml").read(), spec_str_type="yaml")
+agent = Agent(..., tools=[openapi_tools])</code></pre>
+
+                <p>Every operation in the spec becomes a callable tool with the right schema.</p>
+
+                <h3>5. AgentTool: an agent as a tool</h3>
+
+                <p>
+                    Wrap a sub-agent so its parent can call it like any other tool. This is the core of <em>delegation</em>:
+                </p>
+
+                <pre><code class="language-python">from google.adk.tools import AgentTool
+
+translator = Agent(name="translator", model="gemini-2.5-flash",
+                   instruction="Translate text to French.")
+
+coordinator = Agent(
+    name="coordinator",
+    model="gemini-2.5-pro",
+    tools=[AgentTool(agent=translator)],
+)</code></pre>
+
+                <h3>Reading and writing state from inside a tool</h3>
+
+                <p>
+                    Declare a <code>tool_context: ToolContext</code> parameter and ADK injects the session bag. You can read state, mutate it, save artifacts, or escape to the framework.
+                </p>
+
+                <pre><code class="language-python">from google.adk.tools import ToolContext
+
+def remember_preference(key: str, value: str, tool_context: ToolContext) -> str:
+    """Saves a user preference for the rest of the session."""
+    tool_context.state[f"user:{key}"] = value
+    return f"Got it — I'll remember {key} = {value}."</code></pre>
+
+                <div class="warn">
+                    <p><strong>Tool design rule of thumb.</strong> Each tool should do <em>one</em> thing the user could describe in a single sentence. Many small, narrow tools outperform one swiss-army tool because the model has to choose less.</p>
+                </div>
+            </section>
+
+            <!-- LEVEL 3 -->
+            <section id="level3">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Sessions, State &amp; Memory</h2>
+                </div>
+
+                <p>
+                    ADK separates three timescales of context, and they have three different services:
+                </p>
+
+                <ul>
+                    <li><strong>Session</strong> — one conversation, including its event history.</li>
+                    <li><strong>State</strong> — a key/value bag attached to a session, your scratchpad for the current task.</li>
+                    <li><strong>Memory</strong> — long-term facts that survive across sessions for the same user.</li>
+                </ul>
+
+                <h3>SessionService</h3>
+
+                <pre><code class="language-python">from google.adk.sessions import InMemorySessionService
+# Dev / tests.
+session_service = InMemorySessionService()
+
+# Production (persists to a SQL database):
+from google.adk.sessions import DatabaseSessionService
+session_service = DatabaseSessionService(db_url="postgresql+psycopg://user:pwd@host/db")
+
+# Or fully managed:
+from google.adk.sessions import VertexAiSessionService
+session_service = VertexAiSessionService(project="my-project", location="us-central1")</code></pre>
+
+                <p>You pick the service once at <code>Runner</code> construction; everything else stays the same.</p>
+
+                <h3>State and its prefixes</h3>
+
+                <p>
+                    State is just a dict, but key prefixes give it three lifetimes:
+                </p>
+
+                <pre><code class="language-python"># Session-only (default): cleared when the session ends.
+state["draft"] = "..."
+
+# User-scoped: persists across sessions for the same user.
+state["user:preferred_language"] = "fr"
+
+# App-scoped: shared by every user of this app.
+state["app:rate_limit_qps"] = 5
+
+# Ephemeral: never persisted, only lives for this turn.
+state["temp:tool_choice"] = "search"</code></pre>
+
+                <p>
+                    The prefix is the contract — the session service decides where each kind lands.
+                </p>
+
+                <h3>Memory for cross-session recall</h3>
+
+                <pre><code class="language-python">from google.adk.memory import InMemoryMemoryService
+from google.adk.tools import load_memory  # built-in tool
+
+memory_service = InMemoryMemoryService()
+
+agent = Agent(
+    name="assistant",
+    model="gemini-2.5-pro",
+    instruction="Use load_memory when the user references something from a past conversation.",
+    tools=[load_memory],
+)
+
+runner = Runner(
+    agent=agent,
+    app_name="assistant_app",
+    session_service=session_service,
+    memory_service=memory_service,
+)</code></pre>
+
+                <p>
+                    On Vertex AI you swap in <code>VertexAiMemoryBankService</code> and get a managed, vector-indexed memory backend that learns continuously from past sessions.
+                </p>
+            </section>
+
+            <!-- LEVEL 4 -->
+            <section id="level4">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Multi-Agent Systems</h2>
+                </div>
+
+                <p>
+                    Most non-trivial agents are actually <em>several</em> agents. ADK gives you two composition styles. <strong>LLM-driven delegation</strong> uses the model's judgement to pick a sub-agent. <strong>Workflow agents</strong> impose deterministic orchestration when you don't want a model deciding.
+                </p>
+
+                <h3>Hierarchical delegation</h3>
+
+                <p>
+                    Add specialists to <code>sub_agents</code>. ADK injects their names + descriptions into the parent's prompt and exposes a <code>transfer_to_agent</code> tool. The parent decides when to hand off.
+                </p>
+
+                <pre><code class="language-python">researcher = Agent(name="researcher", model="gemini-2.5-flash",
+                   description="Finds facts and citations using google_search.",
+                   tools=[google_search])
+
+writer = Agent(name="writer", model="gemini-2.5-pro",
+               description="Turns research notes into polished prose.")
+
+reviewer = Agent(name="reviewer", model="gemini-2.5-flash",
+                 description="Critiques the writer's output for accuracy.")
+
+coordinator = Agent(
+    name="article_coordinator",
+    model="gemini-2.5-pro",
+    instruction=(
+        "Plan the article, delegate research to 'researcher', drafting to 'writer', "
+        "and quality control to 'reviewer'. Loop until reviewer approves."
+    ),
+    sub_agents=[researcher, writer, reviewer],
+)</code></pre>
+
+                <pre class="mermaid">
+flowchart TB
+    C[coordinator<br/>gemini-2.5-pro] -->|delegate| R[researcher<br/>+google_search]
+    C -->|delegate| W[writer<br/>gemini-2.5-pro]
+    C -->|delegate| V[reviewer]
+    R -.->|notes| C
+    W -.->|draft| C
+    V -.->|approval / feedback| C
+                </pre>
+
+                <h3>Workflow agents: when you want determinism</h3>
+
+                <pre><code class="language-python">from google.adk.agents import SequentialAgent, ParallelAgent, LoopAgent
+
+# Run in order — each step sees the previous output via state.
+pipeline = SequentialAgent(
+    name="research_pipeline",
+    sub_agents=[fetch_sources_agent, summarize_agent, format_report_agent],
+)
+
+# Fan out, then merge. Each branch runs concurrently.
+fanout = ParallelAgent(
+    name="multi_source",
+    sub_agents=[news_agent, wikipedia_agent, papers_agent],
+)
+
+# Repeat until a sub-agent calls tool_context.actions.escalate.
+refine = LoopAgent(
+    name="refine_until_good",
+    sub_agents=[draft_agent, critic_agent],
+    max_iterations=5,
+)</code></pre>
+
+                <pre class="mermaid">
+flowchart LR
+    subgraph SEQ[SequentialAgent]
+        direction LR
+        s1[Step 1] --> s2[Step 2] --> s3[Step 3]
+    end
+    subgraph PAR[ParallelAgent]
+        direction TB
+        p0[fan-out] --> p1[Branch A]
+        p0 --> p2[Branch B]
+        p0 --> p3[Branch C]
+        p1 --> p4[merge]
+        p2 --> p4
+        p3 --> p4
+    end
+    subgraph LOOP[LoopAgent]
+        direction LR
+        l1[Draft] --> l2[Critic]
+        l2 -->|not done| l1
+        l2 -->|escalate| l3([exit])
+    end
+                </pre>
+
+                <h3>Mixing the two</h3>
+
+                <p>
+                    Workflow agents <em>are</em> agents, so you can nest. A common production shape: a top-level <code>SequentialAgent</code> with deterministic stages, and one stage is an LLM-driven coordinator that delegates internally.
+                </p>
+
+                <pre><code class="language-python">app = SequentialAgent(
+    name="content_pipeline",
+    sub_agents=[
+        intake_classifier,      # LlmAgent: routes by topic
+        researcher_coordinator, # LlmAgent with sub_agents=[…]
+        ParallelAgent(name="qc",
+                      sub_agents=[fact_check_agent, style_check_agent]),
+        publisher_agent,
+    ],
+)</code></pre>
+            </section>
+
+            <!-- LEVEL 5 -->
+            <section id="level5">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Callbacks &amp; Guardrails</h2>
+                </div>
+
+                <p>
+                    Callbacks are hooks ADK invokes around every important transition. Return <code>None</code> to let execution proceed; return a value to <em>short-circuit</em> and substitute that value as the result.
+                </p>
+
+                <p>The hook points are symmetric:</p>
+
+                <ul>
+                    <li><code>before_agent_callback</code> / <code>after_agent_callback</code></li>
+                    <li><code>before_model_callback</code> / <code>after_model_callback</code></li>
+                    <li><code>before_tool_callback</code> / <code>after_tool_callback</code></li>
+                </ul>
+
+                <h3>Block a tool call based on policy</h3>
+
+                <pre><code class="language-python">from google.adk.agents.callback_context import CallbackContext
+from google.adk.tools.base_tool import BaseTool
+from google.adk.tools.tool_context import ToolContext
+from typing import Optional
+
+BLOCKED = {"send_payment", "delete_user"}
+
+def policy_gate(tool: BaseTool, args: dict, tool_context: ToolContext) -> Optional[dict]:
+    if tool.name in BLOCKED and not tool_context.state.get("user:is_admin"):
+        return {"error": "policy_denied", "tool": tool.name}
+    return None  # allow
+
+agent = Agent(
+    name="safe_assistant",
+    model="gemini-2.5-flash",
+    tools=[...],
+    before_tool_callback=policy_gate,
+)</code></pre>
+
+                <h3>Redact PII from the model's input</h3>
+
+                <pre><code class="language-python">import re
+from google.adk.models.llm_request import LlmRequest
+
+EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
+
+def redact_pii(callback_context: CallbackContext, llm_request: LlmRequest):
+    for content in llm_request.contents:
+        for part in (content.parts or []):
+            if part.text:
+                part.text = EMAIL.sub("[email-redacted]", part.text)
+    return None
+
+agent = Agent(..., before_model_callback=redact_pii)</code></pre>
+
+                <div class="callout">
+                    <p><strong>Composability.</strong> Each callback hook accepts either a single function or a list. The first non-<code>None</code> return wins. That lets you stack policy, redaction, logging, and rate-limiting as independent middleware.</p>
+                </div>
+            </section>
+
+            <!-- LEVEL 6 -->
+            <section id="level6">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Evaluation</h2>
+                </div>
+
+                <p>
+                    ADK ships a first-party evaluation framework. You write a few example interactions, declare what good looks like, and run them in CI.
+                </p>
+
+                <h3>The eval set format</h3>
+
+                <p>An eval set is a JSON file with cases. Each case lists the conversation and the expected tool trajectory + final response.</p>
+
+                <pre><code class="language-json">{
+  "eval_set_id": "weather.evalset.json",
+  "eval_cases": [
+    {
+      "eval_id": "tokyo_weather",
+      "conversation": [
+        {
+          "user_content": { "parts": [{ "text": "What's the weather in Tokyo?" }] },
+          "final_response": { "parts": [{ "text": "It's currently sunny in Tokyo, around 24 °C." }] },
+          "intermediate_data": {
+            "tool_uses": [
+              { "name": "get_weather", "args": { "city": "Tokyo" } }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}</code></pre>
+
+                <h3>Run from the CLI or from Python</h3>
+
+                <pre><code class="language-bash">adk eval weather_agent weather.evalset.json \
+  --config_file_path eval_config.json \
+  --print_detailed_results</code></pre>
+
+                <pre><code class="language-python">import pytest
+from google.adk.evaluation import AgentEvaluator
+
+@pytest.mark.asyncio
+async def test_weather_agent():
+    await AgentEvaluator.evaluate(
+        agent_module="weather_agent",
+        eval_dataset_file_path_or_dir="weather.evalset.json",
+    )</code></pre>
+
+                <p>
+                    Two default metrics: <code>tool_trajectory_avg_score</code> (did the agent call the right tools with the right args, in the right order?) and <code>response_match_score</code> (semantic match against the expected final answer). You can plug in your own.
+                </p>
+
+                <div class="warn">
+                    <p><strong>CI hook.</strong> Treat the eval set like a test suite. Add a case <em>before</em> shipping a fix; the regression target is now permanent.</p>
+                </div>
+            </section>
+
+            <!-- LEVEL 7 -->
+            <section id="level7">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Deployment</h2>
+                </div>
+
+                <p>
+                    The same agent code runs in three places without modification. The deployment target only changes <em>who runs the Runner</em>.
+                </p>
+
+                <pre class="mermaid">
+flowchart LR
+    Code[Your code:<br/>weather_agent/agent.py] -->|adk web / adk run| Local[Local dev loop]
+    Code -->|adk deploy agent_engine| AE[Vertex AI<br/>Agent Engine]
+    Code -->|adk deploy cloud_run<br/>or gcloud run deploy| CR[Cloud Run]
+    Code -->|build container| GKE[Any container host<br/>GKE / EKS / on-prem]
+                </pre>
+
+                <h3>Local development</h3>
+
+                <pre><code class="language-bash">adk web              # browser playground + event traces
+adk run weather_agent # terminal REPL</code></pre>
+
+                <h3>Vertex AI Agent Engine (managed)</h3>
+
+                <p>
+                    Agent Engine is the production target for ADK agents. It handles scaling, sessions, monitoring, and identity. Deploy with one command:
+                </p>
+
+                <pre><code class="language-bash">adk deploy agent_engine weather_agent \
+  --project=$GOOGLE_CLOUD_PROJECT \
+  --region=us-central1 \
+  --staging_bucket=gs://my-staging</code></pre>
+
+                <p>You get a stable endpoint with built-in session persistence, identity-aware tools, and OpenTelemetry exports.</p>
+
+                <h3>Cloud Run (serverless containers)</h3>
+
+                <pre><code class="language-bash">adk deploy cloud_run weather_agent \
+  --project=$GOOGLE_CLOUD_PROJECT \
+  --region=us-central1 \
+  --service_name=weather-agent</code></pre>
+
+                <p>The CLI builds an OCI image (with FastAPI serving the agent), pushes to Artifact Registry, and deploys.</p>
+
+                <h3>Your own container</h3>
+
+                <p>For GKE, EKS, or on-prem, point at the same Dockerfile and run <code>adk api_server</code>:</p>
+
+                <pre><code class="language-dockerfile">FROM python:3.12-slim
+WORKDIR /app
+COPY . .
+RUN pip install --no-cache-dir google-adk
+EXPOSE 8000
+CMD ["adk", "api_server", "--port", "8000", "."]</code></pre>
+            </section>
+
+            <!-- APPENDIX -->
+            <section id="appendix">
+                <div class="flex items-center mb-6">
+                    <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">A</span>
+                    <h2 class="text-3xl font-bold text-gray-900">Appendix</h2>
+                </div>
+
+                <h3>Project layout that ADK expects</h3>
+
+                <pre><code class="language-bash">my_project/
+├── weather_agent/
+│   ├── __init__.py     # from . import agent
+│   ├── agent.py        # defines root_agent
+│   └── .env            # GOOGLE_API_KEY=..., or Vertex envs
+├── tests/
+│   └── test_weather.py
+└── pyproject.toml</code></pre>
+
+                <p>
+                    <code>agent.py</code> must expose a module-level <code>root_agent</code>. The folder name (<code>weather_agent</code>) becomes the app name in the CLI and the URL slug in <code>adk web</code>.
+                </p>
+
+                <h3>Common configuration knobs</h3>
+
+                <pre><code class="language-python">from google.genai import types
+
+Agent(
+    name="precise_agent",
+    model="gemini-2.5-pro",
+    instruction="...",
+    tools=[...],
+    generate_content_config=types.GenerateContentConfig(
+        temperature=0.1,
+        max_output_tokens=2048,
+        top_p=0.95,
+    ),
+    output_schema=None,    # Pydantic model => model returns structured JSON
+    output_key="result",   # store final output under state["result"]
+    disallow_transfer_to_parent=False,
+    disallow_transfer_to_peers=False,
+)</code></pre>
+
+                <h3>Streaming events to your own UI</h3>
+
+                <pre><code class="language-python">async for event in runner.run_async(user_id=u, session_id=s, new_message=msg):
+    if event.is_partial:                    # token stream
+        yield {"type": "delta", "text": event.content.parts[0].text}
+    elif event.get_function_calls():        # tool invocation
+        for call in event.get_function_calls():
+            yield {"type": "tool_call", "name": call.name, "args": call.args}
+    elif event.is_final_response():
+        yield {"type": "final", "text": event.content.parts[0].text}</code></pre>
+
+                <h3>Where to read next</h3>
+
+                <ul>
+                    <li><a href="https://google.github.io/adk-docs/" class="text-teal-700 underline">google.github.io/adk-docs</a> — the official documentation.</li>
+                    <li><a href="https://github.com/google/adk-python" class="text-teal-700 underline">github.com/google/adk-python</a> — source, samples, and the issue tracker.</li>
+                    <li><a href="https://github.com/google/adk-samples" class="text-teal-700 underline">github.com/google/adk-samples</a> — production-shaped reference agents (research, customer-service, RAG, multi-agent).</li>
+                    <li><strong>MCP Toolbox for Databases</strong> — declarative, pre-validated DB tools with native ADK integration; pairs naturally with the <a href="tutorial.html?slug=Neo4j">Neo4j tutorial</a>.</li>
+                </ul>
+            </section>
+
+            <!-- MASTER TEMPLATE -->
+            <section id="master-template" class="border-t border-gray-200 pt-16">
+                <div class="flex items-center mb-6">
+                    <i class="fas fa-code text-teal-600 text-3xl mr-4"></i>
+                    <h2 class="text-3xl font-bold text-gray-900">Master Template</h2>
+                </div>
+
+                <p>
+                    A single file that exercises every concept in this guide: hierarchical agents, a workflow agent, function tools, MCP, callbacks for policy + redaction, structured state, and a programmatic <code>Runner</code>. Treat it as a starting point you can prune.
+                </p>
+
+                <pre><code class="language-python">"""
+research_assistant/agent.py
+
+A production-shaped ADK app:
+  - SequentialAgent pipeline (plan -> research -> draft -> review)
+  - LLM-driven coordinator inside the pipeline
+  - Function + built-in + AgentTool tools
+  - Policy gate + PII redaction via callbacks
+  - State that survives across sessions for the same user
+"""
+from __future__ import annotations
+import re
+from typing import Optional
+
+from google.adk.agents import Agent, SequentialAgent, LoopAgent
+from google.adk.agents.callback_context import CallbackContext
+from google.adk.tools import AgentTool, ToolContext, google_search, load_memory
+from google.adk.tools.base_tool import BaseTool
+from google.adk.models.llm_request import LlmRequest
+
+
+# ---------- 1. Tools ---------------------------------------------------------
+
+def save_note(topic: str, content: str, tool_context: ToolContext) -> str:
+    """Save a research note under the given topic for this session."""
+    notes = tool_context.state.get("notes", {})
+    notes.setdefault(topic, []).append(content)
+    tool_context.state["notes"] = notes
+    return f"Saved {len(content)} chars under '{topic}'."
+
+
+def remember_preference(key: str, value: str, tool_context: ToolContext) -> str:
+    """Persist a user preference across sessions."""
+    tool_context.state[f"user:{key}"] = value
+    return f"Remembered {key}={value}."
+
+
+# ---------- 2. Callbacks (policy + redaction) -------------------------------
+
+EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
+DESTRUCTIVE = {"delete_user", "send_payment"}
+
+
+def policy_gate(tool: BaseTool, args: dict, tool_context: ToolContext) -> Optional[dict]:
+    if tool.name in DESTRUCTIVE and not tool_context.state.get("user:is_admin"):
+        return {"error": "policy_denied", "tool": tool.name}
+    return None
+
+
+def redact_pii(ctx: CallbackContext, req: LlmRequest):
+    for content in req.contents:
+        for part in (content.parts or []):
+            if part.text:
+                part.text = EMAIL.sub("[email-redacted]", part.text)
+    return None
+
+
+# ---------- 3. Specialist agents --------------------------------------------
+
+researcher = Agent(
+    name="researcher",
+    model="gemini-2.5-flash",
+    description="Finds factual evidence with google_search and saves notes.",
+    instruction=(
+        "Search the web. For each useful fact, call save_note with a clear "
+        "topic. Cite source URLs in the note content."
+    ),
+    tools=[google_search, save_note],
+    before_tool_callback=policy_gate,
+    before_model_callback=redact_pii,
+)
+
+writer = Agent(
+    name="writer",
+    model="gemini-2.5-pro",
+    description="Turns notes in state['notes'] into a polished draft.",
+    instruction=(
+        "Read state['notes'] and produce a structured Markdown article. "
+        "Store the draft under state['draft']."
+    ),
+    output_key="draft",
+)
+
+reviewer = Agent(
+    name="reviewer",
+    model="gemini-2.5-flash",
+    description="Critiques state['draft']. Calls escalate when satisfied.",
+    instruction=(
+        "Critique the draft for accuracy and clarity. If acceptable, signal "
+        "completion via tool_context.actions.escalate=True."
+    ),
+)
+
+
+# ---------- 4. The pipeline -------------------------------------------------
+
+refine_loop = LoopAgent(
+    name="draft_then_review",
+    sub_agents=[writer, reviewer],
+    max_iterations=3,
+)
+
+root_agent = SequentialAgent(
+    name="research_assistant",
+    sub_agents=[researcher, refine_loop],
+)
+
+
+# ---------- 5. Programmatic driver (optional; CLI also works) ---------------
+
+if __name__ == "__main__":
+    import asyncio
+    from google.adk.runners import Runner
+    from google.adk.sessions import InMemorySessionService
+    from google.adk.memory import InMemoryMemoryService
+    from google.genai import types
+
+    async def main():
+        sessions = InMemorySessionService()
+        memory = InMemoryMemoryService()
+        runner = Runner(
+            agent=root_agent,
+            app_name="research_assistant",
+            session_service=sessions,
+            memory_service=memory,
+        )
+        await sessions.create_session(app_name="research_assistant",
+                                       user_id="u1", session_id="s1")
+        prompt = types.Content(
+            role="user",
+            parts=[types.Part(text="Write a short brief on graph databases.")],
+        )
+        async for event in runner.run_async(user_id="u1", session_id="s1",
+                                            new_message=prompt):
+            if event.is_final_response():
+                print(event.content.parts[0].text)
+
+    asyncio.run(main())</code></pre>
+
+                <p class="mt-8 text-center text-gray-500 text-sm">
+                    <em>End of guide. From here, build something and let the eval set tell you when it's ready.</em>
+                </p>
+            </section>
+
+        </div>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-docker.min.js"></script>
+</body>
+
+</html>

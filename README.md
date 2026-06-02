@@ -10,6 +10,7 @@ This repository hosts the source code for the interactive content published at t
 
 - **[AutoGen](https://vinovator.github.io/my-ai-guides/autogen.html)** - Microsoft's multi-agent framework.
 - **[CrewAI](https://vinovator.github.io/my-ai-guides/crewai.html)** - Orchestrating role-playing autonomous agents.
+- **[Google ADK](https://vinovator.github.io/my-ai-guides/googleadk.html)** - Google's official Agent Development Kit, with a path to Vertex AI Agent Engine.
 - **[Haystack](https://vinovator.github.io/my-ai-guides/haystack.html)** - End-to-end NLP pipelines.
 - **[LangGraph](https://vinovator.github.io/my-ai-guides/langgraph.html)** - Building stateful, multi-actor applications with LLMs.
 - **[LlamaIndex](https://vinovator.github.io/my-ai-guides/llamaindex.html)** - Data framework for LLM applications.
