@@ -1,10 +1,10 @@
-# My AI Guides
+# AI Hub
 
-A curated collection of single-page, comprehensive guides for modern AI Agent Frameworks.
+A curated collection of single-page, comprehensive guides for modern AI Agent Frameworks, plus deep-dive multi-lesson tutorials.
 
-## 🚀 **[View the Live Guide](https://vinovator.github.io/my-ai-guides/)**
+## 🚀 **[View the Live Site](https://vinovator.github.io/my-ai-guides/)**
 
-This repository hosts the source code for the interactive guides published at the link above. Each guide is a standalone HTML file designed to provide a deep dive into specific AI technologies.
+This repository hosts the source code for the interactive content published at the link above. Each framework guide is a standalone HTML file; each tutorial is a folder of Markdown lessons rendered in the browser by a shared viewer (`tutorial.html`). Everything is static, zero-build, and served by GitHub Pages.
 
 ## 📚 Available Guides
 
@@ -19,12 +19,19 @@ This repository hosts the source code for the interactive guides published at th
 - **[SmolAgents](https://vinovator.github.io/my-ai-guides/smolagents.html)** - Minimalist agent framework.
 - **[Swarm](https://vinovator.github.io/my-ai-guides/swarm.html)** - OpenAI's experimental pattern for ergonomic agent coordination.
 
+## 🎓 Tutorials
+
+Multi-lesson tutorials authored in plain Markdown. Each tutorial is a folder containing a `blueprint.md` (landing page + lesson index) and one Markdown file per lesson. The shared `tutorial.html` viewer renders them with a left-sidebar lesson list, scroll-spy table of contents, prev/next navigation, Mermaid diagrams, and Prism syntax highlighting.
+
+- **[Neo4j](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=Neo4j)** - From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.
+
 ## 🛠️ Tech Stack
 
 - **HTML5 & Vanilla CSS/JS**: For standalone, zero-dependency portability.
-- **Tailwind CSS**: For utility-first styling.
-- **Mermaid.js**: For diagrams and visualizations as code.
-- **Prism.js**: For syntax highlighting.
+- **Tailwind CSS** (Play CDN): Utility-first styling, no build step.
+- **Mermaid.js**: Diagrams and visualizations as code.
+- **Prism.js**: Syntax highlighting in guides and tutorials.
+- **marked + DOMPurify**: Client-side Markdown rendering for tutorials.
 
 ## 📄 License
 

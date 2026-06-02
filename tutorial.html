@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial Viewer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.5/dist/purify.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #1f2937;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #f1f5f9;
+        }
+
+        #content h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            color: #111827;
+            margin-bottom: 1.25rem;
+            line-height: 1.2;
+            letter-spacing: -0.025em;
+        }
+
+        #content h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #111827;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            scroll-margin-top: 1rem;
+        }
+
+        #content h3 {
+            color: #111827;
+            font-weight: 700;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+            line-height: 1.75rem;
+            scroll-margin-top: 1rem;
+        }
+
+        #content p {
+            margin-bottom: 1.25rem;
+            line-height: 1.75;
+            color: #4b5563;
+        }
+
+        #content ul {
+            list-style-type: disc;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+
+        #content ol {
+            list-style-type: decimal;
+            padding-left: 1.5rem;
+            margin-bottom: 1.25rem;
+            color: #4b5563;
+        }
+
+        #content li {
+            margin-bottom: 0.5rem;
+            line-height: 1.7;
+        }
+
+        #content blockquote {
+            border-left: 4px solid #10b981;
+            background: #ecfdf5;
+            padding: 0.75rem 1.25rem;
+            margin: 1.5rem 0;
+            color: #065f46;
+            border-radius: 0 6px 6px 0;
+        }
+
+        #content blockquote p {
+            color: #065f46;
+            margin-bottom: 0;
+        }
+
+        #content a {
+            color: #047857;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+        }
+
+        #content a:hover {
+            color: #064e3b;
+        }
+
+        #content code:not([class*="language-"]) {
+            color: #047857;
+            background: #ecfdf5;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            font-weight: 500;
+        }
+
+        #content pre {
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            font-size: 0.875rem;
+        }
+
+        #content pre code {
+            color: inherit;
+            background: transparent;
+            padding: 0;
+        }
+
+        #content pre.mermaid {
+            background: #ffffff;
+            border: 1px solid #e5e7eb;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: center;
+        }
+
+        #content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9em;
+        }
+
+        #content th,
+        #content td {
+            border: 1px solid #e5e7eb;
+            padding: 0.6rem 0.9rem;
+            text-align: left;
+        }
+
+        #content th {
+            background: #f9fafb;
+            font-weight: 600;
+            color: #111827;
+        }
+
+        #content hr {
+            border: 0;
+            border-top: 1px solid #e5e7eb;
+            margin: 2.5rem 0;
+        }
+
+        #content img {
+            max-width: 100%;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+        }
+
+        .chapter-number {
+            font-feature-settings: "tnum";
+            font-variant-numeric: tabular-nums;
+        }
+
+        .page-link.active {
+            color: #047857;
+            border-color: #10b981;
+            font-weight: 600;
+            background: #ecfdf5;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50 flex h-screen overflow-hidden">
+
+    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b bg-gray-50">
+            <h1 id="tutorial-title" class="font-bold text-xl text-emerald-800 tracking-tight flex items-center">
+                <i class="fas fa-graduation-cap mr-2"></i>Tutorial
+            </h1>
+            <a href="index.html"
+                class="text-xs text-gray-400 hover:text-emerald-600 transition-colors mt-1 block font-medium">
+                <i class="fas fa-arrow-left mr-1"></i> Back to Hub
+            </a>
+            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Interactive Lesson</p>
+        </div>
+
+        <nav class="p-4 overflow-y-auto flex-1">
+            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Lessons</p>
+            <ul id="lesson-list" class="space-y-1"></ul>
+            <div id="page-nav"></div>
+        </nav>
+    </aside>
+
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+        <article class="max-w-4xl mx-auto">
+            <div id="content"></div>
+            <div id="prev-next"></div>
+        </article>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-bash.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-sql.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cypher.min.js"></script>
+
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+        window.__mermaid = mermaid;
+    </script>
+
+    <script type="module">
+        const $title = document.getElementById('tutorial-title');
+        const $main = document.getElementById('content');
+        const $sidebar = document.getElementById('lesson-list');
+        const $pageNav = document.getElementById('page-nav');
+        const $prevNext = document.getElementById('prev-next');
+
+        let manifest = null;
+        let scrollSpyObserver = null;
+
+        function escapeHtml(s) {
+            return String(s)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;');
+        }
+
+        function decodeHtml(s) {
+            return s
+                .replace(/&amp;/g, '&')
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>')
+                .replace(/&quot;/g, '"')
+                .replace(/&#39;/g, "'");
+        }
+
+        function slugify(t) {
+            return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+        }
+
+        function parseLessons(blueprintMd) {
+            const re = /\[([^\]]+)\]\((?:\.\/)?([^)\s]+\.md)\)/g;
+            const out = [];
+            const seen = new Set();
+            let m;
+            while ((m = re.exec(blueprintMd))) {
+                const title = m[1].trim();
+                const file = m[2];
+                if (file === 'blueprint.md' || seen.has(file)) continue;
+                seen.add(file);
+                out.push({ slug: file.replace(/\.md$/, ''), title });
+            }
+            return out;
+        }
+
+        function parseTutorialTitle(blueprintMd) {
+            const m = blueprintMd.match(/^\s*#\s+(.+)$/m);
+            return m ? m[1].trim() : 'Tutorial';
+        }
+
+        function rewriteMermaid(html) {
+            return html.replace(
+                /<pre><code class="language-mermaid">([\s\S]*?)<\/code><\/pre>/g,
+                (_, content) => `<pre class="mermaid">${decodeHtml(content)}</pre>`
+            );
+        }
+
+        async function fetchMd(path) {
+            const res = await fetch(path, { cache: 'no-cache' });
+            if (!res.ok) throw new Error(`fetch ${path} -> ${res.status}`);
+            return await res.text();
+        }
+
+        async function loadManifest(slug) {
+            const text = await fetchMd(`${slug}/blueprint.md`);
+            return {
+                text,
+                title: parseTutorialTitle(text),
+                lessons: parseLessons(text),
+            };
+        }
+
+        function renderSidebar(slug, lesson) {
+            const overviewActive = !lesson;
+            const overview = `
+                <li>
+                  <a data-slug="" data-tutorial="${escapeHtml(slug)}"
+                     href="?slug=${encodeURIComponent(slug)}"
+                     class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${overviewActive ? 'bg-emerald-100 text-emerald-800' : 'hover:bg-emerald-50 text-gray-700 hover:text-emerald-700'}">
+                    <span class="chapter-number w-6 text-center mr-2 ${overviewActive ? 'text-emerald-600' : 'text-gray-400 group-hover:text-emerald-500'} font-bold"><i class="fas fa-home"></i></span>
+                    Overview
+                  </a>
+                </li>`;
+            const items = manifest.lessons.map((L, i) => {
+                const active = L.slug === lesson;
+                return `
+                  <li>
+                    <a data-slug="${escapeHtml(L.slug)}" data-tutorial="${escapeHtml(slug)}"
+                       href="?slug=${encodeURIComponent(slug)}&lesson=${encodeURIComponent(L.slug)}"
+                       class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${active ? 'bg-emerald-100 text-emerald-800' : 'hover:bg-emerald-50 text-gray-700 hover:text-emerald-700'}">
+                      <span class="chapter-number w-6 text-center mr-2 ${active ? 'text-emerald-600' : 'text-gray-400 group-hover:text-emerald-500'} font-bold">${i + 1}</span>
+                      <span class="flex-1">${escapeHtml(L.title)}</span>
+                    </a>
+                  </li>`;
+            }).join('');
+            $sidebar.innerHTML = overview + items;
+        }
+
+        function renderPageNav() {
+            const headings = $main.querySelectorAll('h2, h3');
+            if (!headings.length) {
+                $pageNav.innerHTML = '';
+                if (scrollSpyObserver) scrollSpyObserver.disconnect();
+                return;
+            }
+            const items = Array.from(headings).map(h => {
+                const indent = h.tagName === 'H3' ? 'pl-7' : 'pl-4';
+                return `<li><a href="#${h.id}" data-spy="${h.id}" class="page-link block ${indent} pr-3 py-1 text-xs text-gray-500 hover:text-emerald-700 border-l-2 border-transparent">${escapeHtml(h.textContent)}</a></li>`;
+            }).join('');
+            $pageNav.innerHTML = `<p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">On this page</p><ul class="space-y-0.5">${items}</ul>`;
+
+            const links = $pageNav.querySelectorAll('a[data-spy]');
+            const map = new Map();
+            links.forEach(a => map.set(a.dataset.spy, a));
+            if (scrollSpyObserver) scrollSpyObserver.disconnect();
+            scrollSpyObserver = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) {
+                        links.forEach(a => a.classList.remove('active'));
+                        const a = map.get(e.target.id);
+                        if (a) a.classList.add('active');
+                    }
+                });
+            }, { root: document.querySelector('main'), rootMargin: '0px 0px -70% 0px', threshold: 0 });
+            headings.forEach(h => scrollSpyObserver.observe(h));
+        }
+
+        function renderPrevNext(slug, lesson) {
+            const lessons = manifest.lessons;
+            let prev = null, next = null;
+            if (!lesson) {
+                if (lessons.length) next = lessons[0];
+            } else {
+                const idx = lessons.findIndex(L => L.slug === lesson);
+                if (idx === -1) {
+                    $prevNext.innerHTML = '';
+                    return;
+                }
+                prev = idx === 0 ? { slug: '', title: 'Overview' } : lessons[idx - 1];
+                next = idx < lessons.length - 1 ? lessons[idx + 1] : null;
+            }
+
+            const card = (target, label, side) => {
+                const href = target.slug
+                    ? `?slug=${encodeURIComponent(slug)}&lesson=${encodeURIComponent(target.slug)}`
+                    : `?slug=${encodeURIComponent(slug)}`;
+                const icon = side === 'left'
+                    ? '<i class="fas fa-arrow-left mr-2"></i>'
+                    : '<i class="fas fa-arrow-right ml-2"></i>';
+                return `<a href="${href}" data-slug="${escapeHtml(target.slug)}" data-tutorial="${escapeHtml(slug)}"
+                          class="lesson-link group flex-1 block p-4 border border-gray-200 rounded-lg hover:border-emerald-400 hover:bg-emerald-50 transition ${side === 'right' ? 'text-right' : ''}">
+                          <span class="text-xs text-gray-400 uppercase tracking-wider">${label}</span>
+                          <p class="font-semibold text-gray-900 group-hover:text-emerald-700 mt-1">${side === 'left' ? icon : ''}${escapeHtml(target.title)}${side === 'right' ? icon : ''}</p>
+                        </a>`;
+            };
+
+            let html = '<div class="flex gap-4 mt-16 pt-8 border-t border-gray-100">';
+            html += prev ? card(prev, 'Previous', 'left') : '<div class="flex-1"></div>';
+            html += next ? card(next, 'Next', 'right') : '<div class="flex-1"></div>';
+            html += '</div>';
+            $prevNext.innerHTML = html;
+        }
+
+        function renderError(msg) {
+            $main.innerHTML = `<div class="max-w-2xl mx-auto text-center py-24">
+                <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-6"></i>
+                <h1 class="text-2xl font-bold text-gray-900 mb-3">${escapeHtml(msg)}</h1>
+                <a href="index.html" class="inline-flex items-center mt-4 px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 transition">
+                    <i class="fas fa-arrow-left mr-2"></i>Back to Hub
+                </a>
+            </div>`;
+            $prevNext.innerHTML = '';
+            $pageNav.innerHTML = '';
+        }
+
+        async function renderDoc(slug, lesson) {
+            let mdText;
+            if (lesson) {
+                try {
+                    mdText = await fetchMd(`${slug}/${lesson}.md`);
+                } catch {
+                    renderError('Lesson not found.');
+                    return;
+                }
+            } else {
+                mdText = manifest.text;
+            }
+
+            let html = marked.parse(mdText);
+            html = rewriteMermaid(html);
+            const safe = DOMPurify.sanitize(html, { ADD_ATTR: ['class'] });
+            $main.innerHTML = safe;
+
+            $main.querySelectorAll('h2, h3').forEach(h => {
+                if (!h.id) h.id = slugify(h.textContent);
+            });
+
+            if (window.Prism) Prism.highlightAllUnder($main);
+
+            if (window.__mermaid) {
+                const nodes = $main.querySelectorAll('pre.mermaid');
+                if (nodes.length) {
+                    try { await window.__mermaid.run({ nodes }); }
+                    catch (e) { console.warn('Mermaid render failed', e); }
+                }
+            }
+
+            renderPageNav();
+            renderPrevNext(slug, lesson);
+
+            document.querySelector('main').scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        async function loadFromQuery() {
+            const params = new URLSearchParams(location.search);
+            const slug = params.get('slug');
+            const lesson = params.get('lesson');
+
+            if (!slug) {
+                $title.innerHTML = '<i class="fas fa-graduation-cap mr-2"></i>Tutorial';
+                $sidebar.innerHTML = '';
+                renderError('Pick a tutorial from the hub.');
+                return;
+            }
+
+            try {
+                manifest = await loadManifest(slug);
+            } catch {
+                $title.innerHTML = '<i class="fas fa-graduation-cap mr-2"></i>Tutorial';
+                $sidebar.innerHTML = '';
+                renderError(`Tutorial "${slug}" not found.`);
+                return;
+            }
+
+            $title.innerHTML = `<i class="fas fa-graduation-cap mr-2"></i>${escapeHtml(manifest.title)}`;
+            document.title = `${manifest.title} | AI Hub`;
+            renderSidebar(slug, lesson);
+            await renderDoc(slug, lesson);
+        }
+
+        document.addEventListener('click', (e) => {
+            const a = e.target.closest('a.lesson-link');
+            if (!a) return;
+            const url = new URL(a.href, location.origin);
+            const params = new URLSearchParams(url.search);
+            const slug = params.get('slug');
+            const lesson = params.get('lesson');
+            if (!slug) return;
+            e.preventDefault();
+            history.pushState({}, '', `${location.pathname}${url.search}`);
+            if (manifest) {
+                renderSidebar(slug, lesson);
+                renderDoc(slug, lesson);
+            } else {
+                loadFromQuery();
+            }
+        });
+
+        window.addEventListener('popstate', () => {
+            loadFromQuery();
+        });
+
+        loadFromQuery();
+    </script>
+</body>
+
+</html>
