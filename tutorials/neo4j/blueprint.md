@@ -103,7 +103,7 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `CREATE`, `MATCH`, `RETURN`, node and relationship pattern syntax.
 
 ### [Lesson 2: Cypher fluency I, reading graphs](lesson-02-cypher-fluency-reading.md)
-- **Status:** current.
+- **Status:** complete.
 - **Objectives:** read and shape data from the graph with confidence.
 - **Concepts:** the read-query clause pipeline (MATCH, OPTIONAL MATCH, WHERE, WITH, RETURN, ORDER BY, SKIP, LIMIT); filtering; aggregation and Cypher implicit grouping; OPTIONAL MATCH and nulls; variable-length and shortest paths; WITH as the pipeline connector.
 - **Hands-on:** reset, seed a richer banking dataset, then progressively filter, shape, aggregate, and traverse.
@@ -111,7 +111,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can write a multi-clause read query with filtering, aggregation, and a multi-hop traversal.
 - **Constructs:** `WHERE`, `ORDER BY`, `LIMIT`, `SKIP`, `DISTINCT`, `count`, `sum`, `avg`, `collect`, `OPTIONAL MATCH`, variable-length paths, `WITH`.
 
-### Lesson 3: Cypher fluency II, writing and integrity
+### [Lesson 3: Cypher fluency II, writing and integrity](lesson-03-writing-and-integrity.md)
+- **Status:** complete.
 - **Objectives:** create and change data correctly and idempotently.
 - **Concepts:** CREATE versus MERGE and upsert semantics (the most common beginner trap); SET and REMOVE; DELETE and DETACH DELETE; uniqueness constraints and node keys; indexes; query parameters and why they matter for performance and safety.
 - **Hands-on:** make ingestion idempotent so re-running does not duplicate data; add constraints and indexes.
@@ -119,7 +120,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can write idempotent writes and protect the model with constraints.
 - **Constructs:** `MERGE`, `ON CREATE SET`, `ON MATCH SET`, `SET`, `REMOVE`, `DELETE`, `DETACH DELETE`, `CREATE CONSTRAINT`, `CREATE INDEX`, parameters.
 
-### Lesson 4: Data modeling for graphs
+### [Lesson 4: Data modeling for graphs](lesson-04-data-modeling.md)
+- **Status:** current.
 - **Objectives:** turn a domain into a sound graph model.
 - **Concepts:** the modeling questions (node versus property versus relationship); when to reify a relationship into a node, for example a Transaction as a node rather than an edge; modeling time, hierarchies, and many-to-many; refactoring an existing model; mapping a relational schema to a graph.
 - **Hands-on:** evolve the banking model into a fraud-ready and customer-360-ready shape.
@@ -220,9 +222,9 @@ A banking context-layer agent that combines the whole stack: a graph model with 
 | Lesson | Title | Status |
 | --- | --- | --- |
 | 1 | Origins and foundations | Complete |
-| 2 | Cypher fluency I, reading graphs | Current |
-| 3 | Cypher fluency II, writing and integrity | Planned |
-| 4 | Data modeling for graphs | Planned |
+| 2 | Cypher fluency I, reading graphs | Complete |
+| 3 | Cypher fluency II, writing and integrity | Complete |
+| 4 | Data modeling for graphs | Current |
 | 5 | Loading real data | Planned |
 | 6 | Python integration with the official driver | Planned |
 | 7 | Graph algorithms with GDS | Planned |
@@ -237,3 +239,5 @@ A banking context-layer agent that combines the whole stack: a graph model with 
 - Blueprint created as the reference for all subsequent lessons.
 - Lesson 2 delivered.
 - Environment pinned to Neo4j 5.26 LTS: Cypher 5, vector index procedures for Lesson 8, Enterprise features deferred to Lesson 12.
+- Lesson 3 delivered: MERGE and upsert semantics, SET and REMOVE, DELETE and DETACH DELETE, constraints, indexes, and parameters; banking ingestion made idempotent.
+- Lesson 4 delivered: graph modeling questions, reifying relationships into nodes, modeling time and hierarchies, schema refactoring; banking model evolved for fraud and customer 360.
