@@ -137,7 +137,7 @@
             tags: ['Cypher', 'GraphRAG', 'Python'],
             description: 'From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.',
             updated: '2026-06-04',
-            lessons: 8,
+            lessons: 10,
         },
     ];
 

@@ -165,7 +165,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can build a vector index, populate it, and run a hybrid query.
 - **Constructs:** vector index creation, vector query procedures, Gemini embeddings via google-genai.
 
-### Lesson 9: GraphRAG I, building the knowledge graph
+### [Lesson 9: GraphRAG I, building the knowledge graph](lesson-09-graphrag-build.md)
+- **Status:** complete.
 - **Objectives:** turn unstructured text into a knowledge graph.
 - **Concepts:** entity and relationship extraction with an LLM; schema-guided extraction to keep the graph clean; the neo4j-graphrag knowledge-graph builder pipeline; the LLM Knowledge Graph Builder tool.
 - **Hands-on:** build a knowledge graph from a set of banking documents.
@@ -173,7 +174,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can construct a usable knowledge graph from documents with a defined schema.
 - **Constructs:** neo4j-graphrag pipeline components, schema definition, Gemini extraction.
 
-### Lesson 10: GraphRAG II, retrieval and grounding
+### [Lesson 10: GraphRAG II, retrieval and grounding](lesson-10-graphrag-retrieval.md)
+- **Status:** complete.
 - **Objectives:** answer grounded, explainable, multi-hop questions.
 - **Concepts:** retriever types (vector, vector plus Cypher, text-to-Cypher, hybrid); assembling a GraphRAG pipeline with Gemini; grounding answers in retrieved subgraphs; evaluation, guardrails, and returning citations for explainability.
 - **Hands-on:** build a banking question-answering pipeline that grounds answers in the graph.
@@ -233,9 +235,9 @@ A banking context-layer agent that combines the whole stack: a graph model with 
 | 6 | Python integration with the official driver | Complete |
 | 7 | Graph algorithms with GDS | Complete |
 | 8 | Vectors and the semantic layer | Complete |
-| 9 | GraphRAG I, building the knowledge graph | Current |
-| 10 | GraphRAG II, retrieval and grounding | Planned |
-| 11 | The agentic layer with ADK and MCP | Planned |
+| 9 | GraphRAG I, building the knowledge graph | Complete |
+| 10 | GraphRAG II, retrieval and grounding | Complete |
+| 11 | The agentic layer with ADK and MCP | Current |
 | 12 | From laptop to enterprise | Planned |
 
 **Changelog.**
@@ -249,3 +251,5 @@ A banking context-layer agent that combines the whole stack: a graph model with 
 - Lesson 6 delivered: Python integration with the official driver, sessions and managed transactions, parameterized reads and writes, error handling and retries; reusable banking data-access layer.
 - Lesson 7 delivered: Graph Data Science projections and catalog, centrality, community detection, similarity, pathfinding, and node embeddings; fraud rings and central mule accounts surfaced on the banking graph.
 - Lesson 8 delivered: vectors and the semantic layer, Gemini embeddings on nodes, Neo4j vector indexes, vector queries combined with graph traversal for hybrid retrieval over banking notes and policy text.
+- Lesson 9 delivered: GraphRAG I, schema-guided entity and relationship extraction with the neo4j-graphrag knowledge-graph builder; banking knowledge graph constructed from policy and product documents.
+- Lesson 10 delivered: GraphRAG II, retriever types and pipeline assembly with Gemini, grounded answers with citations and the supporting subgraph; banking question-answering pipeline producing explainable responses.
