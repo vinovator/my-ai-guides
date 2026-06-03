@@ -121,7 +121,7 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `MERGE`, `ON CREATE SET`, `ON MATCH SET`, `SET`, `REMOVE`, `DELETE`, `DETACH DELETE`, `CREATE CONSTRAINT`, `CREATE INDEX`, parameters.
 
 ### [Lesson 4: Data modeling for graphs](lesson-04-data-modeling.md)
-- **Status:** current.
+- **Status:** complete.
 - **Objectives:** turn a domain into a sound graph model.
 - **Concepts:** the modeling questions (node versus property versus relationship); when to reify a relationship into a node, for example a Transaction as a node rather than an edge; modeling time, hierarchies, and many-to-many; refactoring an existing model; mapping a relational schema to a graph.
 - **Hands-on:** evolve the banking model into a fraud-ready and customer-360-ready shape.
@@ -129,7 +129,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can justify modeling choices against the questions the graph must answer.
 - **Constructs:** modeling patterns, schema refactoring with Cypher and APOC.
 
-### Lesson 5: Loading real data
+### [Lesson 5: Loading real data](lesson-05-loading-real-data.md)
+- **Status:** complete.
 - **Objectives:** get realistic volumes of data into the graph cleanly.
 - **Concepts:** LOAD CSV with batching; bulk import with neo4j-admin for large initial loads; APOC for loading and transformation; data cleaning and type handling.
 - **Hands-on:** generate and load a synthetic banking dataset large enough for meaningful algorithms.
@@ -137,7 +138,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can load, validate, and index a non-trivial dataset.
 - **Constructs:** `LOAD CSV`, `CALL ... IN TRANSACTIONS`, neo4j-admin import, APOC load procedures.
 
-### Lesson 6: Python integration with the official driver
+### [Lesson 6: Python integration with the official driver](lesson-06-python-driver.md)
+- **Status:** complete.
 - **Objectives:** operate the graph from Python the way an application would.
 - **Concepts:** the driver and sessions; managed transaction functions versus explicit transactions; parameterized queries; consuming records; connection pooling; error handling and retries; an introduction to async.
 - **Hands-on:** build a small Python module that reads and writes the banking graph.
@@ -145,7 +147,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can run safe, parameterized reads and writes from Python with proper transaction handling.
 - **Constructs:** `GraphDatabase.driver`, `session`, `execute_read`, `execute_write`, parameters, result consumption.
 
-### Lesson 7: Graph algorithms with GDS
+### [Lesson 7: Graph algorithms with GDS](lesson-07-graph-algorithms-gds.md)
+- **Status:** complete.
 - **Objectives:** compute structure and insight that queries alone cannot.
 - **Concepts:** graph projections and the catalog; centrality (PageRank, betweenness); community detection (Louvain, label propagation, weakly connected components); similarity (node similarity, K nearest neighbors); pathfinding; node embeddings (FastRP, node2vec) as the bridge to vectors.
 - **Hands-on:** detect communities and rank influential accounts.
@@ -153,7 +156,8 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can project a graph, run an algorithm, and interpret the result.
 - **Constructs:** `gds.graph.project`, `gds.pageRank`, `gds.louvain`, `gds.nodeSimilarity`, embedding procedures.
 
-### Lesson 8: Vectors and the semantic layer
+### [Lesson 8: Vectors and the semantic layer](lesson-08-vectors-semantic-layer.md)
+- **Status:** complete.
 - **Objectives:** add semantic similarity to the graph.
 - **Concepts:** what embeddings are; creating vector indexes in Neo4j; storing Gemini embeddings on nodes; vector similarity queries; combining vector search with graph traversal for hybrid retrieval.
 - **Hands-on:** embed text on nodes with the Gemini API and query by similarity, then enrich results by traversal.
@@ -224,12 +228,12 @@ A banking context-layer agent that combines the whole stack: a graph model with 
 | 1 | Origins and foundations | Complete |
 | 2 | Cypher fluency I, reading graphs | Complete |
 | 3 | Cypher fluency II, writing and integrity | Complete |
-| 4 | Data modeling for graphs | Current |
-| 5 | Loading real data | Planned |
-| 6 | Python integration with the official driver | Planned |
-| 7 | Graph algorithms with GDS | Planned |
-| 8 | Vectors and the semantic layer | Planned |
-| 9 | GraphRAG I, building the knowledge graph | Planned |
+| 4 | Data modeling for graphs | Complete |
+| 5 | Loading real data | Complete |
+| 6 | Python integration with the official driver | Complete |
+| 7 | Graph algorithms with GDS | Complete |
+| 8 | Vectors and the semantic layer | Complete |
+| 9 | GraphRAG I, building the knowledge graph | Current |
 | 10 | GraphRAG II, retrieval and grounding | Planned |
 | 11 | The agentic layer with ADK and MCP | Planned |
 | 12 | From laptop to enterprise | Planned |
@@ -241,3 +245,7 @@ A banking context-layer agent that combines the whole stack: a graph model with 
 - Environment pinned to Neo4j 5.26 LTS: Cypher 5, vector index procedures for Lesson 8, Enterprise features deferred to Lesson 12.
 - Lesson 3 delivered: MERGE and upsert semantics, SET and REMOVE, DELETE and DETACH DELETE, constraints, indexes, and parameters; banking ingestion made idempotent.
 - Lesson 4 delivered: graph modeling questions, reifying relationships into nodes, modeling time and hierarchies, schema refactoring; banking model evolved for fraud and customer 360.
+- Lesson 5 delivered: loading real data with LOAD CSV, batched transactions, neo4j-admin import, and APOC; synthetic banking dataset prepared for the algorithms and vectors arc.
+- Lesson 6 delivered: Python integration with the official driver, sessions and managed transactions, parameterized reads and writes, error handling and retries; reusable banking data-access layer.
+- Lesson 7 delivered: Graph Data Science projections and catalog, centrality, community detection, similarity, pathfinding, and node embeddings; fraud rings and central mule accounts surfaced on the banking graph.
+- Lesson 8 delivered: vectors and the semantic layer, Gemini embeddings on nodes, Neo4j vector indexes, vector queries combined with graph traversal for hybrid retrieval over banking notes and policy text.
