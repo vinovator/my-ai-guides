@@ -201,20 +201,19 @@ The arc moves from the data model, through the query language and modeling, into
 - **Success criteria:** can articulate the enterprise architecture and the controls a production context layer requires.
 - **Constructs:** security and operations configuration, architecture design.
 
-### [Lesson 13: Capstone, the banking context-layer agent](capstone-banking-context-agent.md)
-- **Status:** complete.
-- **Objectives:** assemble the twelve lessons into one runnable banking context-layer agent and use it as a durable reference for the whole arc.
-- **Concepts:** integration of the graph model, ingestion, GDS, vector indexes, GraphRAG retrieval on Gemini, and a Google ADK agent reaching the graph through MCP, with persistent memory and least-privilege read access; how the pieces fit and why.
-- **Hands-on:** stand up the end-to-end project, answer grounded multi-hop questions, and return the supporting path of facts as explanation.
-- **Banking application:** the concrete artifact that demonstrates the enterprise pattern at laptop scale.
-- **Success criteria:** can run the full stack and explain each layer's role in the context-layer architecture.
-- **Constructs:** project assembly, end-to-end wiring across all prior lessons.
-
 ---
 
-## 5. Capstone
+## 5. Appendices
 
-The [banking context-layer agent capstone](capstone-banking-context-agent.md) combines the whole stack: a graph model with realistic data, node embeddings and vector indexes, a GraphRAG retrieval pipeline on Gemini, and a Google ADK agent reaching the graph through MCP, with persistent memory and least-privilege read access. The agent answers grounded, multi-hop questions and returns the supporting path of facts as its explanation. This is the concrete artifact that demonstrates the enterprise pattern at laptop scale.
+The course ships with two appendices that sit after the twelve lessons. They are referenced in the sidebar in the same order as listed below.
+
+### [Appendix 1: Capstone, the banking context-layer agent](capstone-banking-context-agent.md)
+
+An assembly guide that combines the whole stack into one runnable project: a graph model with realistic data, node embeddings and vector indexes, a GraphRAG retrieval pipeline on Gemini, and a Google ADK agent reaching the graph through MCP, with persistent memory and least-privilege read access. The agent answers grounded, multi-hop questions and returns the supporting path of facts as its explanation. This is the concrete artifact that demonstrates the enterprise pattern at laptop scale.
+
+### [Appendix 2: Flashcards and quick reference](neo4j-flashcards-quick-reference.md)
+
+A revision and lookup companion to the twelve lessons. Active-recall flashcards across every lesson, a one-line summary table of the whole course, the ten durable ideas to internalize, and a Cypher cheat-sheet for the syntax you look up rather than memorize.
 
 ---
 
@@ -250,7 +249,13 @@ The [banking context-layer agent capstone](capstone-banking-context-agent.md) co
 | 10 | GraphRAG II, retrieval and grounding | Complete |
 | 11 | The agentic layer with ADK and MCP | Complete |
 | 12 | From laptop to enterprise | Complete |
-| 13 | Capstone, the banking context-layer agent | Complete |
+
+**Appendices.**
+
+| Appendix | Title | Status |
+| --- | --- | --- |
+| 1 | Capstone, the banking context-layer agent | Complete |
+| 2 | Flashcards and quick reference | Complete |
 
 **Changelog.**
 - Lesson 1 delivered: history, significance, property graph model, first queries.
@@ -267,4 +272,5 @@ The [banking context-layer agent capstone](capstone-banking-context-agent.md) co
 - Lesson 10 delivered: GraphRAG II, retriever types and pipeline assembly with Gemini, grounded answers with citations and the supporting subgraph; banking question-answering pipeline producing explainable responses.
 - Lesson 11 delivered: the agentic layer with Google ADK and MCP, pre-validated query tools, controlled text-to-Cypher, persistent agent memory with neo4j-agent-memory, and least-privilege read access; banking context-layer agent reaching the graph through MCP.
 - Lesson 12 delivered: from laptop to enterprise, Community versus Enterprise boundary, RBAC and least-privilege agent users, query timeouts and observability, managed Aura, and the reference architecture for an enterprise agentic context layer; capstone arc complete.
-- Lesson 13 delivered: the banking context-layer agent capstone, assembling the graph model, ingestion, GDS, vector indexes, GraphRAG on Gemini, and the ADK + MCP agent with persistent memory into one runnable end-to-end project.
+- Appendix 1 delivered: the banking context-layer agent capstone, assembling the graph model, ingestion, GDS, vector indexes, GraphRAG on Gemini, and the ADK + MCP agent with persistent memory into one runnable end-to-end project (previously listed as Lesson 13, reclassified as an appendix).
+- Appendix 2 delivered: flashcards and quick reference, an active-recall companion with a course-wide summary table, the ten durable ideas, and a Cypher cheat-sheet.
