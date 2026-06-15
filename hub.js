@@ -211,7 +211,7 @@
             ? `<div class="h-1.5 bg-${a}-500 -mx-6 -mt-6 mb-4 rounded-t-xl"></div>`
             : '';
         const lessonsLine = (card.type === 'tutorial' && card.lessons)
-            ? `<p class="text-xs font-medium text-${a}-700 dark:text-${a}-300 mb-2"><i class="fas fa-book-open mr-1"></i>${card.lessons} lessons</p>`
+            ? `<p class="text-xs font-medium text-${a}-700 dark:text-${a}-300 mb-2"><i class="fas fa-book-open mr-1"></i>${card.lessons} lesson${card.lessons === 1 ? '' : 's'}</p>`
             : '';
 
         const hay = escapeHtml(searchHay(card));
@@ -267,7 +267,7 @@
         const lessons   = CARDS.reduce((n, c) => n + (c.lessons || 0), 0);
         const parts = [`${guides} guides`];
         parts.push(`${tutorials} tutorial${tutorials === 1 ? '' : 's'}`);
-        if (lessons) parts.push(`${lessons} lessons live`);
+        if (lessons) parts.push(`${lessons} lesson${lessons === 1 ? '' : 's'} live`);
         parts.push('open source');
         slot.innerHTML = parts.map(p =>
             `<span class="inline-flex items-center"><span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>${p}</span>`

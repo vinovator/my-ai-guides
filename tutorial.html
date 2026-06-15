@@ -204,7 +204,7 @@
         </div>
 
         <nav class="p-4 overflow-y-auto flex-1">
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Lessons</p>
+            <p id="lesson-list-heading" class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Lessons</p>
             <ul id="lesson-list" class="space-y-1"></ul>
             <div id="page-nav"></div>
         </nav>
@@ -323,10 +323,13 @@
         }
 
         function renderSidebar(slug, lesson) {
+            const heading = document.getElementById('lesson-list-heading');
             if (manifest.singleMode) {
                 $sidebar.innerHTML = '';
+                if (heading) heading.style.display = 'none';
                 return;
             }
+            if (heading) heading.style.display = '';
             const overviewActive = !lesson;
             const overview = `
                 <li>
