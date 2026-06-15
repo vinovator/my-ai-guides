@@ -505,6 +505,22 @@
             await renderDoc(slug, lesson);
         }
 
+        // In-page nav (the "On this page" links in the sidebar). The default
+        // anchor behavior scrolls the document, but <body> is overflow-hidden
+        // and <main> is the actual scroll container — so we have to scroll the
+        // target heading into view ourselves.
+        document.addEventListener('click', (e) => {
+            const a = e.target.closest('a.page-link');
+            if (!a) return;
+            const id = a.dataset.spy || (a.getAttribute('href') || '').replace(/^#/, '');
+            if (!id) return;
+            const target = document.getElementById(id);
+            if (!target) return;
+            e.preventDefault();
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            history.replaceState({}, '', `${location.pathname}${location.search}#${id}`);
+        });
+
         document.addEventListener('click', (e) => {
             const a = e.target.closest('a.lesson-link');
             if (!a) return;
