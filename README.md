@@ -1,6 +1,6 @@
 # AI Hub
 
-A curated collection of single-page, comprehensive guides for modern AI Agent Frameworks, plus deep-dive multi-lesson tutorials.
+A curated collection of single-page, comprehensive guides for modern AI Agent Frameworks, plus deep-dive tutorials on the topics worth knowing deeply.
 
 ## 🚀 **[View the Live Site](https://vinovator.github.io/my-ai-guides/)**
 
