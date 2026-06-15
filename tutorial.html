@@ -264,6 +264,10 @@
             return t.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
         }
 
+        function slugToTitle(slug) {
+            return slug.split('-').filter(Boolean).map(w => w[0].toUpperCase() + w.slice(1)).join(' ');
+        }
+
         function parseLessons(blueprintMd) {
             const re = /\[([^\]]+)\]\((?:\.\/)?([^)\s]+\.md)\)/g;
             const out = [];
@@ -298,15 +302,31 @@
         }
 
         async function loadManifest(slug) {
-            const text = await fetchMd(`tutorials/${slug}/blueprint.md`);
-            return {
-                text,
-                title: parseTutorialTitle(text),
-                lessons: parseLessons(text),
-            };
+            try {
+                const text = await fetchMd(`tutorials/${slug}/blueprint.md`);
+                return {
+                    text,
+                    title: parseTutorialTitle(text),
+                    lessons: parseLessons(text),
+                    singleMode: false,
+                };
+            } catch {
+                // No blueprint.md — treat as a single-lesson tutorial.
+                // The hub card's href must include &lesson=<file-stem>.
+                return {
+                    text: null,
+                    title: slugToTitle(slug),
+                    lessons: [],
+                    singleMode: true,
+                };
+            }
         }
 
         function renderSidebar(slug, lesson) {
+            if (manifest.singleMode) {
+                $sidebar.innerHTML = '';
+                return;
+            }
             const overviewActive = !lesson;
             const overview = `
                 <li>
@@ -362,6 +382,10 @@
         }
 
         function renderPrevNext(slug, lesson) {
+            if (manifest.singleMode) {
+                $prevNext.innerHTML = '';
+                return;
+            }
             const lessons = manifest.lessons;
             let prev = null, next = null;
             if (!lesson) {
@@ -470,6 +494,13 @@
 
             $title.innerHTML = `<i class="fas fa-graduation-cap mr-2"></i>${escapeHtml(manifest.title)}`;
             document.title = `${manifest.title} | AI Hub`;
+
+            if (manifest.singleMode && !lesson) {
+                renderSidebar(slug, lesson);
+                renderError('This tutorial requires a lesson to be specified in the URL.');
+                return;
+            }
+
             renderSidebar(slug, lesson);
             await renderDoc(slug, lesson);
         }

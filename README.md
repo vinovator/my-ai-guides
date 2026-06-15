@@ -25,6 +25,7 @@ This repository hosts the source code for the interactive content published at t
 Multi-lesson tutorials authored in plain Markdown. Each tutorial is a folder containing a `blueprint.md` (landing page + lesson index) and one Markdown file per lesson. The shared `tutorial.html` viewer renders them with a left-sidebar lesson list, scroll-spy table of contents, prev/next navigation, Mermaid diagrams, and Prism syntax highlighting.
 
 - **[Neo4j](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=neo4j)** - From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.
+- **[Investment Valuation](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide)** - From zero to a defensible business valuation. Accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.
 
 ## 🛠️ Tech Stack
 

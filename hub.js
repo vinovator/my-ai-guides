@@ -139,6 +139,17 @@
             updated: '2026-06-04',
             lessons: 12,
         },
+        {
+            type: 'tutorial', category: 'Tutorials',
+            title: 'Investment Valuation',
+            href: 'tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide',
+            icon: 'fa-chart-line', accent: 'amber',
+            badge: 'Tutorial',
+            tags: ['Finance', 'DCF', 'Accounting'],
+            description: 'From zero to a defensible business valuation. Accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.',
+            updated: '2026-06-15',
+            lessons: 1,
+        },
     ];
 
     // ------------------------------------------------------------------------
