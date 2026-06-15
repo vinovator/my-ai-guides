@@ -231,7 +231,10 @@
         </div>
     </footer>
 
-    <script src="hub.js" defer></script>
+    <!-- Bump the ?v= query string whenever hub.js changes so visitors with a cached copy
+         see the new cards without a hard refresh. GitHub Pages caches assets for up to
+         10 minutes (cache-control: max-age=600) and many browsers extend that locally. -->
+    <script src="hub.js?v=2026-06-15" defer></script>
 </body>
 
 </html>

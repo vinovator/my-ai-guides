@@ -63,6 +63,7 @@ Every guide must include a **"Back to Hub"** link (`href="../index.html"`) in it
 `index.html` does NOT contain hand-authored card markup. Every card on the hub is one object in the `CARDS` array inside `hub.js`. A renderer in the same file builds the section grids at page load from `CATEGORIES` + `CARDS`.
 
 - **Adding any card** (guide or tutorial) = append one object to `CARDS` in `hub.js`. Don't paste card HTML.
+- **After editing `hub.js`, bump the cache-buster query in `index.html`**: the `<script src="hub.js?v=YYYY-MM-DD">` tag near the end of `index.html` includes a `?v=` parameter so visitors with a stale 10-minute Pages cache pick up the new card on their next visit. Update the date string (any value distinct from the previous one works) whenever you change `hub.js`. Without this, returning users may see the old card list until their browser revalidates.
 - **Card shape**: `{ type, category, title, href, icon, accent, badge, tags, description }`. Optional fields: `iconBg`, `iconColor`, `titleHover`, `tagBg`, `tagText` (defaults derive from `accent`); `updated: 'YYYY-MM-DD'` (powers the "Recently updated" strip and sort order); `lessons: N` (tutorials only, shown next to the title).
   - `type: 'guide'` → links to a file under `guides/`. Badge renders in the muted gray style.
   - `type: 'tutorial'` → links to `tutorial.html?slug=<slug>`. Card gets the accent-colored top ribbon, a "📖 N lessons" sub-line, and a bold accent badge.
