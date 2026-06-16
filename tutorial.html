@@ -331,7 +331,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cypher.min.js"></script>
 
     <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        // Pinned to 10.9.2 — 10.9.3 introduced a regression that misparses
+        // stateDiagram-v2 and sequenceDiagram blocks ("Syntax error in text").
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.9.2/dist/mermaid.esm.min.mjs';
         function currentMermaidTheme() {
             return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
         }
