@@ -87,7 +87,7 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">CrewAI Refresher</h1>
-        <p class="text-lg text-gray-600 mb-8">The "Employee" model of Agentic AI. Focused on Role-Playing, Process, and
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">The "Employee" model of Agentic AI. Focused on Role-Playing, Process, and
             Delegation.</p>
 
         <!-- Section 1: Foundations -->
@@ -96,14 +96,14 @@
             <div class="grid md:grid-cols-2 gap-6">
                 <div>
                     <h3 class="font-bold text-orange-600 mb-2">Philosophy</h3>
-                    <p class="text-sm text-gray-600 mb-4">CrewAI is designed to mimic a human organization. You don't
+                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">CrewAI is designed to mimic a human organization. You don't
                         just write a prompt; you hire an "Agent" with a job title (Role), a mission (Goal), and a
                         personality (Backstory). This constraint reduces hallucinations because the LLM stays "in
                         character".</p>
                 </div>
                 <div class="bg-gray-50 p-4 rounded-lg">
                     <h3 class="font-bold text-gray-900 dark:text-gray-100 mb-2">When to use?</h3>
-                    <ul class="list-disc list-inside text-sm text-gray-600 space-y-2">
+                    <ul class="list-disc list-inside text-sm text-gray-600 dark:text-gray-400 space-y-2">
                         <li><strong>Automating Jobs:</strong> "I need a Researcher, a Writer, and an Editor."</li>
                         <li><strong>Known Processes:</strong> You know the steps (A->B->C), you just need AI to do them
                             intelligently.</li>
@@ -117,7 +117,7 @@
         <!-- Section 2: Core Concepts -->
         <section id="agents" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">2. Agents & Roles</h2>
-            <p class="mb-4 text-gray-600">Agents are the distinct workers. Defining a good agent requires "Prompt
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Agents are the distinct workers. Defining a good agent requires "Prompt
                 Engineering" in the form of a Backstory.</p>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from crewai import Agent
@@ -138,7 +138,7 @@ researcher = Agent(
 
         <section id="tasks" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">3. Tasks & Outputs</h2>
-            <p class="mb-4 text-gray-600">Tasks are the specific assignments. A good task is descriptive and
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Tasks are the specific assignments. A good task is descriptive and
                 result-oriented.</p>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from crewai import Task
@@ -180,7 +180,7 @@ writing_task = Task(
 
         <section id="structured" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Advanced: Structured Output</h2>
-            <p class="mb-4 text-gray-600">For production, you rarely want just text. You want JSON or Python objects.
+            <p class="mb-4 text-gray-600 dark:text-gray-400">For production, you rarely want just text. You want JSON or Python objects.
                 CrewAI integrates Pydantic for this.</p>
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
                 <pre><code class="language-python">from pydantic import BaseModel
@@ -208,7 +208,7 @@ print(result.pydantic.trends[0].name) # Type-safe access!</code></pre>
 
         <section id="async" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Advanced: Async Execution</h2>
-            <p class="mb-4 text-gray-600">Tasks usually block. If you have two independent research tasks, run them in
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Tasks usually block. If you have two independent research tasks, run them in
                 parallel to save time.</p>
             <pre><code class="language-python"># These two run simultaneously
 task_1 = Task(..., async_execution=True)
@@ -221,7 +221,7 @@ task_3 = Task(..., context=[task_1, task_2])</code></pre>
         <!-- Section 3: Techniques -->
         <section id="hierarchical" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Hierarchical Process</h2>
-            <p class="mb-4 text-gray-600">Instead of a relay race (Sequential), use a Boss (Manager). The Manager takes
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Instead of a relay race (Sequential), use a Boss (Manager). The Manager takes
                 the Goal and breaks it down, assigning tasks to workers dynamically.</p>
 
             <div class="border rounded-lg overflow-hidden bg-gray-900 text-gray-100">
@@ -242,7 +242,7 @@ crew = Crew(
 
         <section id="planning" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Planning Mode</h2>
-            <p class="mb-4 text-gray-600">Enabling <code>planning=True</code> adds a special "Plan" step before
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Enabling <code>planning=True</code> adds a special "Plan" step before
                 execution starts. The Crew analyzes all tasks and agents to create a global execution strategy.</p>
             <pre><code class="language-python">crew = Crew(
     agents=[...],
@@ -254,8 +254,8 @@ crew = Crew(
 
         <section id="memory" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Memory Systems</h2>
-            <p class="mb-4 text-gray-600">CrewAI has a sophisticated memory layer to prevent redundancy.</p>
-            <ul class="list-disc ml-6 mb-4 text-gray-600">
+            <p class="mb-4 text-gray-600 dark:text-gray-400">CrewAI has a sophisticated memory layer to prevent redundancy.</p>
+            <ul class="list-disc ml-6 mb-4 text-gray-600 dark:text-gray-400">
                 <li><strong>Short-term:</strong> RAG over the current run's outputs.</li>
                 <li><strong>Long-term:</strong> SQLite/ChromaDB storage of past run insights.</li>
                 <li><strong>Entity:</strong> Extractions of key subjects (e.g., "Tesla", "Elon").</li>
@@ -272,7 +272,7 @@ crew = Crew(
 
         <section id="callbacks" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Callbacks</h2>
-            <p class="mb-4 text-gray-600">Hooks for observability or side-effects (e.g., logging to a database).</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Hooks for observability or side-effects (e.g., logging to a database).</p>
             <div class="grid md:grid-cols-2 gap-4 mb-4">
                 <div class="bg-white border p-3 rounded">
                     <strong>task_callback:</strong> Runs after a specific Task finishes. Good for saving intermediate
@@ -291,7 +291,7 @@ agent = Agent(..., step_callback=log_step)</code></pre>
 
         <section id="flows" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: CrewAI Flows (v0.80+)</h2>
-            <p class="mb-4 text-gray-600">For building complex applications, simple Crews aren't enough. Flows allow you
+            <p class="mb-4 text-gray-600 dark:text-gray-400">For building complex applications, simple Crews aren't enough. Flows allow you
                 to chain Crews, run python logic, and handle state.</p>
             <pre><code class="language-python">from crewai.flow.flow import Flow, listen, start
 

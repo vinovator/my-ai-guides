@@ -62,12 +62,12 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">Smolagents (Hugging Face)</h1>
-        <p class="text-lg text-gray-600 mb-8">Minimalist framework where Agents write Python code to solve tasks.</p>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Minimalist framework where Agents write Python code to solve tasks.</p>
 
         <!-- Section 1 -->
         <section id="intro" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
             <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. Philosophy: Code as Action</h2>
-            <p class="text-sm text-gray-600">Most agents (CrewAI, LangGraph) output JSON to call tools. Smolagents
+            <p class="text-sm text-gray-600 dark:text-gray-400">Most agents (CrewAI, LangGraph) output JSON to call tools. Smolagents
                 output <strong>Python Code</strong>. The framework runs this code in a sandbox. This handles loops,
                 logic, and variables natively in one LLM call.</p>
         </section>
@@ -95,7 +95,7 @@ agent.run("Go to wikipedia.org, find the featured article, and summarize it.")</
         <!-- Section 3 -->
         <section id="tools" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Custom Tools</h2>
-            <p class="mb-4 text-gray-600">Decorate any python function.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Decorate any python function.</p>
             <pre><code class="language-python">from smolagents import tool
 
 @tool

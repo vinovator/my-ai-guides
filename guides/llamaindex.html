@@ -60,12 +60,12 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">LlamaIndex Agents</h1>
-        <p class="text-lg text-gray-600 mb-8">Agents that reason over your Data (RAG).</p>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Agents that reason over your Data (RAG).</p>
 
         <!-- Section 1 -->
         <section id="react" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
             <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. The ReAct Agent</h2>
-            <p class="mb-4 text-gray-600">The standard reasoning loop: Thought -> Action -> Observation.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">The standard reasoning loop: Thought -> Action -> Observation.</p>
             <pre><code class="language-python">from llama_index.core.agent import ReActAgent
 from llama_index.llms.openai import OpenAI
 
@@ -81,7 +81,7 @@ agent.chat("Compare the revenue of Apple and Google.")</code></pre>
         <!-- Section 2 -->
         <section id="rag" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Turning Data into Tools</h2>
-            <p class="mb-4 text-gray-600">LlamaIndex's unique power: Wrapping a Vector Search as a Tool.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">LlamaIndex's unique power: Wrapping a Vector Search as a Tool.</p>
             <pre><code class="language-python">from llama_index.core.tools import QueryEngineTool, ToolMetadata
 
 # Assume 'finance_engine' is a RAG pipeline over 1000 PDFs
@@ -100,7 +100,7 @@ agent = ReActAgent.from_tools([finance_tool], llm=llm)
         <!-- Section 3 -->
         <section id="workflows" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Event-Driven Workflows</h2>
-            <p class="mb-4 text-gray-600">New in v0.10. Similar to LangGraph.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">New in v0.10. Similar to LangGraph.</p>
             <pre><code class="language-python">from llama_index.core.workflow import (
     StartEvent, StopEvent, Workflow, step
 )

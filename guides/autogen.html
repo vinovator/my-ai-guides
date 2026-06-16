@@ -68,19 +68,19 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">AutoGen Refresher</h1>
-        <p class="text-lg text-gray-600 mb-8">Microsoft's conversational framework.</p>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Microsoft's conversational framework.</p>
 
         <!-- Section 1: Agents -->
         <section id="assistant" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
             <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. AssistantAgent</h2>
-            <p class="text-sm text-gray-600 mb-4">The "Brain". Uses LLM to generate plans/code. No execution.</p>
+            <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">The "Brain". Uses LLM to generate plans/code. No execution.</p>
             <pre><code class="language-python">from autogen import AssistantAgent
 assistant = AssistantAgent(name="Coder", llm_config={"config_list": [...]})</code></pre>
         </section>
 
         <section id="proxy" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">2. UserProxyAgent</h2>
-            <p class="mb-4 text-gray-600">The "Executor". Acts for the user and executes code.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">The "Executor". Acts for the user and executes code.</p>
             <pre><code class="language-python">from autogen import UserProxyAgent
 user_proxy = UserProxyAgent(name="User", human_input_mode="NEVER")</code></pre>
         </section>
@@ -88,7 +88,7 @@ user_proxy = UserProxyAgent(name="User", human_input_mode="NEVER")</code></pre>
         <!-- NEW SECTION: CODE EXECUTION -->
         <section id="code" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Code Execution</h2>
-            <p class="mb-4 text-gray-600">The UserProxy can be configured to run code safely, often in Docker.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">The UserProxy can be configured to run code safely, often in Docker.</p>
             <pre><code class="language-python">user_proxy = UserProxyAgent(
     name="Executor",
     code_execution_config={

@@ -43,9 +43,10 @@ Top-level layout:
 
 All guides load the same CDN stack — keep it consistent when editing or adding pages:
 
-- **Tailwind CSS** via `<script src="https://cdn.tailwindcss.com">` (Play CDN — no `tailwind.config.js`, no PostCSS). All styling is utility classes in markup plus a small `<style>` block per page.
-- **Prism.js 1.29.0** for syntax highlighting. The pattern is `<pre><code class="language-python">...</code></pre>`. Include `prism.min.js` plus the language components you actually use (e.g. `prism-python.min.js`) before `</body>`.
-- **Mermaid 10** for diagrams, loaded as an ES module with `mermaid.initialize({ startOnLoad: true, theme: 'neutral' })`. Only include it on pages that actually render diagrams.
+- **Tailwind CSS** via `<script src="https://cdn.tailwindcss.com">` (Play CDN — no `tailwind.config.js`, no PostCSS). All styling is utility classes in markup plus a small `<style>` block per page. Right after the CDN script, every page sets `tailwind.config = { darkMode: 'class' }` so `dark:` variants resolve at runtime.
+- **Prism.js 1.29.0** for syntax highlighting. The pattern is `<pre><code class="language-python">...</code></pre>`. Include `prism.min.js` plus the language components you actually use (e.g. `prism-python.min.js`) before `</body>`. The `prism-tomorrow` theme is loaded everywhere and reads fine on both light and dark backgrounds, so it doesn't get swapped on toggle.
+- **Mermaid 10** for diagrams, loaded as an ES module. Only include it on pages that actually render diagrams. Theme-aware init: read `document.documentElement.classList.contains('dark')` to pick `'dark'` vs `'neutral'`, then capture each diagram's source into `el.dataset.src` BEFORE calling `mermaid.run()` (mermaid replaces the `<pre>`/`<div>` content with rendered SVG), and expose `window.__renderMermaid` so `theme.js` can restore the source and re-render on toggle. The guide selector is `.mermaid` (catches both `<div class="mermaid">` used in masterclass guides and `<pre class="mermaid">` produced by the markdown renderer).
+- **Dark mode** is site-wide. Every page (`index.html`, `tutorial.html`, every `guides/*.html`) must include three things: (a) the pre-paint inline `<script>` in `<head>` that reads `localStorage.theme` and applies the `dark` class before Tailwind paints; (b) the `tailwind.config = { darkMode: 'class' }` line right after the Tailwind CDN script; (c) `<script src="theme.js?v=YYYY-MM-DD">` (or `../theme.js?v=…` from a guide) before `</body>`. The toggle button itself lives in each page's sidebar/nav header with `id="theme-toggle"` and the sun/moon icon pair — `theme.js` auto-binds. Bump the `?v=` query when you change `theme.js`, same convention as `hub.js`.
 - **Font Awesome 6.4.0** for icons (`<i class="fas fa-...">`).
 - **Inter** is the body font, set via inline `<style>` (no Google Fonts `<link>` is used — system fallback handles it).
 
@@ -84,7 +85,7 @@ The hub has more than card rendering. Each of these lives in `hub.js`:
 - **Live filter** (`#card-filter`): fuzzy match on title/badge/description/tags, with per-section counters and an empty state. Esc clears.
 - **Sticky category nav** (`#sticky-nav`): pill bar that slides in below the navbar once you scroll past the hero. One pill per non-empty category.
 - **Recently updated strip** (`#recent-strip`): renders the 2 most recent cards by `updated:` date above the categorized grid, with a "Updated Xd ago" badge.
-- **Dark mode** (`#theme-toggle`): class-based, persisted in `localStorage`, auto-detects `prefers-color-scheme: dark` on first load. A pre-paint inline `<script>` in `<head>` sets the `dark` class before Tailwind loads to avoid flash-of-light. Dark mode currently only applies to `index.html` — the guides and the tutorial viewer keep their light theme.
+- **Dark mode** (`#theme-toggle`): class-based, persisted in `localStorage` under the key `theme`, auto-detects `prefers-color-scheme: dark` on first load. A pre-paint inline `<script>` in each page's `<head>` sets the `dark` class before Tailwind loads, avoiding flash-of-light. Toggle wiring lives in the shared `theme.js` at the repo root (loaded by `index.html`, `tutorial.html`, and every guide), so the choice carries across the hub ↔ guides ↔ tutorial-viewer navigation via the same `localStorage` key. `hub.js` itself no longer owns the toggle.
 - **Footer year**: auto-updated via `new Date().getFullYear()`.
 
 ## Tutorials (Markdown)

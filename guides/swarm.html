@@ -61,11 +61,11 @@
 
     <main class="lg:ml-64 flex-1 p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">OpenAI Swarm</h1>
-        <p class="text-lg text-gray-600 mb-8">Experimental pattern for lightweight agent "Handoffs".</p>
+        <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">Experimental pattern for lightweight agent "Handoffs".</p>
 
         <section id="handoff" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
             <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. Philosophy</h2>
-            <p class="text-sm text-gray-600">Swarm is stateless. An agent is just a set of instructions. To
+            <p class="text-sm text-gray-600 dark:text-gray-400">Swarm is stateless. An agent is just a set of instructions. To
                 "Orchestrate", Agent A simply calls a function that returns Agent B. This is called a
                 <strong>Handoff</strong>.
             </p>
@@ -105,7 +105,7 @@ print(response.messages[-1]['content'])</code></pre>
 
         <section id="context" class="mb-12">
             <h2 class="text-2xl font-bold mb-6">Technique: Context Variables</h2>
-            <p class="mb-4 text-gray-600">Since Swarm is stateless, you pass data manually.</p>
+            <p class="mb-4 text-gray-600 dark:text-gray-400">Since Swarm is stateless, you pass data manually.</p>
             <pre><code class="language-python">def greet(context_variables):
     name = context_variables.get("name", "User")
     return f"Hello {name}"
