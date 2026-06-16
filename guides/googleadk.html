@@ -324,7 +324,7 @@
                     Every ADK app has the same shape. A <code>Runner</code> orchestrates a turn: it receives a user message, hands it to the root <code>Agent</code>, lets the agent call the LLM and tools, persists everything to a <code>Session</code>, and emits events you stream to the user.
                 </p>
 
-                <pre class="mermaid">
+                <div class="mermaid">
 flowchart LR
     U([User]) -->|message| R[Runner]
     R -->|invoke| A[Agent]
@@ -335,7 +335,7 @@ flowchart LR
     A -->|response| R
     R -->|persists| S[(SessionService<br/>state + history)]
     R -->|events| U
-                </pre>
+                </div>
 
                 <h3>Where ADK fits next to other frameworks</h3>
 
@@ -660,7 +660,7 @@ coordinator = Agent(
     sub_agents=[researcher, writer, reviewer],
 )</code></pre>
 
-                <pre class="mermaid">
+                <div class="mermaid">
 flowchart TB
     C[coordinator<br/>gemini-2.5-pro] -->|delegate| R[researcher<br/>+google_search]
     C -->|delegate| W[writer<br/>gemini-2.5-pro]
@@ -668,7 +668,7 @@ flowchart TB
     R -.->|notes| C
     W -.->|draft| C
     V -.->|approval / feedback| C
-                </pre>
+                </div>
 
                 <h3>Workflow agents: when you want determinism</h3>
 
@@ -693,7 +693,7 @@ refine = LoopAgent(
     max_iterations=5,
 )</code></pre>
 
-                <pre class="mermaid">
+                <div class="mermaid">
 flowchart LR
     subgraph SEQ[SequentialAgent]
         direction LR
@@ -714,7 +714,7 @@ flowchart LR
         l2 -->|not done| l1
         l2 -->|escalate| l3([exit])
     end
-                </pre>
+                </div>
 
                 <h3>Mixing the two</h3>
 
@@ -866,13 +866,13 @@ async def test_weather_agent():
                     The same agent code runs in three places without modification. The deployment target only changes <em>who runs the Runner</em>.
                 </p>
 
-                <pre class="mermaid">
+                <div class="mermaid">
 flowchart LR
     Code[Your code:<br/>weather_agent/agent.py] -->|adk web / adk run| Local[Local dev loop]
     Code -->|adk deploy agent_engine| AE[Vertex AI<br/>Agent Engine]
     Code -->|adk deploy cloud_run<br/>or gcloud run deploy| CR[Cloud Run]
     Code -->|build container| GKE[Any container host<br/>GKE / EKS / on-prem]
-                </pre>
+                </div>
 
                 <h3>Local development</h3>
 
