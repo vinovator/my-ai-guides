@@ -330,34 +330,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-cypher.min.js"></script>
 
-    <script type="module">
-        // Pinned to 10.9.2 — 10.9.3 introduced a regression that misparses
-        // stateDiagram-v2 and sequenceDiagram blocks ("Syntax error in text").
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.9.2/dist/mermaid.esm.min.mjs';
-        function currentMermaidTheme() {
-            return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
-        }
-        mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
-        window.__mermaid = mermaid;
-        window.__currentMermaidTheme = currentMermaidTheme;
-
-        // theme.js calls this after toggling. We restore each <pre.mermaid>'s
-        // captured source (the markdown renderer puts it in data-src before
-        // calling mermaid.run), then re-init and re-run with the new theme.
-        window.__renderMermaid = async function () {
-            const nodes = document.querySelectorAll('pre.mermaid');
-            if (!nodes.length) return;
-            nodes.forEach(el => {
-                if (el.dataset.src) {
-                    el.textContent = el.dataset.src;
-                    el.removeAttribute('data-processed');
-                }
-            });
-            mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
-            try { await mermaid.run({ nodes }); }
-            catch (e) { console.warn('Mermaid render failed', e); }
-        };
-    </script>
+    <script type="module" src="mermaid-setup.js?v=2026-06-16"></script>
 
     <script type="module">
         const $title = document.getElementById('tutorial-title');
@@ -586,16 +559,8 @@
 
             if (window.Prism) Prism.highlightAllUnder($main);
 
-            if (window.__mermaid) {
-                const nodes = $main.querySelectorAll('pre.mermaid');
-                if (nodes.length) {
-                    // Capture the source text so theme.js can re-render
-                    // diagrams with the new theme on toggle (mermaid replaces
-                    // the <pre>'s content with rendered SVG after run()).
-                    nodes.forEach(el => { if (!el.dataset.src) el.dataset.src = el.textContent; });
-                    try { await window.__mermaid.run({ nodes }); }
-                    catch (e) { console.warn('Mermaid render failed', e); }
-                }
+            if (typeof window.__renderMermaidNodes === 'function') {
+                await window.__renderMermaidNodes($main.querySelectorAll('pre.mermaid'));
             }
 
             renderPageNav();
