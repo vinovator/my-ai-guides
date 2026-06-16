@@ -5,12 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Google ADK Masterclass: Building Production Agents on Vertex AI</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+        function currentMermaidTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+        }
+        document.querySelectorAll('.mermaid').forEach(el => {
+            if (!el.dataset.src) el.dataset.src = el.textContent;
+        });
+        mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+        await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+
+        window.__renderMermaid = async function () {
+            const nodes = document.querySelectorAll('.mermaid');
+            if (!nodes.length) return;
+            nodes.forEach(el => {
+                if (el.dataset.src) {
+                    el.textContent = el.dataset.src;
+                    el.removeAttribute('data-processed');
+                }
+            });
+            mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+            try { await mermaid.run({ nodes }); }
+            catch (e) { console.warn('Mermaid render failed', e); }
+        };
     </script>
     <style>
         body {
@@ -140,74 +178,98 @@
         .warn strong {
             color: #b45309;
         }
+
+        /* ----- Dark mode overrides ----- */
+        html.dark body { color: #e5e7eb; }
+        html.dark ::-webkit-scrollbar-thumb { background: #374151; }
+        html.dark ::-webkit-scrollbar-track { background: #111827; }
+        html.dark h3 { color: #f3f4f6; }
+        html.dark p { color: #d1d5db; }
+        html.dark ul, html.dark ol { color: #d1d5db; }
+        html.dark code:not([class*="language-"]) {
+            color: #5eead4;
+            background: rgba(20, 184, 166, 0.18);
+        }
+        html.dark pre.mermaid {
+            background: #1f2937 !important;
+            border-color: #374151;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex h-screen overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden transition-colors">
 
-    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
-        <div class="p-6 border-b bg-gray-50">
-            <h1 class="font-bold text-xl text-teal-800 tracking-tight flex items-center">
-                <i class="fas fa-circle-nodes mr-2"></i>Google ADK
-            </h1>
+    <aside class="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+            <div class="flex items-start justify-between gap-2">
+                <h1 class="font-bold text-xl text-teal-800 dark:text-teal-300 tracking-tight flex items-center">
+                    <i class="fas fa-circle-nodes mr-2"></i>Google ADK
+                </h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
             <a href="../index.html"
-                class="text-xs text-gray-400 hover:text-teal-600 transition-colors mt-1 block font-medium">
+                class="text-xs text-gray-400 dark:text-gray-500 hover:text-teal-600 dark:hover:text-teal-300 transition-colors mt-1 block font-medium">
                 <i class="fas fa-arrow-left mr-1"></i> Back to Hub
             </a>
             <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Masterclass Guide</p>
         </div>
 
         <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">The Basics</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">The Basics</p>
             <a href="#level0"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">0</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">0</span>
                 The Foundation
             </a>
             <a href="#level1"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">1</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">1</span>
                 Your First Agent
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Capabilities</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Capabilities</p>
             <a href="#level2"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">2</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">2</span>
                 Tools
             </a>
             <a href="#level3"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">3</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">3</span>
                 Sessions, State &amp; Memory
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Composition</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Composition</p>
             <a href="#level4"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">4</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">4</span>
                 Multi-Agent Systems
             </a>
             <a href="#level5"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">5</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">5</span>
                 Callbacks &amp; Guardrails
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Production</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Production</p>
             <a href="#level6"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">6</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">6</span>
                 Evaluation
             </a>
             <a href="#level7"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">7</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">7</span>
                 Deployment
             </a>
             <a href="#appendix"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 text-gray-700 hover:text-teal-700 transition-colors">
-                <span class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-teal-500 font-bold">A</span>
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
+                <span class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-teal-500 dark:group-hover:text-teal-300 font-bold">A</span>
                 Appendix
             </a>
 
@@ -220,10 +282,10 @@
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
 
         <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 tracking-tight leading-tight">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 dark:text-gray-100 tracking-tight leading-tight">
                 The Google ADK <span class="text-teal-700">Masterclass</span>
             </h1>
             <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -237,7 +299,7 @@
             <section id="level0">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">0</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Foundation: What ADK Is and Isn't</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Foundation: What ADK Is and Isn't</h2>
                 </div>
 
                 <p>
@@ -290,7 +352,7 @@ flowchart LR
             <section id="level1">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Your First Agent</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Your First Agent</h2>
                 </div>
 
                 <h3>Install and authenticate</h3>
@@ -380,7 +442,7 @@ asyncio.run(main())</code></pre>
             <section id="level2">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Tools: Giving Agents Hands</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Tools: Giving Agents Hands</h2>
                 </div>
 
                 <p>
@@ -482,7 +544,7 @@ def remember_preference(key: str, value: str, tool_context: ToolContext) -> str:
             <section id="level3">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Sessions, State &amp; Memory</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Sessions, State &amp; Memory</h2>
                 </div>
 
                 <p>
@@ -563,7 +625,7 @@ runner = Runner(
             <section id="level4">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Multi-Agent Systems</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Multi-Agent Systems</h2>
                 </div>
 
                 <p>
@@ -674,7 +736,7 @@ flowchart LR
             <section id="level5">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Callbacks &amp; Guardrails</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Callbacks &amp; Guardrails</h2>
                 </div>
 
                 <p>
@@ -735,7 +797,7 @@ agent = Agent(..., before_model_callback=redact_pii)</code></pre>
             <section id="level6">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Evaluation</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Evaluation</h2>
                 </div>
 
                 <p>
@@ -795,7 +857,7 @@ async def test_weather_agent():
             <section id="level7">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Deployment</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Deployment</h2>
                 </div>
 
                 <p>
@@ -853,7 +915,7 @@ CMD ["adk", "api_server", "--port", "8000", "."]</code></pre>
             <section id="appendix">
                 <div class="flex items-center mb-6">
                     <span class="bg-teal-100 text-teal-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">A</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Appendix</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Appendix</h2>
                 </div>
 
                 <h3>Project layout that ADK expects</h3>
@@ -916,7 +978,7 @@ Agent(
             <section id="master-template" class="border-t border-gray-200 pt-16">
                 <div class="flex items-center mb-6">
                     <i class="fas fa-code text-teal-600 text-3xl mr-4"></i>
-                    <h2 class="text-3xl font-bold text-gray-900">Master Template</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Master Template</h2>
                 </div>
 
                 <p>
@@ -1076,6 +1138,7 @@ if __name__ == "__main__":
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-docker.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

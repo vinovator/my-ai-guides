@@ -364,17 +364,8 @@
     }
 
     // ------------------------------------------------------------------------
-    // 7. Theme toggle
+    // 7. Theme toggle: handled by /theme.js (shared across hub + guides + tutorials).
     // ------------------------------------------------------------------------
-
-    function setupThemeToggle() {
-        const btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        btn.addEventListener('click', () => {
-            const isDark = document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
-        });
-    }
 
     // ------------------------------------------------------------------------
     // 8. Footer year
@@ -404,7 +395,6 @@
         renderStickyNav();
         setupStickyNavObserver();
         setupFilter();
-        setupThemeToggle();
         setFooterYear();
     }
 

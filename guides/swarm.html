@@ -4,7 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Swarm Comprehensive Refresher</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,16 +36,25 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
-        <div class="p-6 border-b">
-            <h1 class="font-bold text-xl text-gray-800">Swarm</h1><a href="../index.html"
-                class="text-xs text-gray-500 hover:text-gray-900"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex transition-colors">
+    <aside class="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 hidden lg:block h-screen fixed overflow-y-auto z-20">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800">
+            <div class="flex items-center justify-between gap-2">
+                <h1 class="font-bold text-xl text-gray-800 dark:text-gray-100">Swarm</h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
+            <a href="../index.html"
+                class="text-xs text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <a href="#handoff" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">The Handoff</a>
-            <a href="#basic" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">Basic Code</a>
-            <a href="#context" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 text-gray-700">Context
+            <a href="#handoff" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">The Handoff</a>
+            <a href="#basic" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Basic Code</a>
+            <a href="#context" class="block px-4 py-2 rounded text-sm hover:bg-gray-200 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-gray-100">Context
                 Variables</a>
         </nav>
     </aside>
@@ -37,8 +63,8 @@
         <h1 class="text-4xl font-bold mb-4">OpenAI Swarm</h1>
         <p class="text-lg text-gray-600 mb-8">Experimental pattern for lightweight agent "Handoffs".</p>
 
-        <section id="handoff" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Philosophy</h2>
+        <section id="handoff" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. Philosophy</h2>
             <p class="text-sm text-gray-600">Swarm is stateless. An agent is just a set of instructions. To
                 "Orchestrate", Agent A simply calls a function that returns Agent B. This is called a
                 <strong>Handoff</strong>.
@@ -95,6 +121,7 @@ client.run(
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

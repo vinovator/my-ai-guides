@@ -5,12 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PydanticAI: The Enterprise Masterclass</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+        function currentMermaidTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+        }
+        document.querySelectorAll('.mermaid').forEach(el => {
+            if (!el.dataset.src) el.dataset.src = el.textContent;
+        });
+        mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+        await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+
+        window.__renderMermaid = async function () {
+            const nodes = document.querySelectorAll('.mermaid');
+            if (!nodes.length) return;
+            nodes.forEach(el => {
+                if (el.dataset.src) {
+                    el.textContent = el.dataset.src;
+                    el.removeAttribute('data-processed');
+                }
+            });
+            mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+            try { await mermaid.run({ nodes }); }
+            catch (e) { console.warn('Mermaid render failed', e); }
+        };
     </script>
     <style>
         body {
@@ -69,64 +107,84 @@
             background: transparent;
             padding: 0;
         }
+
+        /* ----- Dark mode overrides ----- */
+        html.dark body { color: #e5e7eb; }
+        html.dark ::-webkit-scrollbar-thumb { background: #374151; }
+        html.dark ::-webkit-scrollbar-track { background: #111827; }
+        html.dark .tree-line { border-left-color: #374151; }
+        html.dark h3 { color: #f3f4f6; }
+        html.dark p { color: #d1d5db; }
+        html.dark code {
+            color: #fca5a5;
+            background: rgba(220, 38, 38, 0.18);
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex h-screen overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex h-screen overflow-hidden transition-colors">
 
-    <aside class="w-72 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
-        <div class="p-6 border-b bg-gray-50">
-            <h1 class="font-bold text-xl text-red-600 tracking-tight"><i class="fas fa-brain mr-2"></i>PydanticAI</h1><a
-                href="../index.html" class="text-xs text-gray-500 hover:text-red-600"><i class="fas fa-arrow-left"></i>
+    <aside class="w-72 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+            <div class="flex items-start justify-between gap-2">
+                <h1 class="font-bold text-xl text-red-600 dark:text-red-300 tracking-tight"><i class="fas fa-brain mr-2"></i>PydanticAI</h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
+            <a href="../index.html" class="text-xs text-gray-500 dark:text-gray-400 hover:text-red-600 dark:hover:text-red-300"><i class="fas fa-arrow-left"></i>
                 Back to Hub</a>
-            <p class="text-xs text-gray-500 mt-1 font-medium">Enterprise Architecture Guide</p>
+            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1 font-medium">Enterprise Architecture Guide</p>
         </div>
         <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Theory & Setup</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">Theory & Setup</p>
             <a href="#intro"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">1</span> Foundations
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">1</span> Foundations
             </a>
             <a href="#structure"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">2</span> Project Blueprint
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">2</span> Project Blueprint
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Core Implementation</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Core Implementation</p>
             <a href="#agent"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">3</span> The Type-Safe Agent
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">3</span> The Type-Safe Agent
             </a>
             <a href="#deps"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">4</span> Dependency Injection
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">4</span> Dependency Injection
             </a>
             <a href="#security"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">5</span> Security & Auth
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">5</span> Security & Auth
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Advanced Patterns</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Advanced Patterns</p>
             <a href="#streaming"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">6</span> Full Stack Streaming
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">6</span> Full Stack Streaming
             </a>
             <a href="#hitl"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">7</span> Human-in-the-Loop
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">7</span> Human-in-the-Loop
             </a>
             <a href="#testing"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 text-gray-700 hover:text-red-700">
-                <span class="w-6 text-center mr-2 text-gray-400 group-hover:text-red-500">8</span> Deterministic Testing
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-red-50 dark:hover:bg-red-900/30 text-gray-700 dark:text-gray-300 hover:text-red-700 dark:hover:text-red-300">
+                <span class="w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-red-500 dark:group-hover:text-red-300">8</span> Deterministic Testing
             </a>
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
 
-        <header class="max-w-4xl mx-auto mb-16 text-center border-b pb-12">
-            <h1 class="text-5xl font-extrabold mb-6 text-gray-900 tracking-tight">The Enterprise AI <span
-                    class="text-red-600">Masterclass</span></h1>
+        <header class="max-w-4xl mx-auto mb-16 text-center border-b dark:border-gray-800 pb-12">
+            <h1 class="text-5xl font-extrabold mb-6 text-gray-900 dark:text-gray-100 tracking-tight">The Enterprise AI <span
+                    class="text-red-600 dark:text-red-300">Masterclass</span></h1>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto">
                 Move beyond chatbots. Learn to build <strong>Deterministic</strong>, <strong>Secure</strong>, and
                 <strong>Testable</strong> AI Agents using PydanticAI and FastAPI.
@@ -139,7 +197,7 @@
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Theoretical Foundation</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Theoretical Foundation</h2>
                 </div>
 
                 <p>
@@ -179,7 +237,7 @@
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Enterprise Blueprint</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Enterprise Blueprint</h2>
                 </div>
                 <p>
                     Do not put everything in one file. A production system separates <strong>Infrastructure</strong>
@@ -221,7 +279,7 @@
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Type-Safe Agent</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Type-Safe Agent</h2>
                 </div>
                 <p>
                     We start by defining the "Contract". The Agent <strong>must</strong> return data fitting this shape.
@@ -259,7 +317,7 @@ agent = Agent(
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Dependency Injection</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Dependency Injection</h2>
                 </div>
                 <p>
                     <strong>Why use it?</strong> Hardcoding API keys or Database URLs makes code insecure and impossible
@@ -300,7 +358,7 @@ async def check_balance(ctx: RunContext[SupportDeps]) -> str:
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Security & Authentication</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Security & Authentication</h2>
                 </div>
                 <p>
                     The <strong>"Identity-Aware Agent"</strong> pattern. We extract the User ID from the Bearer Token
@@ -353,7 +411,7 @@ async def secure_chat(
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Full Stack Streaming</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Full Stack Streaming</h2>
                 </div>
 
                 <h3 class="text-xl font-bold">Concept: Optimistic vs. Authoritative UI</h3>
@@ -449,7 +507,7 @@ async def stream_endpoint(query: str):
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Human-in-the-Loop (HITL)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Human-in-the-Loop (HITL)</h2>
                 </div>
 
                 <h3 class="text-xl font-bold">Concept: The State Machine</h3>
@@ -513,7 +571,7 @@ async def approve(job_id: str):
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-red-100 text-red-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">8</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Deterministic Testing</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Deterministic Testing</h2>
                 </div>
                 <p>
                     <strong>The Problem:</strong> How do you test an app that outputs different text every time?
@@ -554,6 +612,7 @@ async def test_agent_handles_low_risk_correctly():
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

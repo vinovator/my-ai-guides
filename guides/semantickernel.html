@@ -5,12 +5,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Semantic Kernel Masterclass: From Script to System</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+        function currentMermaidTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+        }
+        document.querySelectorAll('.mermaid').forEach(el => {
+            if (!el.dataset.src) el.dataset.src = el.textContent;
+        });
+        mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+        await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+
+        window.__renderMermaid = async function () {
+            const nodes = document.querySelectorAll('.mermaid');
+            if (!nodes.length) return;
+            nodes.forEach(el => {
+                if (el.dataset.src) {
+                    el.textContent = el.dataset.src;
+                    el.removeAttribute('data-processed');
+                }
+            });
+            mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+            try { await mermaid.run({ nodes }); }
+            catch (e) { console.warn('Mermaid render failed', e); }
+        };
     </script>
     <style>
         body {
@@ -92,69 +130,89 @@
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 150ms;
         }
+
+        /* ----- Dark mode overrides ----- */
+        html.dark body { color: #e5e7eb; }
+        html.dark ::-webkit-scrollbar-thumb { background: #374151; }
+        html.dark ::-webkit-scrollbar-track { background: #111827; }
+        html.dark h3 { color: #f3f4f6; }
+        html.dark p { color: #d1d5db; }
+        html.dark ul { color: #d1d5db; }
+        html.dark code:not([class*="language-"]) {
+            color: #93c5fd;
+            background: rgba(59, 130, 246, 0.18);
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex h-screen overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden transition-colors">
 
-    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
-        <div class="p-6 border-b bg-gray-50">
-            <h1 class="font-bold text-xl text-blue-800 tracking-tight flex items-center">
-                <i class="fas fa-brain mr-2"></i>Semantic Kernel
-            </h1>
+    <aside class="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+            <div class="flex items-start justify-between gap-2">
+                <h1 class="font-bold text-xl text-blue-800 dark:text-blue-300 tracking-tight flex items-center">
+                    <i class="fas fa-brain mr-2"></i>Semantic Kernel
+                </h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
             <a href="../index.html"
-                class="text-xs text-gray-400 hover:text-blue-600 transition-colors mt-1 block font-medium">
+                class="text-xs text-gray-400 dark:text-gray-500 hover:text-blue-600 dark:hover:text-blue-300 transition-colors mt-1 block font-medium">
                 <i class="fas fa-arrow-left mr-1"></i> Back to Hub
             </a>
-            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Masterclass Guide</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium uppercase tracking-wide">Masterclass Guide</p>
         </div>
 
         <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">The Basics</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">The Basics</p>
             <a href="#level0"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">0</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">0</span>
                 The Foundation
             </a>
             <a href="#level1"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">1</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">1</span>
                 The Doer (Plugins)
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Intelligence</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Intelligence</p>
             <a href="#level2"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">2</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">2</span>
                 The Knower (Memory)
             </a>
             <a href="#level3"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">3</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">3</span>
                 The Planner (Autonomy)
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Production</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Production</p>
             <a href="#level4"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">4</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">4</span>
                 The Professional
             </a>
             <a href="#level5"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">5</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">5</span>
                 The Architect
             </a>
             <a href="#appendix"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">A</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">A</span>
                 Appendix
             </a>
 
@@ -167,10 +225,10 @@
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
 
         <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
-            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 tracking-tight leading-tight">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 dark:text-gray-100 tracking-tight leading-tight">
                 The Semantic Kernel <span class="text-blue-700">Masterclass</span>
             </h1>
             <p class="text-xl text-gray-500 max-w-2xl mx-auto leading-relaxed">
@@ -186,7 +244,7 @@
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">0</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Paradigm Shift: From Chatbots to Agents</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Paradigm Shift: From Chatbots to Agents</h2>
                 </div>
 
                 <div class="prose max-w-none text-gray-700">
@@ -236,7 +294,7 @@
                     style G fill:#fef08a,stroke:#eab308,stroke-width:2px
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">1. The Kernel Object</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">1. The Kernel Object</h3>
                 <p>
                     The <code>Kernel</code> is your central unit of work. You initialize it once and attach everything
                     your agent needs to it.
@@ -265,7 +323,7 @@ if __name__ == "__main__":
     asyncio.run(main())</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">2. Prompts are Functions
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">2. Prompts are Functions
                 </h3>
                 <p>
                     In SK, we stop treating prompts as "magic strings" scattered across your code. We treat them as
@@ -292,13 +350,13 @@ print(result)</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Doer (Plugins & Native Functions)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Doer (Plugins & Native Functions)</h2>
                 </div>
                 <p>
                     <strong>Goal:</strong> Give the AI "hands" to interact with the real world (APIs and Code).
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">3. Native Plugins (The Bridge)
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2">3. Native Plugins (The Bridge)
                 </h3>
                 <p>
                     Plugins are how you make your existing Python code visible to the LLM. You use the
@@ -327,7 +385,7 @@ class MathPlugin:
 kernel.add_plugin(MathPlugin(), plugin_name="Math")</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">4. Auto-Function Calling
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">4. Auto-Function Calling
                     (The Magic)</h3>
                 <p>
                     Once plugins are registered, you don't need to manually tell the LLM to call them. You set
@@ -351,7 +409,7 @@ result = await kernel.invoke_prompt(
 # Result: 75 (calculated by code, not guessed by LLM)</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">5. State Management</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">5. State Management</h3>
                 <p>
                     AI models are stateless. To have a conversation, you must manage the <code>ChatHistory</code>.
                     SK provides a robust object to store user and assistant messages, which you pass into every invoke
@@ -385,13 +443,13 @@ history.add_assistant_message(str(result))</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Knower (RAG & Memory)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Knower (RAG & Memory)</h2>
                 </div>
                 <p>
                     <strong>Goal:</strong> Give the AI a "brain" to remember facts and company policies.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">6. Embeddings 101</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2">6. Embeddings 101</h3>
                 <p>
                     Embeddings convert text into vectors (lists of numbers). Similar meanings are mathematically close
                     in this vector space.
@@ -407,7 +465,7 @@ kernel.add_service(
 )</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">7. Vector Databases & RAG
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">7. Vector Databases & RAG
                 </h3>
                 <p>
                     SK allows you to write memory records to a store (Volatile for testing, Qdrant/Pinecone for
@@ -441,7 +499,7 @@ results = await memory.search("HR_Policies", "Can I get a refund?", limit=1)
 print(results[0].text)</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">8. The RAG Plugin</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">8. The RAG Plugin</h3>
                 <p>
                     To make this "Agentic", we wrap the search logic in a Plugin. Now the LLM can decide <em>when</em>
                     it needs to look up the policy.
@@ -466,13 +524,13 @@ kernel.add_plugin(PolicyPlugin(memory), plugin_name="Policy")</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Planner (Autonomy)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Planner (Autonomy)</h2>
                 </div>
                 <p>
                     <strong>Goal:</strong> Stop hard-coding flows. Let the AI decide the sequence of steps.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">9. The Problem with "If/Else"
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2">9. The Problem with "If/Else"
                 </h3>
                 <p>
                     Hard-coding logic fails when you scale to 50+ plugins. You can't write an <code>if</code> statement
@@ -485,7 +543,7 @@ kernel.add_plugin(PolicyPlugin(memory), plugin_name="Policy")</code></pre>
                     continues until the user's goal is met.
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">10. Planners (The
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">10. Planners (The
                     Orchestrator)</h3>
                 <p>
                     A Planner is a special agent that takes a user goal (e.g., "Plan a travel itinerary") and looks at
@@ -522,13 +580,13 @@ result = await planner.invoke(kernel, goal)</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Professional (Production Engineering)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Professional (Production Engineering)</h2>
                 </div>
                 <p>
                     <strong>Goal:</strong> Make the system robust, safe, and observable.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">11. Filters (Hooks/Middleware)
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2">11. Filters (Hooks/Middleware)
                 </h3>
                 <p>
                     In production, you never let an LLM execute code blindly. <strong>Filters</strong> allow you to runs
@@ -558,7 +616,7 @@ class SafeGuardFilter(Filter):
 kernel.add_filter(SafeGuardFilter())</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">12. Observability</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">12. Observability</h3>
                 <p>
                     Debugging AI can be hard. SK integrates with standard logging to show you the "Thinking
                     Process"—tokens used,
@@ -585,13 +643,13 @@ logging.basicConfig(
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-700 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Architect (Multi-Agent Systems)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Architect (Multi-Agent Systems)</h2>
                 </div>
                 <p>
                     <strong>Goal:</strong> Building complex ecosystems where agents work together.
                 </p>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">13. The Manager-Worker Pattern
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2">13. The Manager-Worker Pattern
                 </h3>
                 <p>
                     As systems grow, a single Kernel can become overwhelmed with too many plugins (confusing the LLM).
@@ -624,7 +682,7 @@ async def manager_delegate(self, task: str) -> str:
                     <span
                         class="bg-blue-600 text-white rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4"><i
                             class="fas fa-code"></i></span>
-                    <h2 class="text-3xl font-bold text-gray-900">Master Enterprise Template</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Master Enterprise Template</h2>
                 </div>
                 <p>
                     This is the "Golden Scaffold." It consolidates everything we have learned—Plugins, Filters,
@@ -725,7 +783,7 @@ if __name__ == "__main__":
 
             <!-- Appendix -->
             <section id="appendix" class="mb-12 bg-gray-50 p-8 rounded-xl border border-gray-200">
-                <h2 class="text-2xl font-bold mb-4 text-gray-900">Appendix: Best Practices</h2>
+                <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">Appendix: Best Practices</h2>
                 <ul class="space-y-2">
                     <li><strong class="text-blue-700">Prompt Engineering for Agents:</strong> Don't just describe
                         inputs. Describe the <em>purpose</em> of the function. "Use this to calculate tax" is better
@@ -742,6 +800,7 @@ if __name__ == "__main__":
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-csharp.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

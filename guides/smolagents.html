@@ -4,7 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Smolagents Comprehensive Refresher</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,17 +36,26 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
-        <div class="p-6 border-b">
-            <h1 class="font-bold text-xl text-yellow-600">Smolagents</h1><a href="../index.html"
-                class="text-xs text-gray-500 hover:text-yellow-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex transition-colors">
+    <aside class="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 hidden lg:block h-screen fixed overflow-y-auto z-20">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800">
+            <div class="flex items-center justify-between gap-2">
+                <h1 class="font-bold text-xl text-yellow-600 dark:text-yellow-300">Smolagents</h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
+            <a href="../index.html"
+                class="text-xs text-gray-500 dark:text-gray-400 hover:text-yellow-600 dark:hover:text-yellow-300"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">Code vs JSON</a>
-            <a href="#codeagent" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">CodeAgent</a>
-            <a href="#tools" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">Custom Tools</a>
-            <a href="#hub" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 text-gray-700">HF Hub
+            <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 dark:hover:bg-yellow-900/30 text-gray-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-yellow-300">Code vs JSON</a>
+            <a href="#codeagent" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 dark:hover:bg-yellow-900/30 text-gray-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-yellow-300">CodeAgent</a>
+            <a href="#tools" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 dark:hover:bg-yellow-900/30 text-gray-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-yellow-300">Custom Tools</a>
+            <a href="#hub" class="block px-4 py-2 rounded text-sm hover:bg-yellow-50 dark:hover:bg-yellow-900/30 text-gray-700 dark:text-gray-300 hover:text-yellow-700 dark:hover:text-yellow-300">HF Hub
                 Integration</a>
         </nav>
     </aside>
@@ -39,8 +65,8 @@
         <p class="text-lg text-gray-600 mb-8">Minimalist framework where Agents write Python code to solve tasks.</p>
 
         <!-- Section 1 -->
-        <section id="intro" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. Philosophy: Code as Action</h2>
+        <section id="intro" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. Philosophy: Code as Action</h2>
             <p class="text-sm text-gray-600">Most agents (CrewAI, LangGraph) output JSON to call tools. Smolagents
                 output <strong>Python Code</strong>. The framework runs this code in a sandbox. This handles loops,
                 logic, and variables natively in one LLM call.</p>
@@ -97,6 +123,7 @@ agent = load_from_hub("my-username/my-weather-agent")</code></pre>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

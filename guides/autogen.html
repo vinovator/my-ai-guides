@@ -4,7 +4,24 @@
 <head>
     <meta charset="UTF-8">
     <title>AutoGen Comprehensive Refresher</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -19,23 +36,32 @@
     </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 flex">
-    <aside class="w-64 bg-white border-r border-gray-200 hidden lg:block h-screen fixed overflow-y-auto z-20">
-        <div class="p-6 border-b">
-            <h1 class="font-bold text-xl text-purple-700">AutoGen</h1><a href="../index.html"
-                class="text-xs text-gray-500 hover:text-purple-600"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex transition-colors">
+    <aside class="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 hidden lg:block h-screen fixed overflow-y-auto z-20">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800">
+            <div class="flex items-center justify-between gap-2">
+                <h1 class="font-bold text-xl text-purple-700 dark:text-purple-300">AutoGen</h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
+            <a href="../index.html"
+                class="text-xs text-gray-500 dark:text-gray-400 hover:text-purple-600 dark:hover:text-purple-300"><i class="fas fa-arrow-left"></i> Back to Hub</a>
         </div>
         <nav class="p-4 space-y-1">
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Core Agents</div>
+            <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">Core Agents</div>
             <a href="#assistant"
-                class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">AssistantAgent</a>
-            <a href="#proxy" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">UserProxyAgent</a>
+                class="block px-4 py-2 rounded text-sm hover:bg-purple-50 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-300">AssistantAgent</a>
+            <a href="#proxy" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-300">UserProxyAgent</a>
 
-            <div class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-4">Techniques</div>
-            <a href="#code" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Code Execution</a>
-            <a href="#group" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Group Chat
+            <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-4">Techniques</div>
+            <a href="#code" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-300">Code Execution</a>
+            <a href="#group" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-300">Group Chat
                 Manager</a>
-            <a href="#tools" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 text-gray-700">Tool
+            <a href="#tools" class="block px-4 py-2 rounded text-sm hover:bg-purple-50 dark:hover:bg-purple-900/30 text-gray-700 dark:text-gray-300 hover:text-purple-700 dark:hover:text-purple-300">Tool
                 Registration</a>
         </nav>
     </aside>
@@ -45,8 +71,8 @@
         <p class="text-lg text-gray-600 mb-8">Microsoft's conversational framework.</p>
 
         <!-- Section 1: Agents -->
-        <section id="assistant" class="mb-12 bg-white p-8 rounded-xl shadow-sm border border-gray-200">
-            <h2 class="text-2xl font-bold mb-4 text-gray-900">1. AssistantAgent</h2>
+        <section id="assistant" class="mb-12 bg-white dark:bg-gray-800 p-8 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+            <h2 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">1. AssistantAgent</h2>
             <p class="text-sm text-gray-600 mb-4">The "Brain". Uses LLM to generate plans/code. No execution.</p>
             <pre><code class="language-python">from autogen import AssistantAgent
 assistant = AssistantAgent(name="Coder", llm_config={"config_list": [...]})</code></pre>
@@ -94,6 +120,7 @@ register_function(
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

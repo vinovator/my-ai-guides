@@ -5,12 +5,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LangGraph: The Enterprise Masterclass</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'neutral' });
+        function currentMermaidTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+        }
+        // Capture each diagram's source BEFORE mermaid replaces the <pre>'s
+        // content with rendered SVG, so theme.js can restore + re-render on toggle.
+        document.querySelectorAll('.mermaid').forEach(el => {
+            if (!el.dataset.src) el.dataset.src = el.textContent;
+        });
+        mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+        await mermaid.run({ nodes: document.querySelectorAll('.mermaid') });
+
+        window.__renderMermaid = async function () {
+            const nodes = document.querySelectorAll('.mermaid');
+            if (!nodes.length) return;
+            nodes.forEach(el => {
+                if (el.dataset.src) {
+                    el.textContent = el.dataset.src;
+                    el.removeAttribute('data-processed');
+                }
+            });
+            mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+            try { await mermaid.run({ nodes }); }
+            catch (e) { console.warn('Mermaid render failed', e); }
+        };
     </script>
     <style>
         body {
@@ -94,75 +134,95 @@
             transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
             transition-duration: 150ms;
         }
+
+        /* ----- Dark mode overrides ----- */
+        html.dark body { color: #e5e7eb; }
+        html.dark ::-webkit-scrollbar-thumb { background: #374151; }
+        html.dark ::-webkit-scrollbar-track { background: #111827; }
+        html.dark h3 { color: #f3f4f6; }
+        html.dark p { color: #d1d5db; }
+        html.dark ul { color: #d1d5db; }
+        html.dark code:not([class*="language-"]) {
+            color: #93c5fd;
+            background: rgba(59, 130, 246, 0.18);
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex h-screen overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden transition-colors">
 
-    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
-        <div class="p-6 border-b bg-gray-50">
-            <h1 class="font-bold text-xl text-blue-700 tracking-tight flex items-center">
-                <i class="fas fa-project-diagram mr-2"></i>LangGraph
-            </h1>
+    <aside class="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+            <div class="flex items-start justify-between gap-2">
+                <h1 class="font-bold text-xl text-blue-700 dark:text-blue-300 tracking-tight flex items-center">
+                    <i class="fas fa-project-diagram mr-2"></i>LangGraph
+                </h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
             <a href="../index.html"
-                class="text-xs text-gray-500 hover:text-blue-600 transition-colors mt-1 block font-medium">
+                class="text-xs text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors mt-1 block font-medium">
                 <i class="fas fa-arrow-left mr-1"></i> Back to Hub
             </a>
-            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Enterprise Guide</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium uppercase tracking-wide">Enterprise Guide</p>
         </div>
 
         <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Core Philosophy</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">Core Philosophy</p>
             <a href="#foundations"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">1</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">1</span>
                 The Cycle Paradigm
             </a>
             <a href="#primitives"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">2</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">2</span>
                 State, Nodes & Edges
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Building Agents</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Building Agents</p>
             <a href="#tools"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">3</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">3</span>
                 The Reasoning Loop
             </a>
             <a href="#persistence"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">4</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">4</span>
                 Persistence (Memory)
             </a>
             <a href="#hitl"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">5</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">5</span>
                 Human-in-the-Loop
             </a>
 
-            <p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">Advanced Patterns</p>
+            <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">Advanced Patterns</p>
             <a href="#timetravel"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">6</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">6</span>
                 Time Travel
             </a>
             <a href="#subgraphs"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">7</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">7</span>
                 Subgraphs
             </a>
             <a href="#mapreduce"
-                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 text-gray-700 hover:text-blue-700 transition-colors">
+                class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-blue-50 dark:hover:bg-blue-900/30 text-gray-700 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-300 transition-colors">
                 <span
-                    class="chapter-number w-6 text-center mr-2 text-gray-400 group-hover:text-blue-500 font-bold">8</span>
+                    class="chapter-number w-6 text-center mr-2 text-gray-400 dark:text-gray-500 group-hover:text-blue-500 dark:group-hover:text-blue-300 font-bold">8</span>
                 Map-Reduce
             </a>
 
@@ -175,10 +235,10 @@
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
 
-        <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
-            <h1 class="text-5xl font-extrabold mb-6 text-gray-900 tracking-tight leading-tight">The LangGraph <span
+        <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 dark:border-gray-800 pb-12">
+            <h1 class="text-5xl font-extrabold mb-6 text-gray-900 dark:text-gray-100 tracking-tight leading-tight">The LangGraph <span
                     class="text-blue-600">Masterclass</span></h1>
             <p class="text-xl text-gray-600 max-w-2xl mx-auto leading-relaxed">
                 Move beyond linear Chains. Learn to build <strong>Cyclic</strong>, <strong>Stateful</strong>, and
@@ -192,7 +252,7 @@
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Paradigm Shift: From Chains to Loops</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Paradigm Shift: From Chains to Loops</h2>
                 </div>
 
                 <div class="prose max-w-none text-gray-700">
@@ -257,10 +317,10 @@
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Theoretical Primitives</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Theoretical Primitives</h2>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2">A. The State ($S$)</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2">A. The State ($S$)</h3>
                 <p>
                     The State is the "memory" of your application. In a standard Python script, variables are passed
                     between functions locally
@@ -294,7 +354,7 @@ class AgentState(TypedDict):
     # user_intent: str</code></pre>
                 </div>
 
-                <h3 class="text-xl font-bold text-gray-800 border-b border-gray-100 pb-2 mt-8">B. Nodes & Edges</h3>
+                <h3 class="text-xl font-bold text-gray-800 dark:text-gray-100 border-b border-gray-100 dark:border-gray-800 pb-2 mt-8">B. Nodes & Edges</h3>
                 <p>
                     The graph is composed of two primary elements:
                 </p>
@@ -339,7 +399,7 @@ app = workflow.compile()</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
-                    <h2 class="text-3xl font-bold text-gray-900">The Reasoning Loop</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Reasoning Loop</h2>
                 </div>
                 <p>
                     An enterprise agent shouldn't just talk; it should <em>do</em>. If the user asks "What is the
@@ -402,7 +462,7 @@ workflow.add_edge("tools", "agent")</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Persistence (Memory)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Persistence (Memory)</h2>
                 </div>
                 <p>
                     In a standard web server architecture, the application forgets the variable <code>state</code> as
@@ -447,7 +507,7 @@ print(result["messages"][-1].content)
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Human-in-the-Loop (HITL)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Human-in-the-Loop (HITL)</h2>
                 </div>
                 <p>
                     In enterprise settings, autonomy is dangerous. You cannot let an agent autonomously execute
@@ -503,7 +563,7 @@ app.invoke(None, config=config)</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Advanced: Time Travel</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Advanced: Time Travel</h2>
                 </div>
                 <p>
                     We discussed "Human-in-the-Loop" where you pause and approve. <strong>Time Travel</strong> is the
@@ -546,7 +606,7 @@ app.invoke(None, config=config)</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Advanced: Subgraphs</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Advanced: Subgraphs</h2>
                 </div>
                 <p>
                     <strong>The Concept: Fractal Agency.</strong> As your graph grows, putting 50 nodes (Research,
@@ -587,7 +647,7 @@ parent_builder.add_edge("manager", "research_team")</code></pre>
                 <div class="flex items-center mb-6">
                     <span
                         class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">8</span>
-                    <h2 class="text-3xl font-bold text-gray-900">Advanced: Map-Reduce (Parallelism)</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Advanced: Map-Reduce (Parallelism)</h2>
                 </div>
                 <p>
                     Standard loops are sequential (Step A &rarr; Step B). Sometimes you need speed. LangGraph supports
@@ -622,7 +682,7 @@ parent_builder.add_edge("manager", "research_team")</code></pre>
                     <span
                         class="bg-blue-600 text-white rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4"><i
                             class="fas fa-code"></i></span>
-                    <h2 class="text-3xl font-bold text-gray-900">Master Enterprise Template</h2>
+                    <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Master Enterprise Template</h2>
                 </div>
                 <p>
                     This is the "Golden Scaffold." It consolidates everything we have learned—Memory, Tooling, Cycles,
@@ -720,6 +780,7 @@ if __name__ == "__main__":
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
+    <script src="../theme.js?v=2026-06-16"></script>
 </body>
 
 </html>

@@ -5,7 +5,25 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tutorial Viewer</title>
+
+    <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
+    <script>
+        (function () {
+            try {
+                var t = localStorage.getItem('theme');
+                var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+                if (t === 'dark' || (!t && prefersDark)) {
+                    document.documentElement.classList.add('dark');
+                }
+            } catch (e) { /* localStorage may be unavailable */ }
+        })();
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Class-based dark mode so we can toggle at runtime.
+        tailwind.config = { darkMode: 'class' };
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
@@ -186,31 +204,116 @@
             font-weight: 600;
             background: #ecfdf5;
         }
+
+        /* ----- Dark mode overrides for the rendered Markdown + chrome ----- */
+        html.dark body {
+            color: #e5e7eb;
+        }
+
+        html.dark ::-webkit-scrollbar-thumb {
+            background: #374151;
+        }
+
+        html.dark ::-webkit-scrollbar-track {
+            background: #111827;
+        }
+
+        html.dark #content h1,
+        html.dark #content h2,
+        html.dark #content h3 {
+            color: #f3f4f6;
+        }
+
+        html.dark #content h2 {
+            border-bottom-color: #374151;
+        }
+
+        html.dark #content p,
+        html.dark #content ul,
+        html.dark #content ol {
+            color: #d1d5db;
+        }
+
+        html.dark #content blockquote {
+            background: rgba(16, 185, 129, 0.12);
+            border-left-color: #34d399;
+            color: #a7f3d0;
+        }
+
+        html.dark #content blockquote p {
+            color: #a7f3d0;
+        }
+
+        html.dark #content a {
+            color: #34d399;
+        }
+
+        html.dark #content a:hover {
+            color: #6ee7b7;
+        }
+
+        html.dark #content code:not([class*="language-"]) {
+            background: rgba(16, 185, 129, 0.18);
+            color: #6ee7b7;
+        }
+
+        html.dark #content pre.mermaid {
+            background: #1f2937;
+            border-color: #374151;
+        }
+
+        html.dark #content th,
+        html.dark #content td {
+            border-color: #374151;
+        }
+
+        html.dark #content th {
+            background: #111827;
+            color: #f3f4f6;
+        }
+
+        html.dark #content hr {
+            border-top-color: #374151;
+        }
+
+        html.dark .page-link.active {
+            color: #6ee7b7;
+            border-color: #34d399;
+            background: rgba(16, 185, 129, 0.15);
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 flex h-screen overflow-hidden">
+<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden transition-colors">
 
-    <aside class="w-80 bg-white border-r border-gray-200 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
-        <div class="p-6 border-b bg-gray-50">
-            <h1 id="tutorial-title" class="font-bold text-xl text-emerald-800 tracking-tight flex items-center">
-                <i class="fas fa-graduation-cap mr-2"></i>Tutorial
-            </h1>
+    <aside class="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+        <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
+            <div class="flex items-start justify-between gap-2">
+                <h1 id="tutorial-title" class="font-bold text-xl text-emerald-800 dark:text-emerald-300 tracking-tight flex items-center">
+                    <i class="fas fa-graduation-cap mr-2"></i>Tutorial
+                </h1>
+                <button id="theme-toggle"
+                    class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
+                    aria-label="Toggle dark mode">
+                    <i class="fas fa-moon dark:hidden text-sm"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                </button>
+            </div>
             <a href="index.html"
-                class="text-xs text-gray-400 hover:text-emerald-600 transition-colors mt-1 block font-medium">
+                class="text-xs text-gray-400 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors mt-1 block font-medium">
                 <i class="fas fa-arrow-left mr-1"></i> Back to Hub
             </a>
-            <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Interactive Lesson</p>
+            <p class="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium uppercase tracking-wide">Interactive Lesson</p>
         </div>
 
         <nav class="p-4 overflow-y-auto flex-1">
-            <p id="lesson-list-heading" class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-2">Lessons</p>
+            <p id="lesson-list-heading" class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">Lessons</p>
             <ul id="lesson-list" class="space-y-1"></ul>
             <div id="page-nav"></div>
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white">
+    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
         <article class="max-w-4xl mx-auto">
             <div id="content"></div>
             <div id="prev-next"></div>
@@ -229,8 +332,29 @@
 
     <script type="module">
         import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: false, theme: 'neutral' });
+        function currentMermaidTheme() {
+            return document.documentElement.classList.contains('dark') ? 'dark' : 'neutral';
+        }
+        mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
         window.__mermaid = mermaid;
+        window.__currentMermaidTheme = currentMermaidTheme;
+
+        // theme.js calls this after toggling. We restore each <pre.mermaid>'s
+        // captured source (the markdown renderer puts it in data-src before
+        // calling mermaid.run), then re-init and re-run with the new theme.
+        window.__renderMermaid = async function () {
+            const nodes = document.querySelectorAll('pre.mermaid');
+            if (!nodes.length) return;
+            nodes.forEach(el => {
+                if (el.dataset.src) {
+                    el.textContent = el.dataset.src;
+                    el.removeAttribute('data-processed');
+                }
+            });
+            mermaid.initialize({ startOnLoad: false, theme: currentMermaidTheme() });
+            try { await mermaid.run({ nodes }); }
+            catch (e) { console.warn('Mermaid render failed', e); }
+        };
     </script>
 
     <script type="module">
@@ -335,8 +459,8 @@
                 <li>
                   <a data-slug="" data-tutorial="${escapeHtml(slug)}"
                      href="?slug=${encodeURIComponent(slug)}"
-                     class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${overviewActive ? 'bg-emerald-100 text-emerald-800' : 'hover:bg-emerald-50 text-gray-700 hover:text-emerald-700'}">
-                    <span class="chapter-number w-6 text-center mr-2 ${overviewActive ? 'text-emerald-600' : 'text-gray-400 group-hover:text-emerald-500'} font-bold"><i class="fas fa-home"></i></span>
+                     class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${overviewActive ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200' : 'hover:bg-emerald-50 dark:hover:bg-emerald-900/30 text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-300'}">
+                    <span class="chapter-number w-6 text-center mr-2 ${overviewActive ? 'text-emerald-600 dark:text-emerald-300' : 'text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'} font-bold"><i class="fas fa-home"></i></span>
                     Overview
                   </a>
                 </li>`;
@@ -346,8 +470,8 @@
                   <li>
                     <a data-slug="${escapeHtml(L.slug)}" data-tutorial="${escapeHtml(slug)}"
                        href="?slug=${encodeURIComponent(slug)}&lesson=${encodeURIComponent(L.slug)}"
-                       class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${active ? 'bg-emerald-100 text-emerald-800' : 'hover:bg-emerald-50 text-gray-700 hover:text-emerald-700'}">
-                      <span class="chapter-number w-6 text-center mr-2 ${active ? 'text-emerald-600' : 'text-gray-400 group-hover:text-emerald-500'} font-bold">${i + 1}</span>
+                       class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${active ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200' : 'hover:bg-emerald-50 dark:hover:bg-emerald-900/30 text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-300'}">
+                      <span class="chapter-number w-6 text-center mr-2 ${active ? 'text-emerald-600 dark:text-emerald-300' : 'text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'} font-bold">${i + 1}</span>
                       <span class="flex-1">${escapeHtml(L.title)}</span>
                     </a>
                   </li>`;
@@ -364,9 +488,9 @@
             }
             const items = Array.from(headings).map(h => {
                 const indent = h.tagName === 'H3' ? 'pl-7' : 'pl-4';
-                return `<li><a href="#${h.id}" data-spy="${h.id}" class="page-link block ${indent} pr-3 py-1 text-xs text-gray-500 hover:text-emerald-700 border-l-2 border-transparent">${escapeHtml(h.textContent)}</a></li>`;
+                return `<li><a href="#${h.id}" data-spy="${h.id}" class="page-link block ${indent} pr-3 py-1 text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-700 dark:hover:text-emerald-300 border-l-2 border-transparent">${escapeHtml(h.textContent)}</a></li>`;
             }).join('');
-            $pageNav.innerHTML = `<p class="px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2 mt-6">On this page</p><ul class="space-y-0.5">${items}</ul>`;
+            $pageNav.innerHTML = `<p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-6">On this page</p><ul class="space-y-0.5">${items}</ul>`;
 
             const links = $pageNav.querySelectorAll('a[data-spy]');
             const map = new Map();
@@ -411,13 +535,13 @@
                     ? '<i class="fas fa-arrow-left mr-2"></i>'
                     : '<i class="fas fa-arrow-right ml-2"></i>';
                 return `<a href="${href}" data-slug="${escapeHtml(target.slug)}" data-tutorial="${escapeHtml(slug)}"
-                          class="lesson-link group flex-1 block p-4 border border-gray-200 rounded-lg hover:border-emerald-400 hover:bg-emerald-50 transition ${side === 'right' ? 'text-right' : ''}">
-                          <span class="text-xs text-gray-400 uppercase tracking-wider">${label}</span>
-                          <p class="font-semibold text-gray-900 group-hover:text-emerald-700 mt-1">${side === 'left' ? icon : ''}${escapeHtml(target.title)}${side === 'right' ? icon : ''}</p>
+                          class="lesson-link group flex-1 block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-emerald-400 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition ${side === 'right' ? 'text-right' : ''}">
+                          <span class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">${label}</span>
+                          <p class="font-semibold text-gray-900 dark:text-gray-100 group-hover:text-emerald-700 dark:group-hover:text-emerald-300 mt-1">${side === 'left' ? icon : ''}${escapeHtml(target.title)}${side === 'right' ? icon : ''}</p>
                         </a>`;
             };
 
-            let html = '<div class="flex gap-4 mt-16 pt-8 border-t border-gray-100">';
+            let html = '<div class="flex gap-4 mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">';
             html += prev ? card(prev, 'Previous', 'left') : '<div class="flex-1"></div>';
             html += next ? card(next, 'Next', 'right') : '<div class="flex-1"></div>';
             html += '</div>';
@@ -426,9 +550,9 @@
 
         function renderError(msg) {
             $main.innerHTML = `<div class="max-w-2xl mx-auto text-center py-24">
-                <i class="fas fa-exclamation-triangle text-yellow-500 text-5xl mb-6"></i>
-                <h1 class="text-2xl font-bold text-gray-900 mb-3">${escapeHtml(msg)}</h1>
-                <a href="index.html" class="inline-flex items-center mt-4 px-4 py-2 bg-emerald-600 text-white rounded hover:bg-emerald-700 transition">
+                <i class="fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400 text-5xl mb-6"></i>
+                <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">${escapeHtml(msg)}</h1>
+                <a href="index.html" class="inline-flex items-center mt-4 px-4 py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded hover:bg-emerald-700 dark:hover:bg-emerald-400 transition">
                     <i class="fas fa-arrow-left mr-2"></i>Back to Hub
                 </a>
             </div>`;
@@ -463,6 +587,10 @@
             if (window.__mermaid) {
                 const nodes = $main.querySelectorAll('pre.mermaid');
                 if (nodes.length) {
+                    // Capture the source text so theme.js can re-render
+                    // diagrams with the new theme on toggle (mermaid replaces
+                    // the <pre>'s content with rendered SVG after run()).
+                    nodes.forEach(el => { if (!el.dataset.src) el.dataset.src = el.textContent; });
                     try { await window.__mermaid.run({ nodes }); }
                     catch (e) { console.warn('Mermaid render failed', e); }
                 }
@@ -548,6 +676,8 @@
 
         loadFromQuery();
     </script>
+
+    <script src="theme.js?v=2026-06-16"></script>
 </body>
 
 </html>
