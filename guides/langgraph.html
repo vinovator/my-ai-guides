@@ -251,7 +251,7 @@
             <section id="foundations">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">1</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Paradigm Shift: From Chains to Loops</h2>
                 </div>
 
@@ -285,9 +285,9 @@
                     </p>
                 </div>
 
-                <div class="bg-blue-50 border-l-4 border-blue-500 p-6 my-8 rounded-r-lg shadow-sm">
-                    <h3 class="text-blue-800 mt-0 text-lg font-bold">Concept: The Cognitive Loop</h3>
-                    <p class="text-blue-700 mb-0">
+                <div class="bg-blue-50 dark:bg-blue-900/30 border-l-4 border-blue-500 dark:border-blue-400 p-6 my-8 rounded-r-lg shadow-sm">
+                    <h3 class="text-blue-800 dark:text-blue-200 mt-0 text-lg font-bold">Concept: The Cognitive Loop</h3>
+                    <p class="text-blue-700 dark:text-blue-300 mb-0">
                         Instead of a pre-determined set of steps, we build a graph where the "Agent" node and the
                         "Tools" node feed into each other
                         indefinitely until a specific condition (e.g., "Answer Ready") triggers an exit.
@@ -316,7 +316,7 @@
             <section id="primitives">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">2</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Theoretical Primitives</h2>
                 </div>
 
@@ -337,7 +337,7 @@
                 </p>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/state.py</div>
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/state.py</div>
                     <pre><code class="language-python">from typing import TypedDict, Annotated
 from langgraph.graph.message import add_messages
 
@@ -372,7 +372,7 @@ class AgentState(TypedDict):
                 </ul>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/graph.py</div>
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/graph.py</div>
                     <pre><code class="language-python">from langgraph.graph import StateGraph, START, END
 
 # 1. Define the Node Logic
@@ -398,7 +398,7 @@ app = workflow.compile()</code></pre>
             <section id="tools">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">3</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">The Reasoning Loop</h2>
                 </div>
                 <p>
@@ -425,7 +425,7 @@ app = workflow.compile()</code></pre>
                 </div>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/agent_logic.py</div>
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/agent_logic.py</div>
                     <pre><code class="language-python">from langgraph.prebuilt import ToolNode, tools_condition
 
 # 1. Bind tools to the model
@@ -461,7 +461,7 @@ workflow.add_edge("tools", "agent")</code></pre>
             <section id="persistence">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">4</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Persistence (Memory)</h2>
                 </div>
                 <p>
@@ -479,7 +479,7 @@ workflow.add_edge("tools", "agent")</code></pre>
                 </p>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/memory_setup.py
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/memory_setup.py
                     </div>
                     <pre><code class="language-python">from langgraph.checkpoint.memory import MemorySaver
 
@@ -506,7 +506,7 @@ print(result["messages"][-1].content)
             <section id="hitl">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">5</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Human-in-the-Loop (HITL)</h2>
                 </div>
                 <p>
@@ -537,7 +537,7 @@ print(result["messages"][-1].content)
                 </div>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/hitl_config.py</div>
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/hitl_config.py</div>
                     <pre><code class="language-python"># 1. Compile with interrupt
 # This tells LangGraph to pause RIGHT BEFORE entering the 'tools' node.
 app = workflow.compile(
@@ -562,7 +562,7 @@ app.invoke(None, config=config)</code></pre>
             <section id="timetravel">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">6</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Advanced: Time Travel</h2>
                 </div>
                 <p>
@@ -580,7 +580,7 @@ app.invoke(None, config=config)</code></pre>
                 </p>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/debugger.py</div>
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/debugger.py</div>
                     <pre><code class="language-python"># 1. Inspect the paused state
 snapshot = app.get_state(config)
 last_msg = snapshot.values["messages"][-1]
@@ -605,7 +605,7 @@ app.invoke(None, config=config)</code></pre>
             <section id="subgraphs">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">7</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Advanced: Subgraphs</h2>
                 </div>
                 <p>
@@ -621,7 +621,7 @@ app.invoke(None, config=config)</code></pre>
                 </p>
 
                 <div class="rounded-lg overflow-hidden border border-gray-200 shadow-sm my-6">
-                    <div class="bg-gray-100 px-4 py-2 text-xs font-mono text-gray-500 border-b">app/architecture.py
+                    <div class="bg-gray-100 dark:bg-gray-800 px-4 py-2 text-xs font-mono text-gray-500 dark:text-gray-400 border-b dark:border-gray-700">app/architecture.py
                     </div>
                     <pre><code class="language-python"># 1. Build the Child Graph (The Specialist)
 research_builder = StateGraph(ResearchState)
@@ -646,7 +646,7 @@ parent_builder.add_edge("manager", "research_team")</code></pre>
             <section id="mapreduce">
                 <div class="flex items-center mb-6">
                     <span
-                        class="bg-blue-100 text-blue-600 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">8</span>
+                        class="bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-300 rounded-lg w-10 h-10 flex items-center justify-center font-bold text-lg mr-4">8</span>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Advanced: Map-Reduce (Parallelism)</h2>
                 </div>
                 <p>
