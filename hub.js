@@ -219,21 +219,21 @@
 
         // Tutorial card variant: a top ribbon + a lessons sub-line.
         const ribbon = card.type === 'tutorial'
-            ? `<div class="h-1.5 bg-${a}-500 -mx-6 -mt-6 mb-4 rounded-t-xl"></div>`
+            ? `<div class="h-1.5 bg-${a}-500 -mx-5 sm:-mx-6 -mt-5 sm:-mt-6 mb-4 rounded-t-xl"></div>`
             : '';
         const lessonsLine = (card.type === 'tutorial' && card.lessons)
-            ? `<p class="text-xs font-medium text-${a}-700 dark:text-${a}-300 mb-2"><i class="fas fa-book-open mr-1"></i>${card.lessons} lesson${card.lessons === 1 ? '' : 's'}</p>`
+            ? `<p class="text-xs font-medium text-${a}-700 dark:text-${a}-300 mb-2"><i class="fas fa-book-open mr-1" aria-hidden="true"></i>${card.lessons} lesson${card.lessons === 1 ? '' : 's'}</p>`
             : '';
 
         const hay = escapeHtml(searchHay(card));
 
         return `
             <a href="${escapeHtml(card.href)}" class="hub-card block group h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 rounded-xl" data-search="${hay}" data-category="${escapeHtml(card.category)}">
-                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-6 h-full flex flex-col hover:shadow-md dark:hover:shadow-black/40 hover:border-${a}-400 dark:hover:border-${a}-500 transition-all duration-300">
+                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 sm:p-6 h-full flex flex-col hover:shadow-md dark:hover:shadow-black/40 hover:border-${a}-400 dark:hover:border-${a}-500 transition-all duration-300">
                     ${ribbon}
                     <div class="flex items-center justify-between mb-4">
                         <div class="w-12 h-12 ${iconBg} rounded-lg flex items-center justify-center">
-                            <i class="fas ${card.icon} ${iconColor} text-xl"></i>
+                            <i class="fas ${card.icon} ${iconColor} text-xl" aria-hidden="true"></i>
                         </div>
                         ${badgeHtml(card)}
                     </div>
@@ -250,8 +250,8 @@
         if (!cards.length) return '';
         const id = slugifyCategory(cat.name);
         return `
-            <section id="${id}" class="hub-section mb-16" data-category="${escapeHtml(cat.name)}">
-                <header class="mb-8">
+            <section id="${id}" class="hub-section mb-10 sm:mb-16" data-category="${escapeHtml(cat.name)}">
+                <header class="mb-5 sm:mb-8">
                     <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Category</p>
                     <div class="flex items-end gap-4">
                         <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">${escapeHtml(cat.name)}</h2>
@@ -259,7 +259,7 @@
                         <span class="text-xs text-gray-400 dark:text-gray-500 font-mono mb-2 hub-section-count">${cards.length}</span>
                     </div>
                 </header>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${cat.cols} gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${cat.cols} gap-4 sm:gap-6">
                     ${cards.map(cardHtml).join('')}
                 </div>
             </section>
@@ -294,12 +294,12 @@
             .slice(0, 2);
         if (!recent.length) return;
         slot.innerHTML = `
-            <section class="mb-16">
-                <header class="mb-6">
+            <section class="mb-10 sm:mb-16">
+                <header class="mb-4 sm:mb-6">
                     <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Editor's Pick</p>
                     <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">Recently updated</h2>
                 </header>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                     ${recent.map(c => `
                         <div class="relative">
                             <span class="absolute top-3 right-3 z-10 text-xs font-mono text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 border border-indigo-100 dark:border-indigo-800 px-2 py-0.5 rounded-full">Updated ${daysAgo(c.updated)}</span>

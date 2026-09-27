@@ -30,10 +30,14 @@
     }
 
     function setup() {
-        var btn = document.getElementById('theme-toggle');
-        if (!btn) return;
-        btn.addEventListener('click', function () {
-            apply(!isDark());
+        // Pages now carry two toggles: one in the sidebar (visible on desktop)
+        // and one in the mobile top bar. Bind every match, not just the first.
+        var btns = document.querySelectorAll('#theme-toggle, [data-theme-toggle]');
+        if (!btns.length) return;
+        Array.prototype.forEach.call(btns, function (btn) {
+            btn.addEventListener('click', function () {
+                apply(!isDark());
+            });
         });
     }
 

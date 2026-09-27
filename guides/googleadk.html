@@ -25,6 +25,7 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../site.css?v=2026-09-27">
     <script type="module" src="../mermaid-setup.js?v=2026-06-16"></script>
     <style>
         body {
@@ -173,29 +174,49 @@
     </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden transition-colors">
+<body class="bg-gray-50 dark:bg-gray-900 lg:flex lg:h-screen lg:overflow-hidden transition-colors">
 
-    <aside class="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Mobile top bar. Below lg the sidebar is an off-canvas drawer, so the
+         hamburger, the page title and the theme toggle live here; Back to Hub
+         stays inside the drawer. Hidden entirely at lg and above. -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center gap-2 px-3 h-14 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+        <button type="button" data-drawer-toggle aria-controls="site-drawer" aria-label="Open navigation menu"
+            class="w-11 h-11 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i class="fas fa-bars text-lg" aria-hidden="true"></i>
+        </button>
+        <span class="flex-1 min-w-0 truncate font-bold text-teal-800 dark:text-teal-300 text-base">Google ADK</span>
+        <button type="button" data-theme-toggle aria-label="Toggle dark mode"
+            class="w-11 h-11 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i class="fas fa-moon dark:hidden" aria-hidden="true"></i>
+            <i class="fas fa-sun hidden dark:inline" aria-hidden="true"></i>
+        </button>
+    </header>
+
+    <div id="drawer-backdrop" class="lg:hidden fixed inset-0 z-40 bg-gray-900/50" aria-hidden="true"></div>
+
+    <aside id="site-drawer" data-drawer class="w-[85vw] max-w-xs lg:w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 lg:flex-shrink-0 flex flex-col h-full z-50 lg:z-20 shadow-lg">
         <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
             <div class="flex items-start justify-between gap-2">
                 <h1 class="font-bold text-xl text-teal-800 dark:text-teal-300 tracking-tight flex items-center">
-                    <i class="fas fa-circle-nodes mr-2"></i>Google ADK
+                    <i class="fas fa-circle-nodes mr-2" aria-hidden="true"></i>Google ADK
                 </h1>
                 <button id="theme-toggle"
                     class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
                     aria-label="Toggle dark mode">
-                    <i class="fas fa-moon dark:hidden text-sm"></i>
-                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                    <i class="fas fa-moon dark:hidden text-sm" aria-hidden="true"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm" aria-hidden="true"></i>
                 </button>
             </div>
             <a href="../index.html"
                 class="text-xs text-gray-400 dark:text-gray-500 hover:text-teal-600 dark:hover:text-teal-300 transition-colors mt-1 block font-medium">
-                <i class="fas fa-arrow-left mr-1"></i> Back to Hub
+                <i class="fas fa-arrow-left mr-1" aria-hidden="true"></i> Back to Hub
             </a>
             <p class="text-xs text-gray-400 mt-2 font-medium uppercase tracking-wide">Masterclass Guide</p>
         </div>
 
-        <nav class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
+        <nav aria-label="Guide sections" class="p-4 space-y-1 overflow-y-auto flex-1 custom-scrollbar">
             <p class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">The Basics</p>
             <a href="#level0"
                 class="group flex items-center px-4 py-2 text-sm font-medium rounded-md hover:bg-teal-50 dark:hover:bg-teal-900/30 text-gray-700 dark:text-gray-300 hover:text-teal-700 dark:hover:text-teal-300 transition-colors">
@@ -252,13 +273,13 @@
             <div class="mt-8 px-4 pb-8">
                 <a href="#master-template"
                     class="block text-center px-4 py-3 rounded-lg bg-teal-600 text-white font-bold text-sm shadow-md hover:bg-teal-700 transition-all">
-                    <i class="fas fa-code mr-2"></i> Master Template
+                    <i class="fas fa-code mr-2" aria-hidden="true"></i> Master Template
                 </a>
             </div>
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
+    <main id="main" class="flex-1 lg:overflow-y-auto p-5 sm:p-8 lg:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
 
         <header class="max-w-4xl mx-auto mb-16 text-center border-b border-gray-100 pb-12">
             <h1 class="text-4xl md:text-5xl font-extrabold mb-6 text-gray-900 dark:text-gray-100 tracking-tight leading-tight">
@@ -953,7 +974,7 @@ Agent(
             <!-- MASTER TEMPLATE -->
             <section id="master-template" class="border-t border-gray-200 pt-16">
                 <div class="flex items-center mb-6">
-                    <i class="fas fa-code text-teal-600 text-3xl mr-4"></i>
+                    <i class="fas fa-code text-teal-600 text-3xl mr-4" aria-hidden="true"></i>
                     <h2 class="text-3xl font-bold text-gray-900 dark:text-gray-100">Master Template</h2>
                 </div>
 
@@ -1114,7 +1135,8 @@ if __name__ == "__main__":
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-json.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-yaml.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-docker.min.js"></script>
-    <script src="../theme.js?v=2026-06-16"></script>
+    <script src="../theme.js?v=2026-09-27"></script>
+    <script src="../nav.js?v=2026-09-27" defer></script>
 </body>
 
 </html>

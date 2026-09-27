@@ -26,6 +26,7 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="site.css?v=2026-09-27">
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.5/dist/purify.min.js"></script>
     <style>
@@ -69,7 +70,7 @@
             margin-bottom: 1rem;
             padding-bottom: 0.5rem;
             border-bottom: 1px solid #e5e7eb;
-            scroll-margin-top: 1rem;
+            scroll-margin-top: 4.5rem;
         }
 
         #content h3 {
@@ -79,7 +80,7 @@
             margin-bottom: 1rem;
             font-size: 1.25rem;
             line-height: 1.75rem;
-            scroll-margin-top: 1rem;
+            scroll-margin-top: 4.5rem;
         }
 
         #content p {
@@ -153,12 +154,15 @@
             padding: 0;
         }
 
+        /* display:block, not flex: a flex-centred child that overflows gets
+           clipped on its left edge and cannot be scrolled back to. site.css
+           makes this a scroller and centres the SVG with auto margins, which
+           collapse to zero when the diagram is wider than the container. */
         #content pre.mermaid {
             background: #ffffff;
             border: 1px solid #e5e7eb;
             padding: 1.5rem;
-            display: flex;
-            justify-content: center;
+            display: block;
         }
 
         #content table {
@@ -191,6 +195,14 @@
             max-width: 100%;
             border-radius: 8px;
             margin: 1.5rem 0;
+        }
+
+        /* No sticky bar at lg and above, so headings need no extra offset. */
+        @media (min-width: 1024px) {
+            #content h2,
+            #content h3 {
+                scroll-margin-top: 1rem;
+            }
         }
 
         .chapter-number {
@@ -291,36 +303,56 @@
     </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 flex h-screen overflow-hidden transition-colors">
+<body class="bg-gray-50 dark:bg-gray-900 lg:flex lg:h-screen lg:overflow-hidden transition-colors">
 
-    <aside class="w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 flex-shrink-0 flex flex-col h-full z-20 shadow-lg">
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Mobile top bar. Below lg the sidebar is an off-canvas drawer, so the
+         hamburger, the page title and the theme toggle live here; Back to Hub
+         stays inside the drawer. Hidden entirely at lg and above. -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center gap-2 px-3 h-14 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+        <button type="button" data-drawer-toggle aria-controls="site-drawer" aria-label="Open navigation menu"
+            class="w-11 h-11 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i class="fas fa-bars text-lg" aria-hidden="true"></i>
+        </button>
+        <span id="mobile-title" class="flex-1 min-w-0 truncate font-bold text-emerald-800 dark:text-emerald-300 text-base">Tutorial</span>
+        <button type="button" data-theme-toggle aria-label="Toggle dark mode"
+            class="w-11 h-11 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i class="fas fa-moon dark:hidden" aria-hidden="true"></i>
+            <i class="fas fa-sun hidden dark:inline" aria-hidden="true"></i>
+        </button>
+    </header>
+
+    <div id="drawer-backdrop" class="lg:hidden fixed inset-0 z-40 bg-gray-900/50" aria-hidden="true"></div>
+
+    <aside id="site-drawer" data-drawer class="w-[85vw] max-w-xs lg:w-80 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 lg:flex-shrink-0 flex flex-col h-full z-50 lg:z-20 shadow-lg">
         <div class="p-6 border-b border-gray-200 dark:border-gray-800 bg-gray-50 dark:bg-gray-900">
             <div class="flex items-start justify-between gap-2">
                 <h1 id="tutorial-title" class="font-bold text-xl text-emerald-800 dark:text-emerald-300 tracking-tight flex items-center">
-                    <i class="fas fa-graduation-cap mr-2"></i>Tutorial
+                    <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Tutorial
                 </h1>
                 <button id="theme-toggle"
                     class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
                     aria-label="Toggle dark mode">
-                    <i class="fas fa-moon dark:hidden text-sm"></i>
-                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                    <i class="fas fa-moon dark:hidden text-sm" aria-hidden="true"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm" aria-hidden="true"></i>
                 </button>
             </div>
             <a href="index.html"
                 class="text-xs text-gray-400 dark:text-gray-500 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors mt-1 block font-medium">
-                <i class="fas fa-arrow-left mr-1"></i> Back to Hub
+                <i class="fas fa-arrow-left mr-1" aria-hidden="true"></i> Back to Hub
             </a>
             <p class="text-xs text-gray-400 dark:text-gray-500 mt-2 font-medium uppercase tracking-wide">Interactive Lesson</p>
         </div>
 
-        <nav class="p-4 overflow-y-auto flex-1">
+        <nav aria-label="Lessons and page contents" class="p-4 overflow-y-auto flex-1">
             <p id="lesson-list-heading" class="px-4 text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">Lessons</p>
             <ul id="lesson-list" class="space-y-1"></ul>
             <div id="page-nav"></div>
         </nav>
     </aside>
 
-    <main class="flex-1 overflow-y-auto p-8 md:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
+    <main id="main" class="flex-1 lg:overflow-y-auto p-5 sm:p-8 lg:p-16 scroll-smooth bg-white dark:bg-gray-900 transition-colors">
         <article class="max-w-4xl mx-auto">
             <div id="content"></div>
             <div id="prev-next"></div>
@@ -345,6 +377,7 @@
         const $sidebar = document.getElementById('lesson-list');
         const $pageNav = document.getElementById('page-nav');
         const $prevNext = document.getElementById('prev-next');
+        const $mobileTitle = document.getElementById('mobile-title');
 
         let manifest = null;
         let scrollSpyObserver = null;
@@ -402,7 +435,10 @@
         }
 
         async function fetchMd(path) {
-            const res = await fetch(path, { cache: 'no-cache' });
+            // Default caching: GitHub Pages serves these with max-age=600, the same
+            // policy as every other asset, and skipping the forced revalidation
+            // saves a round-trip per lesson — most noticeable on mobile networks.
+            const res = await fetch(path);
             if (!res.ok) throw new Error(`fetch ${path} -> ${res.status}`);
             return await res.text();
         }
@@ -440,9 +476,10 @@
             const overview = `
                 <li>
                   <a data-slug="" data-tutorial="${escapeHtml(slug)}"
+                     ${overviewActive ? 'aria-current="page"' : ''}
                      href="?slug=${encodeURIComponent(slug)}"
                      class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${overviewActive ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200' : 'hover:bg-emerald-50 dark:hover:bg-emerald-900/30 text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-300'}">
-                    <span class="chapter-number w-6 text-center mr-2 ${overviewActive ? 'text-emerald-600 dark:text-emerald-300' : 'text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'} font-bold"><i class="fas fa-home"></i></span>
+                    <span class="chapter-number w-6 text-center mr-2 ${overviewActive ? 'text-emerald-600 dark:text-emerald-300' : 'text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'} font-bold"><i class="fas fa-home" aria-hidden="true"></i></span>
                     Overview
                   </a>
                 </li>`;
@@ -451,6 +488,7 @@
                 return `
                   <li>
                     <a data-slug="${escapeHtml(L.slug)}" data-tutorial="${escapeHtml(slug)}"
+                       ${active ? 'aria-current="page"' : ''}
                        href="?slug=${encodeURIComponent(slug)}&lesson=${encodeURIComponent(L.slug)}"
                        class="lesson-link group flex items-center px-4 py-2 text-sm font-medium rounded-md transition-colors ${active ? 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-800 dark:text-emerald-200' : 'hover:bg-emerald-50 dark:hover:bg-emerald-900/30 text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-300'}">
                       <span class="chapter-number w-6 text-center mr-2 ${active ? 'text-emerald-600 dark:text-emerald-300' : 'text-gray-400 dark:text-gray-500 group-hover:text-emerald-500 dark:group-hover:text-emerald-400'} font-bold">${i + 1}</span>
@@ -460,6 +498,12 @@
             }).join('');
             $sidebar.innerHTML = overview + items;
         }
+
+        // Below lg the shell is normal document flow and the page itself
+        // scrolls; at lg and above <main> is the scroll container. Anything
+        // that scrolls or observes scrolling has to ask which is which.
+        const isDesktop = () => window.matchMedia('(min-width: 1024px)').matches;
+        const scrollRoot = () => (isDesktop() ? document.querySelector('main') : null);
 
         function renderPageNav() {
             const headings = $main.querySelectorAll('h2, h3');
@@ -481,12 +525,18 @@
             scrollSpyObserver = new IntersectionObserver((entries) => {
                 entries.forEach(e => {
                     if (e.isIntersecting) {
-                        links.forEach(a => a.classList.remove('active'));
+                        links.forEach(a => {
+                            a.classList.remove('active');
+                            a.removeAttribute('aria-current');
+                        });
                         const a = map.get(e.target.id);
-                        if (a) a.classList.add('active');
+                        if (a) {
+                            a.classList.add('active');
+                            a.setAttribute('aria-current', 'true');
+                        }
                     }
                 });
-            }, { root: document.querySelector('main'), rootMargin: '0px 0px -70% 0px', threshold: 0 });
+            }, { root: scrollRoot(), rootMargin: '0px 0px -70% 0px', threshold: 0 });
             headings.forEach(h => scrollSpyObserver.observe(h));
         }
 
@@ -514,8 +564,8 @@
                     ? `?slug=${encodeURIComponent(slug)}&lesson=${encodeURIComponent(target.slug)}`
                     : `?slug=${encodeURIComponent(slug)}`;
                 const icon = side === 'left'
-                    ? '<i class="fas fa-arrow-left mr-2"></i>'
-                    : '<i class="fas fa-arrow-right ml-2"></i>';
+                    ? '<i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>'
+                    : '<i class="fas fa-arrow-right ml-2" aria-hidden="true"></i>';
                 return `<a href="${href}" data-slug="${escapeHtml(target.slug)}" data-tutorial="${escapeHtml(slug)}"
                           class="lesson-link group flex-1 block p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:border-emerald-400 dark:hover:border-emerald-500 hover:bg-emerald-50 dark:hover:bg-emerald-900/20 transition ${side === 'right' ? 'text-right' : ''}">
                           <span class="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider">${label}</span>
@@ -523,7 +573,7 @@
                         </a>`;
             };
 
-            let html = '<div class="flex gap-4 mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">';
+            let html = '<div class="flex flex-col sm:flex-row gap-4 mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">';
             html += prev ? card(prev, 'Previous', 'left') : '<div class="flex-1"></div>';
             html += next ? card(next, 'Next', 'right') : '<div class="flex-1"></div>';
             html += '</div>';
@@ -532,14 +582,38 @@
 
         function renderError(msg) {
             $main.innerHTML = `<div class="max-w-2xl mx-auto text-center py-24">
-                <i class="fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400 text-5xl mb-6"></i>
+                <i class="fas fa-exclamation-triangle text-yellow-500 dark:text-yellow-400 text-5xl mb-6" aria-hidden="true"></i>
                 <h1 class="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-3">${escapeHtml(msg)}</h1>
                 <a href="index.html" class="inline-flex items-center mt-4 px-4 py-2 bg-emerald-600 dark:bg-emerald-500 text-white rounded hover:bg-emerald-700 dark:hover:bg-emerald-400 transition">
-                    <i class="fas fa-arrow-left mr-2"></i>Back to Hub
+                    <i class="fas fa-arrow-left mr-2" aria-hidden="true"></i>Back to Hub
                 </a>
             </div>`;
             $prevNext.innerHTML = '';
             $pageNav.innerHTML = '';
+        }
+
+        // Markdown gives us bare <table> and <img>; neither survives a 390px
+        // screen unassisted. Tables get a horizontal scroller of their own so
+        // they slide instead of dragging the whole page sideways, and images
+        // defer until they are near the viewport (lesson 9 alone ships 1.6MB
+        // of slides).
+        function adaptForSmallScreens() {
+            $main.querySelectorAll('table').forEach(table => {
+                if (table.parentElement.classList.contains('table-scroll')) return;
+                const wrap = document.createElement('div');
+                wrap.className = 'table-scroll';
+                table.replaceWith(wrap);
+                wrap.appendChild(table);
+            });
+
+            $main.querySelectorAll('img').forEach(img => {
+                img.setAttribute('loading', 'lazy');
+                img.setAttribute('decoding', 'async');
+                // site.css reserves a placeholder ratio so the page does not
+                // jump as each slide arrives. Once the file is decoded its own
+                // dimensions are known, so hand the ratio back to the image.
+                img.addEventListener('load', () => { img.style.aspectRatio = 'auto'; }, { once: true });
+            });
         }
 
         async function renderDoc(slug, lesson) {
@@ -564,6 +638,8 @@
                 if (!h.id) h.id = slugify(h.textContent);
             });
 
+            adaptForSmallScreens();
+
             if (window.Prism) Prism.highlightAllUnder($main);
 
             if (typeof window.__renderMermaidNodes === 'function') {
@@ -573,7 +649,11 @@
             renderPageNav();
             renderPrevNext(slug, lesson);
 
-            document.querySelector('main').scrollTo({ top: 0, behavior: 'auto' });
+            if (isDesktop()) {
+                document.querySelector('main').scrollTo({ top: 0, behavior: 'auto' });
+            } else {
+                window.scrollTo({ top: 0, behavior: 'auto' });
+            }
         }
 
         async function loadFromQuery() {
@@ -582,7 +662,7 @@
             const lesson = params.get('lesson');
 
             if (!slug) {
-                $title.innerHTML = '<i class="fas fa-graduation-cap mr-2"></i>Tutorial';
+                $title.innerHTML = '<i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Tutorial';
                 $sidebar.innerHTML = '';
                 renderError('Pick a tutorial from the hub.');
                 return;
@@ -591,13 +671,14 @@
             try {
                 manifest = await loadManifest(slug);
             } catch {
-                $title.innerHTML = '<i class="fas fa-graduation-cap mr-2"></i>Tutorial';
+                $title.innerHTML = '<i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>Tutorial';
                 $sidebar.innerHTML = '';
                 renderError(`Tutorial "${slug}" not found.`);
                 return;
             }
 
-            $title.innerHTML = `<i class="fas fa-graduation-cap mr-2"></i>${escapeHtml(manifest.title)}`;
+            $title.innerHTML = `<i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i>${escapeHtml(manifest.title)}`;
+            if ($mobileTitle) $mobileTitle.textContent = manifest.title;
             document.title = `${manifest.title} | AI Hub`;
 
             if (manifest.singleMode && !lesson) {
@@ -648,10 +729,22 @@
             loadFromQuery();
         });
 
+        // Crossing the lg breakpoint swaps the scroll container, so the
+        // scroll-spy observer has to be rebuilt against the new root.
+        let wasDesktop = isDesktop();
+        window.addEventListener('resize', () => {
+            const now = isDesktop();
+            if (now !== wasDesktop) {
+                wasDesktop = now;
+                if ($main.querySelector('h2, h3')) renderPageNav();
+            }
+        });
+
         loadFromQuery();
     </script>
 
-    <script src="theme.js?v=2026-06-16"></script>
+    <script src="theme.js?v=2026-09-27"></script>
+    <script src="nav.js?v=2026-09-27" defer></script>
 </body>
 
 </html>

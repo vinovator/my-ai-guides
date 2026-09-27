@@ -35,6 +35,9 @@ Tutorials authored in plain Markdown, each in a folder under `tutorials/`. Multi
 - **Mermaid.js**: Diagrams and visualizations as code.
 - **Prism.js**: Syntax highlighting in guides and tutorials.
 - **marked + DOMPurify**: Client-side Markdown rendering for tutorials.
+- **Responsive and accessible**: every page works from 360px up. Below 1024px the sidebar becomes
+  an off-canvas drawer (`nav.js`); shared accessibility primitives — skip links, focus rings,
+  44px touch targets, scrollable tables — live in `site.css`.
 
 ## 📄 License
 

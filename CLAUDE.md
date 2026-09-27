@@ -11,8 +11,11 @@ Top-level layout:
 ```
 .
 ├── index.html         # the hub (entry point)
-├── hub.js             # hub's card registry + renderer + filter + sticky nav + theme toggle
+├── hub.js             # hub's card registry + renderer + filter + sticky nav
 ├── tutorial.html      # shared viewer that renders any tutorial folder
+├── site.css           # shared a11y primitives + the mobile drawer shell (every page)
+├── nav.js             # mobile off-canvas drawer controller (every page)
+├── theme.js           # shared dark/light toggle (every page)
 ├── og-image.svg       # social-share image referenced by og:image
 ├── guides/            # framework guides — one .html per framework
 │   ├── autogen.html
@@ -46,8 +49,26 @@ All guides load the same CDN stack — keep it consistent when editing or adding
 - **Tailwind CSS** via `<script src="https://cdn.tailwindcss.com">` (Play CDN — no `tailwind.config.js`, no PostCSS). All styling is utility classes in markup plus a small `<style>` block per page. Right after the CDN script, every page sets `tailwind.config = { darkMode: 'class' }` so `dark:` variants resolve at runtime.
 - **Prism.js 1.29.0** for syntax highlighting. The pattern is `<pre><code class="language-python">...</code></pre>`. Include `prism.min.js` plus the language components you actually use (e.g. `prism-python.min.js`) before `</body>`. The `prism-tomorrow` theme is loaded everywhere and reads fine on both light and dark backgrounds, so it doesn't get swapped on toggle.
 - **Mermaid 10** for diagrams. All setup lives in `mermaid-setup.js` at the repo root: it imports the pinned `mermaid@10.9.2` (10.9.3 introduced a regression that breaks `stateDiagram-v2` and `sequenceDiagram` blocks with a "Syntax error in text" message), reads the theme from `<html class="dark">`, captures each diagram's source via `innerHTML` (preserving `<br/>` in labels, which `textContent` would silently drop), and exposes `window.__renderMermaid` for `theme.js` to call on toggle plus `window.__renderMermaidNodes(nodes)` for the tutorial viewer to render the diagrams the markdown renderer adds after page load. Pages that need diagrams just load it: `<script type="module" src="../mermaid-setup.js?v=YYYY-MM-DD"></script>` (or `mermaid-setup.js?v=…` from root pages). Refresher guides that don't render diagrams skip it. The selector is `.mermaid` (catches both `<div class="mermaid">` used in masterclass guides and `<pre class="mermaid">` produced by the markdown renderer). For guides that use `<pre class="mermaid">`: don't, because Prism interferes — use `<div class="mermaid">` instead. Bump the `?v=` query when you change `mermaid-setup.js`.
-- **Dark mode** is site-wide. Every page (`index.html`, `tutorial.html`, every `guides/*.html`) must include three things: (a) the pre-paint inline `<script>` in `<head>` that reads `localStorage.theme` and applies the `dark` class before Tailwind paints; (b) the `tailwind.config = { darkMode: 'class' }` line right after the Tailwind CDN script; (c) `<script src="theme.js?v=YYYY-MM-DD">` (or `../theme.js?v=…` from a guide) before `</body>`. The toggle button itself lives in each page's sidebar/nav header with `id="theme-toggle"` and the sun/moon icon pair — `theme.js` auto-binds. Bump the `?v=` query when you change `theme.js`, same convention as `hub.js`.
-- **Font Awesome 6.4.0** for icons (`<i class="fas fa-...">`).
+- **Dark mode** is site-wide. Every page (`index.html`, `tutorial.html`, every `guides/*.html`) must include three things: (a) the pre-paint inline `<script>` in `<head>` that reads `localStorage.theme` and applies the `dark` class before Tailwind paints; (b) the `tailwind.config = { darkMode: 'class' }` line right after the Tailwind CDN script; (c) `<script src="theme.js?v=YYYY-MM-DD">` (or `../theme.js?v=…` from a guide) before `</body>`. Pages carry **two** toggles: the sidebar one keeps `id="theme-toggle"`, and the mobile top bar's carries `data-theme-toggle` (a second element with the same id would be invalid HTML). `theme.js` binds every match of `#theme-toggle, [data-theme-toggle]`, so both work. Bump the `?v=` query when you change `theme.js`, same convention as `hub.js`.
+- **Shared CSS in `site.css`** (root). Every page links it right after the Font Awesome stylesheet:
+  `<link rel="stylesheet" href="site.css?v=YYYY-MM-DD">` (or `../site.css?v=…` from a guide). It is
+  deliberately plain CSS, not Tailwind, because it loads synchronously — its rules are in effect
+  before the Tailwind Play CDN has compiled anything. It owns the skip link, the `:focus-visible`
+  rings, the mobile drawer's position/visibility, the 44px touch-target floor, the 16px form-control
+  floor that stops iOS zooming on focus, `.table-scroll`, Mermaid overflow, and image space
+  reservation. Bump its `?v=` when you change it.
+- **Mobile shell** (below the `lg` breakpoint, 1024px). Every page with a sidebar uses the same
+  off-canvas drawer; see "Two tiers of guide" below for the exact class recipe. Never ship a page
+  whose sidebar is a non-collapsing `flex-shrink-0` column or a bare `hidden lg:block` — the first
+  crushes the article to a few pixels wide, the second silently deletes Back to Hub on phones.
+  `nav.js` (root) is the shared controller and is inert on pages with no drawer markup, so every
+  page can load the same tag: `<script src="nav.js?v=YYYY-MM-DD" defer></script>`.
+- **Every page needs `<meta name="viewport" content="width=device-width, initial-scale=1.0">`.**
+  Without it mobile browsers lay out at 980px and scale down ~40%, which makes body text render at
+  roughly 7px. Seven guides shipped without it for months; check this first on any new page.
+- **Font Awesome 6.4.0** for icons (`<i class="fas fa-..." aria-hidden="true">`). The icons are
+  decorative, so they always carry `aria-hidden="true"`; the accessible name belongs on the parent
+  link or button.
 - **Inter** is the body font, set via inline `<style>` (no Google Fonts `<link>` is used — system fallback handles it).
 
 ## Two tiers of guide
@@ -56,6 +77,28 @@ The HTML files in `guides/` split into two visual/structural tiers — match the
 
 - **Masterclass guides** (`guides/langgraph.html`, `guides/semantickernel.html`, `guides/pydanticai.html`, `guides/crewai.html`, `guides/googleadk.html`): full left-sidebar layout (`aside` + `main` flex shell), chapter-numbered sections, a "Master Template" call-to-action, and richer typography rules in the inline `<style>` block. These are the current target style for new long-form content.
 - **Refresher guides** (`guides/autogen.html`, `guides/haystack.html`, `guides/llamaindex.html`, `guides/phidata.html`, `guides/smolagents.html`, `guides/swarm.html`): shorter, fixed narrow sidebar, single-color accent per framework, mostly code snippets with brief prose.
+
+Both tiers share one responsive shell. The sidebar is a static column at `lg` and above and an
+off-canvas drawer below it:
+
+```html
+<body class="… lg:flex …">                       <!-- NOT bare `flex`: below lg the page must -->
+  <a href="#main" class="skip-link">Skip to main content</a>
+  <header class="lg:hidden sticky top-0 z-30 …">  <!-- ☰ + title + data-theme-toggle -->
+    <button data-drawer-toggle aria-controls="site-drawer" aria-label="Open navigation menu">…
+  </header>
+  <div id="drawer-backdrop" class="lg:hidden fixed inset-0 z-40 bg-gray-900/50" aria-hidden="true"></div>
+  <aside id="site-drawer" data-drawer class="w-[85vw] max-w-xs lg:w-80 … z-50 lg:z-20">…</aside>
+  <main id="main" class="… p-5 sm:p-8 lg:p-16">…</main>
+</body>
+```
+
+The `id="site-drawer"` / `data-drawer` / `data-drawer-toggle` / `#drawer-backdrop` names are the
+contract `nav.js` looks for. Below `lg`, `site.css` owns the drawer's `position`, `transform` and
+`visibility` — do not add Tailwind translate utilities to the aside, they would fight it and would
+not apply until the CDN finishes compiling. Masterclass pages additionally scope their
+full-height shell to desktop (`lg:h-screen lg:overflow-hidden`, `main` gets `lg:overflow-y-auto`)
+so that on a phone the document itself scrolls; that is what lets the iOS toolbar collapse.
 
 Every guide must include a **"Back to Hub"** link (`href="../index.html"`) in its sidebar/header — this is the only navigation back from a guide page.
 

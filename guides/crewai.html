@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrewAI Comprehensive Refresher</title>
 
     <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
@@ -24,6 +25,7 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../site.css?v=2026-09-27">
     <style>
         body {
             font-family: 'Inter', sans-serif;
@@ -40,22 +42,42 @@
     </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex transition-colors">
-    <aside class="w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 hidden lg:block h-screen fixed overflow-y-auto z-20">
+<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 transition-colors">
+
+    <a href="#main" class="skip-link">Skip to main content</a>
+
+    <!-- Mobile top bar. Below lg the sidebar is an off-canvas drawer, so the
+         hamburger, the page title and the theme toggle live here; Back to Hub
+         stays inside the drawer. Hidden entirely at lg and above. -->
+    <header class="lg:hidden sticky top-0 z-30 flex items-center gap-2 px-3 h-14 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+        <button type="button" data-drawer-toggle aria-controls="site-drawer" aria-label="Open navigation menu"
+            class="w-11 h-11 rounded-lg flex items-center justify-center text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i class="fas fa-bars text-lg" aria-hidden="true"></i>
+        </button>
+        <span class="flex-1 min-w-0 truncate font-bold text-orange-600 dark:text-orange-300 text-base">CrewAI</span>
+        <button type="button" data-theme-toggle aria-label="Toggle dark mode"
+            class="w-11 h-11 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+            <i class="fas fa-moon dark:hidden" aria-hidden="true"></i>
+            <i class="fas fa-sun hidden dark:inline" aria-hidden="true"></i>
+        </button>
+    </header>
+
+    <div id="drawer-backdrop" class="lg:hidden fixed inset-0 z-40 bg-gray-900/50" aria-hidden="true"></div>
+    <aside id="site-drawer" data-drawer class="w-[85vw] max-w-xs lg:w-64 bg-white dark:bg-gray-900 border-r border-gray-200 dark:border-gray-800 lg:block h-screen fixed overflow-y-auto z-50 lg:z-20">
         <div class="p-6 border-b border-gray-200 dark:border-gray-800">
             <div class="flex items-center justify-between gap-2">
                 <h1 class="font-bold text-xl text-orange-600 dark:text-orange-300">CrewAI</h1>
                 <button id="theme-toggle"
                     class="w-8 h-8 rounded-md flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors flex-shrink-0"
                     aria-label="Toggle dark mode">
-                    <i class="fas fa-moon dark:hidden text-sm"></i>
-                    <i class="fas fa-sun hidden dark:inline text-sm"></i>
+                    <i class="fas fa-moon dark:hidden text-sm" aria-hidden="true"></i>
+                    <i class="fas fa-sun hidden dark:inline text-sm" aria-hidden="true"></i>
                 </button>
             </div>
             <a href="../index.html"
-                class="text-xs text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-300"><i class="fas fa-arrow-left"></i> Back to Hub</a>
+                class="text-xs text-gray-500 dark:text-gray-400 hover:text-orange-600 dark:hover:text-orange-300"><i class="fas fa-arrow-left" aria-hidden="true"></i> Back to Hub</a>
         </div>
-        <nav class="p-4 space-y-1">
+        <nav aria-label="Guide sections" class="p-4 space-y-1">
             <div class="text-xs font-bold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 mt-2">Foundations</div>
             <a href="#intro" class="block px-4 py-2 rounded text-sm hover:bg-orange-50 dark:hover:bg-orange-900/30 text-gray-700 dark:text-gray-300 hover:text-orange-700 dark:hover:text-orange-300">What & Why</a>
 
@@ -85,7 +107,7 @@
         </nav>
     </aside>
 
-    <main class="lg:ml-64 flex-1 p-8 md:p-12">
+    <main id="main" class="lg:ml-64 p-5 sm:p-8 md:p-12">
         <h1 class="text-4xl font-bold mb-4">CrewAI Refresher</h1>
         <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">The "Employee" model of Agentic AI. Focused on Role-Playing, Process, and
             Delegation.</p>
@@ -314,7 +336,8 @@ flow.kickoff()</code></pre>
     </main>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-python.min.js"></script>
-    <script src="../theme.js?v=2026-06-16"></script>
+    <script src="../theme.js?v=2026-09-27"></script>
+    <script src="../nav.js?v=2026-09-27" defer></script>
 </body>
 
 </html>
