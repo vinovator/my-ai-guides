@@ -198,6 +198,32 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
 - **`blueprint.md` is optional for single-lesson tutorials.** If the folder has no `blueprint.md`, the viewer falls into a "single-lesson mode": the sidebar collapses to just the brand header and the back link, there is no Overview page, and no prev/next nav. In this mode the hub card's `href` **must** include `&lesson=<file-stem>` (e.g. `tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide`) so the viewer knows which Markdown file to fetch. The sidebar title is derived from the slug (`investment-valuation` → `Investment Valuation`). Use this for one-off long-form guides; use a blueprint for anything that's meant to grow into a multi-lesson arc.
 - **URL pattern**: `tutorial.html?slug=<slug>` opens the blueprint; `tutorial.html?slug=<slug>&lesson=<file-stem>` opens a specific lesson (`<file-stem>` is the lesson filename without `.md`).
 - **Authoring**: write normal Markdown. Fenced ```mermaid blocks render as diagrams; fenced ```python/```bash/```cypher/etc. blocks get Prism syntax highlighting. Lesson titles in the sidebar come from the link text in `blueprint.md`, not from inside the lesson files.
+- **Images in a deep dive** live in `tutorials/<slug>/images/` and are referenced from Markdown
+  exactly once, at their full size: `![alt](tutorials/<slug>/images/slide-01.webp)`. The viewer adds
+  `srcset` at render time from a **naming convention** — for `slide-01.webp` it offers
+  `slide-01-800.webp` and `slide-01-1200.webp` — so **every image needs its two siblings built**:
+
+  ```bash
+  cd tutorials/<slug>/images
+  for f in *.webp; do
+      case "${f%.webp}" in *-800|*-1200) continue;; esac
+      for w in 800 1200; do
+          cwebp -quiet -q 85 -alpha_q 100 -m 6 -resize $w 0 "$f" -o "${f%.webp}-$w.webp"
+      done
+  done
+  ```
+
+  The ladder is sized against how `srcset` actually chooses — smallest candidate whose width is
+  at least `sizes x devicePixelRatio` — not against the rendered box. A phone's column is
+  `100vw - 40px` (320-390 CSS across 360-430px devices), so DPR 2 needs 640-780 (→ 800w) and DPR 3
+  needs 960-1170 (→ 1200w). **Do not lower the 800 floor**: at 688 the ratio is 1.97x on a 350px
+  column and a DPR 2 phone rejects it, pulling 1200 instead and saving nothing.
+
+  Never downscale the original. It is displayed at up to 896px (the `max-w-4xl` article column), so
+  at DPR 2 a desktop wants 1792px and 1376 is already slightly under. Shrinking it would soften
+  text-bearing slides on exactly the screens that show them largest. Add smaller siblings instead.
+  Always write real `alt` text; the viewer also sets `loading="lazy"` and reserves space via
+  `aspect-ratio` in `site.css`, so missing dimensions do not shift the page.
 - **Adding a deep dive**: the user drops the `<slug>/` folder; then prompt Claude to add the registry entry — a single `{ type:'tutorial', format:'deep-dive', category:'<topic>', title:…, href:'tutorial.html?slug=<slug>', lessons:N, minutes:N, updated:…, tags:[…], description:… }` object appended to `CARDS` in `hub.js`. If it opens a new subject, add a `CATEGORIES` entry and its accent classes to the marker block in `index.html`.
 
 ## Scaling decisions

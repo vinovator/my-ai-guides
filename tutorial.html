@@ -592,6 +592,53 @@
             $pageNav.innerHTML = '';
         }
 
+        // Slide images are authored at 1376px. That is the right size for the
+        // 896px column a desktop shows them in — at DPR 2 it is actually a
+        // little under — but far more than a phone needs at 350 CSS px. So the
+        // fix is not to shrink the asset, it is to offer smaller siblings and
+        // let the browser choose: a phone saves 32-60% of the bytes and a
+        // desktop downloads exactly what it does today.
+        //
+        // Siblings are found by convention (`foo.webp` -> `foo-800.webp`). If
+        // one is missing the browser would show a broken image, so fall back to
+        // the single source on error rather than trusting the naming.
+        // Widths built alongside each slide. srcset picks the smallest
+        // candidate whose width >= sizes x devicePixelRatio, so the ladder is
+        // sized against that arithmetic, not against the rendered box:
+        //   phone  sizes = 100vw - 40px  -> 320-390 CSS across 360-430px
+        //          DPR 2 needs 640-780   -> 800w
+        //          DPR 3 needs 960-1170  -> 1200w
+        //   desktop sizes = 896, DPR 2 needs 1792 -> falls back to the largest,
+        //          the untouched 1376 original.
+        // An 800 floor matters: 688 would be 1.97x at a 350px column and a
+        // DPR 2 phone would reject it and pull 1200 instead.
+        const IMG_WIDTHS = [800, 1200];
+        const IMG_FULL_WIDTH = 1376;
+
+        function offerSmallVariant(img) {
+            const src = img.getAttribute('src') || '';
+            const m = src.match(/^(.*\/images\/[^/]+)\.webp$/);
+            // Guard against re-processing a variant. Match the exact width
+            // suffixes, not `-<digits>`: the slides are named slide-01.webp and
+            // a loose pattern would treat every one of them as a variant.
+            if (!m || IMG_WIDTHS.some(wd => src.endsWith(`-${wd}.webp`))) return;
+
+            img.addEventListener('error', function onErr() {
+                img.removeAttribute('srcset');
+                img.removeAttribute('sizes');
+                img.removeEventListener('error', onErr);
+            }, { once: true });
+
+            const candidates = IMG_WIDTHS
+                .map(wd => `${m[1]}-${wd}.webp ${wd}w`)
+                .concat(`${src} ${IMG_FULL_WIDTH}w`);
+            img.setAttribute('srcset', candidates.join(', '));
+            // Mirrors the article column: full width minus padding on a phone,
+            // minus the larger padding on a tablet, capped at max-w-4xl once
+            // the sidebar appears.
+            img.setAttribute('sizes', '(min-width: 1024px) 896px, (min-width: 640px) calc(100vw - 4rem), calc(100vw - 2.5rem)');
+        }
+
         // Markdown gives us bare <table> and <img>; neither survives a 390px
         // screen unassisted. Tables get a horizontal scroller of their own so
         // they slide instead of dragging the whole page sideways, and images
@@ -613,6 +660,7 @@
                 // jump as each slide arrives. Once the file is decoded its own
                 // dimensions are known, so hand the ratio back to the image.
                 img.addEventListener('load', () => { img.style.aspectRatio = 'auto'; }, { once: true });
+                offerSmallVariant(img);
             });
         }
 
