@@ -1,5 +1,5 @@
 /* ============================================================================
-   Guides — landing page renderer.
+   Guides: landing page renderer.
    Loaded as a deferred <script> from index.html.
 
    The page is an editorial index, not a dashboard: one featured deep dive,
@@ -14,14 +14,14 @@
     // ------------------------------------------------------------------------
     // 1. Registry
     //
-    //    Topics carry the accent, not individual cards — two hues plus gray for
+    //    Topics carry the accent, not individual cards: two hues plus gray for
     //    the whole library. Per-card accents stopped being legible at 14 cards
     //    (see the scaling table in CLAUDE.md).
     //
     //    Card fields:
-    //      type        'guide' | 'tutorial'  — routing only. 'guide' links to
+    //      type        'guide' | 'tutorial'. Routing only. 'guide' links to
     //                  guides/<file>.html, 'tutorial' to tutorial.html?slug=.
-    //      format      'deep-dive' | 'guide' | 'reference' — presentation only.
+    //      format      'deep-dive' | 'guide' | 'reference'. Presentation only.
     //                  Kept separate from `type` so a deep dive can one day be
     //                  a plain HTML page, and a one-file tutorial can still be
     //                  a deep dive.
@@ -29,7 +29,7 @@
     //                  counts at ~220wpm; code-heavy pages read slower, so
     //                  treat these as a floor. Update alongside `updated`.
     //      lessons     multi-lesson tutorials only.
-    //      tags        searchable but not rendered in the lists — they feed
+    //      tags        searchable but not rendered in the lists, so they feed
     //                  the filter without adding noise to the page.
     // ------------------------------------------------------------------------
 
@@ -42,7 +42,7 @@
         {
             name: 'Finance',
             accent: 'amber',
-            blurb: 'How money is priced, measured, and valued — built from first principles.',
+            blurb: 'How money is priced, measured, and valued, all from first principles.',
         },
         {
             name: 'Quick reference',
@@ -58,7 +58,7 @@
             type: 'tutorial', format: 'deep-dive', category: 'AI Engineering',
             title: 'Neo4j & GraphRAG', href: 'tutorial.html?slug=neo4j',
             tags: ['Cypher', 'GraphRAG', 'Python', 'Neo4j', 'Graph databases'],
-            description: 'From complete novice to enterprise agentic context layers — Cypher, GraphRAG, and the graph as the memory spine for AI agents.',
+            description: 'From complete novice to enterprise agentic context layers: Cypher, GraphRAG, and the graph as the memory spine for AI agents.',
             updated: '2026-06-04', lessons: 12, minutes: 174,
         },
         {
@@ -72,7 +72,7 @@
             type: 'guide', format: 'guide', category: 'AI Engineering',
             title: 'Semantic Kernel', href: 'guides/semantickernel.html',
             tags: ['Python', 'C#', 'Java', 'Enterprise SDK', 'Microsoft'],
-            description: "Microsoft's enterprise SDK — connecting LLMs to code you already have via plugins, planners, and memories.",
+            description: "Microsoft's enterprise SDK for connecting LLMs to code you already have, via plugins, planners, and memories.",
             updated: '2026-01-18', minutes: 12,
         },
         {
@@ -93,7 +93,7 @@
             type: 'guide', format: 'guide', category: 'AI Engineering',
             title: 'CrewAI', href: 'guides/crewai.html',
             tags: ['Python', 'Crew pattern', 'Role-playing agents'],
-            description: 'Role-playing autonomous agents — the best fit for structured, process-driven automation across a defined crew.',
+            description: 'Role-playing autonomous agents, the best fit for structured, process-driven automation across a defined crew.',
             updated: '2025-12-03', minutes: 5,
         },
 
@@ -102,7 +102,7 @@
             type: 'tutorial', format: 'deep-dive', category: 'Finance',
             title: 'Global Bond Markets', href: 'tutorial.html?slug=global-bond-markets',
             tags: ['Finance', 'Macro', 'Fixed income', 'Yield curve', 'Duration'],
-            description: 'The base price of money, explained from zero — the price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
+            description: 'The base price of money, explained from zero: the price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
             updated: '2026-09-27', lessons: 9, minutes: 97,
         },
         {
@@ -110,7 +110,7 @@
             title: 'Investment Valuation',
             href: 'tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide',
             tags: ['Finance', 'DCF', 'Accounting', 'Multiples'],
-            description: 'From zero to a defensible business valuation — accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.',
+            description: 'From zero to a defensible business valuation: accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.',
             updated: '2026-06-15', lessons: 1, minutes: 48,
         },
 
@@ -147,7 +147,7 @@
             type: 'guide', format: 'reference', category: 'Quick reference',
             title: 'Smolagents', href: 'guides/smolagents.html',
             tags: ['Python', 'Hugging Face', 'Code agents'],
-            description: "Hugging Face's minimal agents — the agent writes and runs Python.",
+            description: "Hugging Face's minimal agents, where the agent writes and runs Python.",
             updated: '2025-12-03', minutes: 2,
         },
         {
@@ -230,7 +230,7 @@
     // 3. Entry markup
     //
     //    `.hub-card`, `data-search` and `data-category` are the hooks the live
-    //    filter and the section counters key off — keep them on every entry,
+    //    filter and the section counters key off, so keep them on every entry,
     //    including the compact cheat-sheet chips.
     // ------------------------------------------------------------------------
 
@@ -282,7 +282,7 @@
     }
 
     // ------------------------------------------------------------------------
-    // 4. Featured — the most recent deep dive
+    // 4. Featured: the most recent deep dive
     //
     //    Derived, never hand-flagged, so it cannot go stale. The featured piece
     //    is suppressed from its topic list below, so nothing appears twice.
@@ -319,7 +319,7 @@
     // 4b. Breadth: what this library covers
     //
     //     The editorial format leads with one piece, which buries the fact that
-    //     the site spans more than one subject — measured, no topic heading was
+    //     the site spans more than one subject. Measured, no topic heading was
     //     visible in the first screen at any width. Publications solve this with
     //     a standing section bar plus a contents page; these are both of those.
     // ------------------------------------------------------------------------
@@ -365,7 +365,7 @@
     }
 
     // ------------------------------------------------------------------------
-    // 5. Library stats — depth is the differentiator, so lead with it
+    // 5. Library stats: depth is the differentiator, so lead with it
     // ------------------------------------------------------------------------
 
     function renderStats() {
