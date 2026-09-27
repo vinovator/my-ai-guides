@@ -1,16 +1,14 @@
-# Lesson 9: Visual Recap — The Whole Market in Eighteen Slides
+# Lesson 9: The Whole Market in Pictures
 
-*The entire guide restated visually, one idea per slide. Each is captioned and linked back to the lesson that taught it.*
+*Eighteen figures, one per idea, each captioned with what to notice and linked back to the lesson that taught it.*
 
 ---
 
 ## How to use this
 
-This is the companion deck to everything above. It is not new material — it is the same arc in pictures, which makes it useful in two ways: as revision after you have read the lessons, and as something to flick through before you next open the markets page.
+Nothing here is new. It is the same arc you have just read, drawn rather than argued, which makes it useful twice over: as revision once you have finished the lessons, and as something to flick through before you next open the markets page.
 
-Each slide carries a caption saying what to notice and a link back to the relevant lesson.
-
-> **One correction.** Slide 15 of the original deck, on April 2025, contained incorrect figures: it showed a peak 10-year yield of 5.50% and a garbled price row. The actual peak that week was about 4.5%. It has been replaced below with a corrected chart. Everything else is reproduced as issued.
+The order follows the guide. Read a caption, look at the figure, and if the idea does not land, follow the link back to the lesson that builds it properly.
 
 ---
 
@@ -18,9 +16,9 @@ Each slide carries a caption saying what to notice and a link back to the releva
 
 ### 1. The base layer of global finance
 
-![Title slide: The Base Layer of Global Finance — mechanics, plumbing and gravity of the $160 trillion bond market](tutorials/global-bond-markets/images/slide-01.webp)
+![Opening figure: the base layer of global finance, covering the mechanics, plumbing and gravity of the $160 trillion bond market](tutorials/global-bond-markets/images/slide-01.webp)
 
-The framing for the whole subject. Bonds are not a niche within finance; they are the layer everything else is priced off.
+The framing for the whole subject. Bonds are not a niche within finance. They are the layer everything else is priced off.
 
 ### 2. The largest market on earth
 
@@ -38,7 +36,7 @@ Bonds outstanding worldwide ($160.7tn) slightly exceed the value of all listed s
 
 ![Diagram of a gilt certificate labelled with issuer, face value, coupon and maturity, plus the secondary market concepts of price and yield](tutorials/global-bond-markets/images/slide-03.webp)
 
-Four terms fixed at issue — issuer, face value, coupon, maturity — and two set by the market: price and yield. The last two are where beginners stumble, because the coupon is a promise while the yield is what the market thinks that promise is worth.
+Four terms are fixed at issue (issuer, face value, coupon and maturity) and two are set by the market (price and yield). The last two are where beginners stumble, because the coupon is a promise while the yield is what the market thinks that promise is worth.
 
 ### 4. The core mechanic: the seesaw
 
@@ -74,13 +72,13 @@ Gains exceed losses for equal moves in yield. The relationship between price and
 
 ![Stacked blocks showing expected policy rate, term premium and credit spread building a total nominal yield, with inflation cutting across to leave the real return](tutorials/global-bond-markets/images/slide-08.webp)
 
-Every yield decomposes. The expected policy rate at the base, the term premium above it, and — for anyone other than the government — a credit spread on top. Inflation cuts across all of it, leaving the real return. The panel shows how much three rating notches cost an Indian borrower.
+Every yield decomposes. The expected policy rate at the base, the term premium above it, and for anyone other than the government a credit spread on top. Inflation cuts across all of it, leaving the real return. The figure also shows how much three rating notches cost an Indian borrower.
 
 ### 9. The yield curve: finance's most watched gauge
 
 ![Normal upward-sloping yield curve beside an inverted downward-sloping curve, with explanations of each](tutorials/global-bond-markets/images/slide-09.webp)
 
-Normally upward sloping, because commitment earns a premium. When inverted, the market expects rate cuts — which usually means it expects trouble. In the US an inversion has preceded every recession for half a century, but the curve stayed inverted for two years from mid-2022 without one arriving. A warning light, not a law of physics.
+Normally upward sloping, because commitment earns a premium. When inverted, the market expects rate cuts, which usually means it expects trouble. In the US an inversion has preceded every recession for half a century, but the curve stayed inverted for two years from mid-2022 without one arriving. A warning light, not a law of physics.
 
 ---
 
@@ -92,7 +90,7 @@ Normally upward sloping, because commitment earns a premium. When inverted, the 
 
 ![Comparison table of individual bonds and bond funds across maturity and principal, price sensitivity, and recovery mechanics](tutorials/global-bond-markets/images/slide-10.webp)
 
-A bond matures; a fund never does. The bond's duration falls to zero as maturity approaches, so its price must converge on par. The fund's duration stays roughly constant, and its recovery comes instead from reinvesting at higher yields — taking about as many years as its duration.
+A bond matures; a fund never does. The bond's duration falls to zero as maturity approaches, so its price must converge on par. The fund's duration stays roughly constant, and its recovery comes instead from reinvesting at higher yields: taking about as many years as its duration.
 
 ---
 
@@ -104,7 +102,7 @@ A bond matures; a fund never does. The bond's duration falls to zero as maturity
 
 ![Flow diagram of the central bank above the primary market, secondary market, clearing houses and the repo market](tutorials/global-bond-markets/images/slide-11.webp)
 
-Bonds are born at auction in the primary market, trade over the counter in the secondary market, settle through clearing houses, and are financed overnight in the repo market. The central bank sits above all of it — and intervenes in repo first when something breaks.
+Bonds are born at auction in the primary market, trade over the counter in the secondary market, settle through clearing houses, and are financed overnight in the repo market. The central bank sits above all of it, and intervenes in repo first when something breaks.
 
 ---
 
@@ -128,7 +126,7 @@ The same physics, three characters. The US is the global benchmark at $61.2tn an
 
 ![Concentric ripples radiating from the government yield out to borrowing costs, valuations, government budgets and currencies](tutorials/global-bond-markets/images/slide-13.webp)
 
-The government yield is the floor under every other rate, so moving it moves everything above it: mortgages, company loans, share and property valuations, budget arithmetic and currencies. Note the India exception — most Indian home loans track the RBI's repo rate directly rather than the bond market.
+The government yield is the floor under every other rate, so moving it moves everything above it: mortgages, company loans, share and property valuations, budget arithmetic and currencies. Note the India exception: most Indian home loans track the RBI's repo rate directly rather than the bond market.
 
 ---
 
@@ -142,7 +140,7 @@ The government yield is the floor under every other rate, so moving it moves eve
 
 The complete anatomy of a doom loop: unfunded tax cuts, a credibility shock, long gilts plunging on their enormous duration, collateral calls on leveraged pension funds, forced selling that pushed yields higher still, and a central bank obliged to buy the very bonds it had planned to sell.
 
-### 15. Enter the bond vigilantes: the US, April 2025 *(corrected)*
+### 15. Enter the bond vigilantes: the US, April 2025
 
 <svg viewBox="0 0 700 340" width="100%" role="img" aria-label="US 10-year Treasury yield through April 2025, falling to 3.99 percent on 4 April then rising to 4.49 percent by 11 April" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g stroke="currentColor" opacity="0.14" stroke-width="1">
@@ -169,7 +167,7 @@ The complete anatomy of a doom loop: unfunded tax cuts, a credibility shock, lon
   </g>
   <text x="26" y="145" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75" transform="rotate(-90 26 145)">Yield (%)</text>
   <text x="370" y="296" font-size="12" fill="currentColor" text-anchor="middle" font-weight="bold">US 10-year Treasury yield, April 2025</text>
-  <text x="370" y="314" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">+49 bp over the week — the largest weekly rise since November 2001</text>
+  <text x="370" y="314" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">+49 bp over the week: the largest weekly rise since November 2001</text>
   <text x="370" y="330" font-size="10" fill="currentColor" text-anchor="middle" opacity="0.55">Approximate daily closes. The 30-year rose 47 bp, its biggest weekly move since 1987.</text>
 </svg>
 
@@ -185,7 +183,7 @@ The complete anatomy of a doom loop: unfunded tax cuts, a credibility shock, lon
 
 ![Five numbered panels: interest-rate risk, credit risk, inflation risk, liquidity risk and currency risk](tutorials/global-bond-markets/images/slide-16.webp)
 
-The seesaw, the spread, the eraser, the exit and the exchange. They are genuinely distinct — a bond can be certain to pay in full and still lose you a great deal of money — and each has a different remedy.
+The seesaw, the spread, the eraser, the exit and the exchange. They are genuinely distinct: a bond can be certain to pay in full and still lose you a great deal of money, and each has a different remedy.
 
 ---
 
@@ -195,7 +193,7 @@ The seesaw, the spread, the eraser, the exit and the exchange. They are genuinel
 
 ![Three-column live snapshot of US, UK and Indian policy rates, 10-year yields and primary drivers in September 2026](tutorials/global-bond-markets/images/slide-17.webp)
 
-Every concept in the guide, running at once. An energy shock became inflation, became policy tightening, became higher yields — and crossed three borders within days. Note India's driver: a US Treasury sell-off and crude prices, not a domestic policy change. *[Lesson 5](?slug=global-bond-markets&lesson=lesson-05-three-markets-up-close).*
+Every concept in the guide, running at once. An energy shock became inflation, became policy tightening, became higher yields, and crossed three borders within days. Note India's driver: a US Treasury sell-off and crude prices, not a domestic policy change. *[Lesson 5](?slug=global-bond-markets&lesson=lesson-05-three-markets-up-close).*
 
 ### 18. Decoding the headlines: a translation matrix
 
@@ -209,4 +207,4 @@ The practical payoff. Jargon on the left, meaning on the right. Central banks st
 
 You started with a loan turned into a piece of paper. You now know why its price moves against its yield, how far, and what sets the level; who trades it and on what plumbing; why it prices your mortgage and the stock market; how it behaves in three different countries; what it looks like when it breaks; and how to read what it is saying.
 
-The last thing worth saying is the one from Lesson 8. When you read someone's confident narrative about where yields are going, ask what would prove it wrong, and who benefits if you believe it. Then go and check the primary data yourself — it is free, and almost nobody does.
+The last thing worth saying is the one from Lesson 8. When you read someone's confident narrative about where yields are going, ask what would prove it wrong, and who benefits if you believe it. Then go and check the primary data yourself. It is free, and almost nobody does.

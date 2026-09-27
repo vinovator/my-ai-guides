@@ -123,7 +123,7 @@ That second lesson has a name and a number. **Duration** measures how sensitive 
 
 The practical version is a rule of thumb worth memorising:
 
-> Duration tells you roughly what percentage a bond's price moves for each one-percentage-point change in yield — in the opposite direction.
+> Duration tells you roughly what percentage a bond's price moves for each one-percentage-point change in yield: in the opposite direction.
 
 For the three bonds above:
 
@@ -133,7 +133,7 @@ For the three bonds above:
 | 10-year, 5% coupon | 7.7 | −7.7% | −7.36% |
 | 30-year, 5% coupon | 15.4 | −15.4% | −13.76% |
 
-The predictions are close, and they get less accurate the longer the bond — for a reason we are about to meet.
+The predictions are close, and they get less accurate the longer the bond: for a reason we are about to meet.
 
 ### Why the 10-year's duration is 7.7, not 10
 
@@ -157,7 +157,7 @@ That last point explains why the most violent bonds in existence are long-dated 
 
 Look once more at the 30-year row. A one-point *fall* in yields, from 5% to 4%, gains you £17.29. A one-point *rise*, from 5% to 6%, costs you £13.76.
 
-Same size move, different size outcome — and the difference favours the holder. Gains are bigger than losses. This lopsidedness is called **convexity**, and it is a property of the arithmetic rather than a market opinion.
+Same size move, different size outcome, and the difference favours the holder. Gains are bigger than losses. This lopsidedness is called **convexity**, and it is a property of the arithmetic rather than a market opinion.
 
 The picture makes it obvious. Duration is a straight line, a local approximation. The true price-yield relationship is a curve, and the curve always sits *above* the straight line.
 
@@ -193,7 +193,7 @@ The picture makes it obvious. Duration is a straight line, a local approximation
   <text x="404" y="278" font-size="11" fill="#10b981">+£5.92 better than predicted</text>
 </svg>
 
-Read the green marks. At 3%, duration predicts a price of £130.74 but the bond is actually worth £139.20 — you gained **more** than predicted. At 7%, duration predicts £69.26 but the bond is actually worth £75.18 — you lost **less** than predicted. The curve bends away from the line in the holder's favour in both directions.
+Read the green marks. At 3%, duration predicts a price of £130.74 but the bond is actually worth £139.20, so you gained **more** than predicted. At 7%, duration predicts £69.26 but the bond is actually worth £75.18, so you lost **less** than predicted. The curve bends away from the line in the holder's favour in both directions.
 
 Convexity is why duration is only a local approximation, and why the approximation degrades for big moves and long bonds. It is also genuinely valuable: for two bonds with the same duration, the more convex one is worth more, and investors pay for it.
 
@@ -205,7 +205,7 @@ All of the above describes what happens to a bond's *market price*. It is easy t
 
 If you hold a bond to maturity and the issuer pays in full, **these price swings wash out entirely**. You collect every coupon and you get your £100 back. The fact that the bond was briefly worth £86 in year four is a historical curiosity; it changed nothing about what you received.
 
-You have still given something up. You may have missed out on higher rates available elsewhere — that is a real opportunity cost. Inflation may have shrunk what that £100 buys, which Lesson 2 takes seriously. But you did not lose pounds.
+You have still given something up. You may have missed out on higher rates available elsewhere, that is a real opportunity cost. Inflation may have shrunk what that £100 buys, which Lesson 2 takes seriously. But you did not lose pounds.
 
 Price risk bites in exactly two circumstances:
 

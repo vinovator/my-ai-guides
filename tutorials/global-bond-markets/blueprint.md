@@ -58,7 +58,7 @@ The market itself. The kinds of bonds that exist and how credit ratings set the 
 
 Why any of this matters outside the bond market. Government yields as the base price of money: how they set mortgage and company borrowing costs, squeeze government budgets, re-value shares and property, and move currencies, pensions and banks. Also why the transmission works differently in India than in the US or UK.
 
-### 5. [Three Markets Up Close: US, UK, India](lesson-05-three-markets-up-close.md)
+### 5. [Three Markets Up Close: US, UK and India](lesson-05-three-markets-up-close.md)
 
 Treasuries, gilts and G-secs in detail: who issues them, who buys them, how they trade, and what makes each market's character. A side-by-side comparison table, then September 2026 as a live worked example in which an energy shock runs through all three markets at once and nearly every concept from Lessons 1 to 4 shows up in the same month.
 
@@ -68,15 +68,15 @@ Eight episodes from the past two decades, each isolating one part of the machine
 
 ### 7. [Risks, and Bonds versus Bond Funds](lesson-07-risks-and-bond-funds.md)
 
-The five risks inside every bond — interest-rate, credit, inflation, liquidity and currency — each matched to the episode where it did the damage. Then a distinction that catches a great many people: a bond matures and a bond fund never does, and what that means for whether losses eventually repair themselves.
+The five risks inside every bond, which are interest-rate, credit, inflation, liquidity and currency, each matched to the episode where it did the damage. Then a distinction that catches a great many people: a bond matures and a bond fund never does, and what that means for whether losses eventually repair themselves.
 
 ### 8. [Reading the Market Yourself](lesson-08-reading-the-market-yourself.md)
 
 The practical closer. A translation table for the jargon you will meet, five diagnostic questions that decode almost any bond story, the handful of ideas worth keeping if you forget everything else, and a three-layer reading list with a daily, weekly and quarterly routine for using it.
 
-### 9. [Visual Recap: The Whole Market in Eighteen Slides](lesson-09-visual-recap.md)
+### 9. [The Whole Market in Pictures](lesson-09-visual-recap.md)
 
-The entire guide restated visually, one slide per idea, each captioned and linked back to the lesson that taught it. Useful as revision, and as something to flick through before you next read the markets page.
+The guide restated as eighteen figures, one per idea, each captioned with what to notice and linked back to the lesson that taught it. Useful as revision, and as something to flick through before you next read the markets page.
 
 ---
 
@@ -84,4 +84,4 @@ The entire guide restated visually, one slide per idea, each captioned and linke
 
 Every piece of arithmetic in this guide has been checked. The bond price table in Lesson 1, the duration figures, and the convexity asymmetry are all reproducible from the standard present-value formula, and you are encouraged to verify them.
 
-Two things are worth flagging plainly. First, market data quoted as current reflects **September 2026**, and yields move daily, so treat those figures as a snapshot rather than a live quote. Second, where a source figure looked wrong it has been corrected rather than repeated, and the correction is noted where it appears.
+One thing is worth flagging plainly: market data quoted as current reflects **September 2026**. Yields move daily, so treat those figures as a snapshot of a particular month rather than a live quote. The mechanisms they illustrate do not change when the numbers do, which is the reason the guide teaches the mechanism first and the number second.

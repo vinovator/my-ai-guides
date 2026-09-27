@@ -1,6 +1,6 @@
 # Lesson 2: What Sets the Level of Yields
 
-*Why a yield is 5% rather than 2% or 9% — and how to take any government bond yield apart into the pieces that built it.*
+*Why a yield is 5% rather than 2% or 9%, and how to take any government bond yield apart into the pieces that built it.*
 
 ---
 
@@ -12,11 +12,11 @@ Start with the two blocks that make up a government bond yield.
 
 ### Block one: the expected policy rate
 
-Every central bank sets a very short-term interest rate — the federal funds rate in the United States, Bank Rate in the United Kingdom, the repo rate in India. That rate is the anchor for everything.
+Every central bank sets a very short-term interest rate: the federal funds rate in the United States, Bank Rate in the United Kingdom, the repo rate in India. That rate is the anchor for everything.
 
 Now ask what a ten-year bond has to compete with. Instead of lending to the government for ten years, you could roll over a series of very short-term deposits, collecting whatever the central bank rate happens to be at each moment. For the ten-year bond to be worth buying, it has to offer something comparable.
 
-So the first block of a ten-year yield is **where investors expect the central bank's rate to average over the next ten years**. Not where it is today — where it is expected to be, on average, across the bond's whole life.
+So the first block of a ten-year yield is **where investors expect the central bank's rate to average over the next ten years**. Not where it is today, where it is expected to be, on average, across the bond's whole life.
 
 This has an important consequence that catches people out. A central bank can cut rates and long-term yields can *rise* on the same day, if the cut persuades investors that inflation will be higher later. The bond market trades the expected path, not the current level.
 
@@ -28,7 +28,7 @@ Inflation might be higher than anyone expects. The government might borrow far m
 
 The **term premium** is the extra return investors demand for bearing all of that. It is the compensation for commitment.
 
-The term premium cannot be observed directly — it is inferred by subtracting estimated rate expectations from the actual yield — which makes it a slippery but indispensable concept. When commentators say the long end is selling off "on term premium," they mean investors are demanding more compensation for uncertainty, not that they expect higher central bank rates.
+The term premium cannot be observed directly: it is inferred by subtracting estimated rate expectations from the actual yield, which makes it a slippery but indispensable concept. When commentators say the long end is selling off "on term premium," they mean investors are demanding more compensation for uncertainty, not that they expect higher central bank rates.
 
 <svg viewBox="0 0 700 300" width="100%" role="img" aria-label="Stacked diagram of yield components: expected policy rate at the base, term premium above it, and credit spread added only for non-government borrowers, with inflation cutting across to leave the real return" fill="none" xmlns="http://www.w3.org/2000/svg">
   <text x="140" y="24" font-size="13" fill="currentColor" text-anchor="middle" font-weight="bold" opacity="0.85">Government bond</text>
@@ -83,7 +83,7 @@ Bonds are not priced by formula alone. They are sold to buyers, and the balance 
 
 **When a government borrows more**, it must sell more bonds. If the extra supply outstrips demand, it has to offer higher yields to clear the market. This is why budget announcements move bond markets: investors are recalculating how much paper they will be asked to absorb.
 
-**When a central bank buys bonds on a vast scale** — a policy called **quantitative easing**, or QE — it removes supply from the market and pushes yields down. When it reverses, either by selling holdings or by letting them mature without replacement, the policy is called **quantitative tightening**, or QT, and it does the opposite.
+**When a central bank buys bonds on a vast scale**, a policy called **quantitative easing** or QE, it removes supply from the market and pushes yields down. When it reverses, either by selling holdings or by letting them mature without replacement, the policy is called **quantitative tightening**, or QT, and it does the opposite.
 
 QE and QT matter more than their mechanical size suggests, because a central bank is a buyer with no budget constraint and no requirement to make a profit. Its presence changes how everyone else behaves. Lesson 6 has an episode where the *promise* of central bank buying ended a crisis without a single bond being purchased.
 
@@ -105,9 +105,9 @@ Everything so far describes a government borrowing in its own currency. For ever
 
 The **credit spread** is the extra yield demanded because the borrower might not pay. It is quoted as a number of basis points *over* the equivalent government bond, and it is the single most informative number about a borrower.
 
-A spread widens when default looks more likely and narrows when it looks less likely. Because the government yield is the floor, a corporate bond's total yield is the government yield plus its spread — which means a company's borrowing cost can rise even when its own prospects are unchanged, simply because government yields rose beneath it.
+A spread widens when default looks more likely and narrows when it looks less likely. Because the government yield is the floor, a corporate bond's total yield is the government yield plus its spread, which means a company's borrowing cost can rise even when its own prospects are unchanged, simply because government yields rose beneath it.
 
-Credit spreads are also a superb market-wide fear gauge. In calm periods, spreads on weaker borrowers compress to a couple of percentage points. In a crisis they explode. Lesson 6 describes December 2008, when spreads on US junk bonds reached roughly **20 percentage points** — weaker companies were being asked to pay twenty points more than the government, if anyone would lend at all.
+Credit spreads are also a superb market-wide fear gauge. In calm periods, spreads on weaker borrowers compress to a couple of percentage points. In a crisis they explode. Lesson 6 describes December 2008, when spreads on US junk bonds reached roughly **20 percentage points**: weaker companies were being asked to pay twenty points more than the government, if anyone would lend at all.
 
 > A rates story and a credit story are different animals. If the *government* yield is moving, it is a rates story about policy, inflation or fiscal credibility. If the *spread over it* is moving, it is a credit story about who might not get paid. Lesson 8 makes this the first diagnostic question.
 
@@ -149,7 +149,7 @@ Line up a single government's bond yields from the shortest maturity to the long
 
 The curve normally slopes **upward**, for the reason Lesson 1 gave: tying money up for longer usually earns more, because the term premium grows with commitment.
 
-When short-term yields rise *above* long-term ones, the curve is **inverted**. This seems perverse — why accept less for locking your money up longer? — until you remember that yields price the expected path. An inverted curve says investors expect central bank rates to be *much lower* in future than they are today. And central banks generally cut rates for one reason: the economy is deteriorating.
+When short-term yields rise *above* long-term ones, the curve is **inverted**. This seems perverse, why accept less for locking your money up longer?, until you remember that yields price the expected path. An inverted curve says investors expect central bank rates to be *much lower* in future than they are today. And central banks generally cut rates for one reason: the economy is deteriorating.
 
 ### How much to trust an inversion
 
@@ -161,8 +161,8 @@ It is not a law of nature. The US curve stayed inverted for roughly two years fr
 
 Two other curve movements you will read about:
 
-- **Steepening** — long yields rising relative to short ones. Often driven by inflation worries or by concern about how much a government intends to borrow.
-- **Flattening** — the gap narrowing, usually as short rates rise toward long ones while a central bank tightens.
+- **Steepening**: long yields rising relative to short ones. Often driven by inflation worries or by concern about how much a government intends to borrow.
+- **Flattening**: the gap narrowing, usually as short rates rise toward long ones while a central bank tightens.
 
 ---
 

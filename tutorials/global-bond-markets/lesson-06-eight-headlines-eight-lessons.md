@@ -25,7 +25,7 @@ Duration is an abstraction until you watch it destroy a bank. Liquidity risk is 
 
 **Concepts:** credit risk and spreads, ratings, securitisation, flight to safety, repo
 
-In the years before 2008, banks bundled millions of American mortgages into mortgage-backed securities, sliced them into layers, and sold them worldwide. Many of the underlying loans were **subprime** — lent to borrowers with weak credit. Rating agencies stamped the top layers AAA, the same grade as US government debt.
+In the years before 2008, banks bundled millions of American mortgages into mortgage-backed securities, sliced them into layers, and sold them worldwide. Many of the underlying loans were **subprime**: lent to borrowers with weak credit. Rating agencies stamped the top layers AAA, the same grade as US government debt.
 
 The logic seemed sound: individual mortgages might default, but not all at once across the whole country. When house prices fell nationally and borrowers defaulted together, that assumption failed and the bonds collapsed. The US Financial Crisis Inquiry Commission later found that **83% of the mortgage securities Moody's rated AAA in 2006 were eventually downgraded**.
 
@@ -33,9 +33,9 @@ On **15 September 2008**, Lehman Brothers filed for the largest bankruptcy in US
 
 The bond market then split cleanly in two.
 
-**Anything carrying credit risk was dumped.** By December, spreads on US junk bonds had widened to around **20 percentage points** — weaker companies were being asked to pay roughly twenty points more than the government, if anyone would lend at all. A large money market fund holding Lehman's short-term debt "broke the buck," returning less than investors had put in, and sparked a run.
+**Anything carrying credit risk was dumped.** By December, spreads on US junk bonds had widened to around **20 percentage points**: weaker companies were being asked to pay roughly twenty points more than the government, if anyone would lend at all. A large money market fund holding Lehman's short-term debt "broke the buck," returning less than investors had put in, and sparked a run.
 
-**Government bonds went the other way**, in a textbook flight to safety. Yields on 3-month Treasury bills briefly fell to around zero — investors accepted *no return at all* simply to keep their money somewhere safe. The 10-year yield dropped from about 4% to about 2% by year-end.
+**Government bonds went the other way**, in a textbook flight to safety. Yields on 3-month Treasury bills briefly fell to around zero: investors accepted *no return at all* simply to keep their money somewhere safe. The 10-year yield dropped from about 4% to about 2% by year-end.
 
 The damage then spread through the **repo market**. Lenders refused to accept mortgage bonds as collateral, which cut off the overnight funding that firms like Lehman depended on. The Fed cut rates to near zero and launched its first round of QE.
 
@@ -47,13 +47,13 @@ The damage then spread through the **repo market**. Lenders refused to accept mo
 
 **Concepts:** borrowing in your own currency, flight to safety, the limits of ratings
 
-After months of brinkmanship over the debt ceiling — the legal cap on federal borrowing — Congress struck a deal on **2 August 2011**, the very day the Treasury had warned it would run out of room. On **5 August**, S&P cut the US from AAA to AA+ for the first time ever, citing political dysfunction and the long-term debt outlook.
+After months of brinkmanship over the debt ceiling, the legal cap on federal borrowing, Congress struck a deal on **2 August 2011**, the very day the Treasury had warned it would run out of room. On **5 August**, S&P cut the US from AAA to AA+ for the first time ever, citing political dysfunction and the long-term debt outlook.
 
 The obvious prediction was that yields would jump. The world's benchmark safe asset had just been declared less safe.
 
 **The opposite happened.** When markets reopened, US shares fell almost 7% in a day, and frightened investors poured money into the very bonds that had just been downgraded. The 10-year Treasury yield fell **below 2%** within weeks, helped by the eurozone crisis spreading to Italy and Spain at the same time.
 
-The explanation goes back to foundations. The US borrows in dollars, which its own central bank creates, so it cannot be *forced* into default the way a company can. The only real risk was a self-inflicted political refusal to pay — and that had just been resolved by the debt-ceiling deal three days earlier. Meanwhile, investors fleeing risk need somewhere vast and easy to trade, and nothing matches the Treasury market for that.
+The explanation goes back to foundations. The US borrows in dollars, which its own central bank creates, so it cannot be *forced* into default the way a company can. The only real risk was a self-inflicted political refusal to pay, and that had just been resolved by the debt-ceiling deal three days earlier. Meanwhile, investors fleeing risk need somewhere vast and easy to trade, and nothing matches the Treasury market for that.
 
 > **The lesson:** For a government borrowing in its own currency, a downgrade says more about politics than about the chance of being repaid. In a flight to safety, liquidity and size matter more than ratings.
 
@@ -78,7 +78,7 @@ graph TD
   E --> A
 ```
 
-This is a **self-fulfilling spiral**: the market's fear makes the feared outcome more likely, which justifies more fear. Greek 10-year yields rose above **30%**. In March 2012, private bondholders were pushed into a debt swap that cut the face value of their bonds by more than half — the largest sovereign restructuring the world had seen.
+This is a **self-fulfilling spiral**: the market's fear makes the feared outcome more likely, which justifies more fear. Greek 10-year yields rose above **30%**. In March 2012, private bondholders were pushed into a debt swap that cut the face value of their bonds by more than half: the largest sovereign restructuring the world had seen.
 
 The fear then spread to far larger economies. Italian and Spanish 10-year yields climbed above **7%**, a level widely regarded as unsustainable, and their spread over German yields became the eurozone's fever chart.
 
@@ -94,7 +94,7 @@ Then, on **26 July 2012**, European Central Bank President Mario Draghi told an 
 
 **Concepts:** expectations, QE, global spillovers, currency risk, the central bank's dilemma
 
-On **22 May 2013**, Fed Chair Ben Bernanke told Congress the Fed might soon slow — "taper" — its QE bond purchases if the economy kept improving.
+On **22 May 2013**, Fed Chair Ben Bernanke told Congress the Fed might soon slow, or "taper", its QE bond purchases if the economy kept improving.
 
 He did not raise rates. He did not sell a single bond. He hinted that buying might slow. Yet the US 10-year yield jumped from about **1.6% in early May to about 3% by September**.
 
@@ -113,7 +113,7 @@ graph TD
 
 Foreign money had flooded into emerging markets in search of yield while US rates sat near zero. As US yields rose, that money went home.
 
-India was especially exposed. It had high inflation and a large current account deficit — importing far more than it exported, and relying on foreign capital to fill the gap. Morgan Stanley grouped it among the **"Fragile Five."** The rupee slid from about 55 to a record low near **69 to the dollar** by late August. To defend it, the RBI squeezed liquidity and forced short-term rates sharply higher, which dragged bond yields up too; the 10-year G-sec yield crossed **9%**.
+India was especially exposed. It had high inflation and a large current account deficit: importing far more than it exported, and relying on foreign capital to fill the gap. Morgan Stanley grouped it among the **"Fragile Five."** The rupee slid from about 55 to a record low near **69 to the dollar** by late August. To defend it, the RBI squeezed liquidity and forced short-term rates sharply higher, which dragged bond yields up too; the 10-year G-sec yield crossed **9%**.
 
 Note the cruelty of the position. India was forced to *tighten* policy into a slowdown, not because its own economy demanded it, but because of a hint dropped in Washington.
 
@@ -131,7 +131,7 @@ India learned from this, building much larger foreign exchange reserves and adop
 
 This is Lesson 1's duration arithmetic taken to its logical extreme.
 
-In 2020, inflation was low, central banks were buying bonds heavily, and almost all of Germany's government bonds yielded **below zero** — investors were paying for the privilege of lending. Desperate for any positive return, they reached for length.
+In 2020, inflation was low, central banks were buying bonds heavily, and almost all of Germany's government bonds yielded **below zero**: investors were paying for the privilege of lending. Desperate for any positive return, they reached for length.
 
 Austria obliged. On **24 June 2020** it sold €2 billion of bonds maturing in **2120**, with a 0.85% coupon and a 0.88% yield. Orders were reported at around **€17.7 billion** against the €2 billion on offer. Investors were accepting under 1% a year, for a century.
 
@@ -148,11 +148,11 @@ Recall the two rules from Lesson 1. Duration rises with maturity, and duration r
 | **ECB deposit rate over the period** | −0.5% → 4% |
 | **Modified duration, early 2024** | around 46 |
 
-That last figure deserves a moment. A modified duration of 46 means each one-point move in yields shifts the price by roughly 46%. Compare the 30-year bond in Lesson 1, at 15.4. This was a highly rated government bond behaving three times more violently than a long government bond — and far more violently than most shares.
+That last figure deserves a moment. A modified duration of 46 means each one-point move in yields shifts the price by roughly 46%. Compare the 30-year bond in Lesson 1, at 15.4. This was a highly rated government bond behaving three times more violently than a long government bond, and far more violently than most shares.
 
 > A duration of 46 is a *linear* estimate, and convexity means the actual loss on a large yield rise is meaningfully smaller than 46% per point. That is a genuine consolation of a very limited kind: it makes a catastrophic loss slightly less catastrophic.
 
-**Holding on does not fully rescue it either.** If inflation averages the ECB's 2% target, a holder who waits until 2120 for every promised euro earns a real return of about **minus 1.1% a year, for a century**. Lesson 1 said price swings wash out if you hold to maturity — true in nominal pounds or euros, and cold comfort when inflation is doing the damage instead.
+**Holding on does not fully rescue it either.** If inflation averages the ECB's 2% target, a holder who waits until 2120 for every promised euro earns a real return of about **minus 1.1% a year, for a century**. Lesson 1 said price swings wash out if you hold to maturity. That holds in nominal pounds or euros, and it is cold comfort when inflation is the thing doing the damage.
 
 The same arithmetic, applied to a bank's balance sheet rather than an investor's portfolio, is what sank **Silicon Valley Bank** in 2023: long-dated bonds bought at low yields, marked down as rates rose, then sold at a locked-in loss when depositors wanted their money.
 
@@ -164,19 +164,19 @@ The same arithmetic, applied to a bank's balance sheet rather than an investor's
 
 **Concepts:** liquidity risk, credit risk, the difference between a fund and a bond
 
-India's corporate bond market had been fragile since September 2018, when **IL&FS** — a large infrastructure financier holding top-tier credit ratings until shortly before — stopped paying its debts. Funding then dried up for many non-bank lenders.
+India's corporate bond market had been fragile since September 2018, when **IL&FS**, a large infrastructure financier that had held top-tier credit ratings until shortly before, stopped paying its debts. Funding then dried up for many non-bank lenders.
 
 The COVID-19 lockdown in March 2020 froze trading in lower-rated corporate bonds altogether. In April 2020, **Franklin Templeton India wound up six of its debt schemes**, saying the market had become illiquid because of the pandemic. The six funds managed about **₹25,215 crore** when they stopped redemptions, and were heavily invested in lower-rated corporate bonds paying higher yields.
 
-One of them was named an *ultra short bond fund* — a reminder that short maturity says nothing whatever about credit quality or about how easily a bond can be sold.
+One of them was named an *ultra short bond fund*: a reminder that short maturity says nothing whatever about credit quality or about how easily a bond can be sold.
 
 The heart of the problem was a **mismatch**. The funds let investors withdraw on any business day, but they owned bonds that could take weeks or months to sell at a fair price. When too many investors asked for cash at once, the choice was stark: dump bonds at fire-sale prices and punish the investors who stayed, or shut the door.
 
-**The funds were illiquid, not insolvent**, and the ending proves it. The sale of the holdings was overseen by SBI Funds Management, appointed by the Supreme Court in 2021. Unitholders eventually received **₹27,548 crore — about 109%** of what the funds were worth on the day they closed.
+**The funds were illiquid, not insolvent**, and the ending proves it. The sale of the holdings was overseen by SBI Funds Management, appointed by the Supreme Court in 2021. Unitholders eventually received **₹27,548 crore: about 109%** of what the funds were worth on the day they closed.
 
 But the wait was long: the sale was completed only in 2023. SEBI also found serious failings, banned the fund house from launching new debt schemes for two years, and ordered it to return more than ₹500 crore in fees.
 
-> **The lesson:** Liquidity risk is not default risk. A bond can be very likely to pay in full eventually and still be impossible to sell today. A fund offering daily withdrawals on hard-to-sell assets carries a hidden mismatch — and extra yield is always payment for extra risk, whatever the fund's name suggests.
+> **The lesson:** Liquidity risk is not default risk. A bond can be very likely to pay in full eventually and still be impossible to sell today. A fund offering daily withdrawals on hard-to-sell assets carries a hidden mismatch, and extra yield is always payment for extra risk, whatever the fund's name suggests.
 
 ---
 
@@ -190,7 +190,7 @@ Investors drew the obvious conclusion: the government would need to borrow far m
 
 Gilt yields rose at an unprecedented pace. The **30-year yield leapt from under 4% to above 5%** in a few trading days.
 
-Crucially, **the pound fell to a record low near $1.03 at the same time**. This detail matters more than the yield move. When a country's bonds and its currency fall together, investors are not merely demanding higher returns for lending — they are getting out altogether. That pattern is familiar in emerging markets and profoundly unwelcome in a G7 economy.
+Crucially, **the pound fell to a record low near $1.03 at the same time**. This detail matters more than the yield move. When a country's bonds and its currency fall together, investors are not merely demanding higher returns for lending: they are getting out altogether. That pattern is familiar in emerging markets and profoundly unwelcome in a G7 economy.
 
 ### Then the plumbing broke
 
@@ -250,7 +250,7 @@ Then the textbook broke.
   </g>
   <text x="26" y="145" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75" transform="rotate(-90 26 145)">Yield (%)</text>
   <text x="370" y="296" font-size="12" fill="currentColor" text-anchor="middle" font-weight="bold">US 10-year Treasury yield, April 2025</text>
-  <text x="370" y="314" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">+49 bp over the week — the largest weekly rise since November 2001</text>
+  <text x="370" y="314" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">+49 bp over the week: the largest weekly rise since November 2001</text>
   <text x="370" y="330" font-size="10" fill="currentColor" text-anchor="middle" opacity="0.55">Approximate daily closes. The 30-year rose 47 bp, its biggest weekly move since 1987.</text>
 </svg>
 
@@ -258,11 +258,11 @@ Over the following week the 10-year yield climbed **49 basis points**, its bigge
 
 For much of that week Treasuries fell *alongside* shares, which raised genuine doubts about their safe-haven status. The **dollar also fell**, to a three-year low against the euro, as investors sought safety in the yen, the Swiss franc and the euro instead.
 
-US bonds, shares and the dollar sliding together is the same loss-of-confidence pattern Britain experienced in 2022 — a striking thing to say about the issuer of the world's reserve currency.
+US bonds, shares and the dollar sliding together is the same loss-of-confidence pattern Britain experienced in 2022, which is a striking thing to say about the issuer of the world's reserve currency.
 
 Analysts pointed to three forces:
 
-1. **Hedge funds unwinding the "basis trade"** — a highly leveraged bet on small price gaps between Treasury futures and the underlying bonds. When the trade goes wrong, the unwinding is mechanical and indiscriminate, exactly like the LDI loop.
+1. **Hedge funds unwinding the "basis trade"**: a highly leveraged bet on small price gaps between Treasury futures and the underlying bonds. When the trade goes wrong, the unwinding is mechanical and indiscriminate, exactly like the LDI loop.
 2. **Possible selling by foreign holders.**
 3. **A rotation from bonds into shares** after the tariff pause.
 
@@ -270,9 +270,8 @@ The basis trade had also amplified the "dash for cash" of March 2020, when even 
 
 On **9 April**, the President paused most of the new country-specific tariffs for 90 days, keeping a 10% baseline while raising tariffs on China. The spike in yields was widely seen as having pushed the administration toward the pause, and he later said he had been watching the bond market.
 
-> **The lesson:** Safe-haven status is earned continuously through predictable policy, not granted permanently — and even the United States answers to the bond market. Modern markets also contain large leveraged positions whose forced unwinding can make even the deepest market behave erratically.
+> **The lesson:** Safe-haven status is earned continuously through predictable policy, not granted permanently, and even the United States answers to the bond market. Modern markets also contain large leveraged positions whose forced unwinding can make even the deepest market behave erratically.
 
-*A note on the summary deck in Lesson 9: its slide on this episode carries incorrect figures, showing a peak yield of 5.50%. The correct figures are the ones above. That slide has been replaced with the chart shown here.*
 
 ---
 
@@ -281,7 +280,7 @@ On **9 April**, the President paused most of the new country-specific tariffs fo
 Read together, three patterns recur across two decades and three continents:
 
 1. **Leverage is the accelerant.** Lehman's short-term funding, LDI's derivatives, the basis trade, Franklin's daily-dealing mismatch. In every case the underlying move was survivable; the forced selling is what made it a crisis.
-2. **Confidence is an input, not just an output.** Greece and the UK in 2022 both show bonds and currency falling together — the signature of investors leaving rather than repricing.
+2. **Confidence is an input, not just an output.** Greece and the UK in 2022 both show bonds and currency falling together: the signature of investors leaving rather than repricing.
 3. **The central bank decides how it ends.** The Fed in 2008 and 2020, the ECB's unused promise in 2012, the Bank of England in 2022. The backstop is the last line, and its credibility is sometimes enough on its own.
 
 Lesson 7 turns these episodes into a systematic list of what can go wrong.
