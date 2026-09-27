@@ -794,6 +794,26 @@
             }
         });
 
+        // Every lesson is its own URL via ?slug=&lesson=, and the same content is
+        // also live on vinovator.github.io. Point the canonical at this host while
+        // keeping the query, so lessons stay individually indexed rather than
+        // collapsing onto one page. Lesson clicks re-render without a page load,
+        // so the canonical has to follow pushState and popstate.
+        function setCanonical() {
+            let link = document.querySelector('link[rel="canonical"]');
+            if (!link) {
+                link = document.createElement('link');
+                link.setAttribute('rel', 'canonical');
+                document.head.appendChild(link);
+            }
+            link.setAttribute('href', 'https://guides.vinothhaldorai.com/tutorial' + location.search);
+        }
+        setCanonical();
+        window.addEventListener('popstate', setCanonical);
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('a.lesson-link')) setTimeout(setCanonical, 0);
+        });
+
         loadFromQuery();
     </script>
 
