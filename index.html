@@ -4,17 +4,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AI Hub</title>
-    <meta name="description" content="Agentic AI reference library — comprehensive framework guides and deep-dive tutorials, all open source.">
-    <meta property="og:title" content="AI Hub">
+    <title>Deep Dives</title>
+    <meta name="description" content="Long-form guides on things worth understanding properly — AI engineering, finance, and whatever comes next. Open source.">
+    <meta property="og:title" content="Deep Dives">
     <meta property="og:description"
-        content="Comprehensive guides for top AI orchestration frameworks (CrewAI, AutoGen, LangGraph, and more) and deep-dive tutorials, growing.">
+        content="Long-form guides on things worth understanding properly. Multi-lesson deep dives on AI agent frameworks, graph databases, bond markets and valuation.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://vinovator.github.io/my-ai-guides/">
     <meta property="og:image" content="https://vinovator.github.io/my-ai-guides/og-image.svg">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" type="image/svg+xml"
-        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/layer-group.svg">
+        href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6/svgs/solid/water.svg">
 
     <!-- Set dark class before Tailwind paints, to avoid flash-of-light. -->
     <script>
@@ -36,43 +36,53 @@
     </script>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="site.css?v=2026-09-27">
+    <link rel="stylesheet" href="site.css?v=2026-09-28">
     <style>
         body {
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
 
-        /* .skip-link and the focus-visible rings now live in site.css,
-           shared with the guides and the tutorial viewer. */
+        /* Editorial display face for the masthead, the featured title and the
+           topic headings. A system serif stack, so it costs no network request
+           and honours the site's no-webfont rule. Body copy stays Inter. */
+        .display {
+            font-family: 'Iowan Old Style', 'Palatino Linotype', Palatino, Georgia, 'Times New Roman', serif;
+            font-feature-settings: "kern", "liga";
+        }
 
-        /* Smooth scroll for jump-nav. */
-        html { scroll-behavior: smooth; }
+        /* .skip-link and the focus-visible rings live in site.css, shared with
+           the guides and the tutorial viewer. */
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Clear the masthead (4rem) plus the topic bar (~3.4rem) on jump. */
+        [id^="cat-"] {
+            scroll-margin-top: 8rem;
+        }
     </style>
 </head>
 
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col min-h-screen transition-colors">
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 flex flex-col min-h-screen transition-colors">
 
     <a href="#main" class="skip-link">Skip to main content</a>
 
-    <!-- Tailwind class marker (do not remove). The renderer emits these classes
-         dynamically; this hidden block guarantees the CDN scanner generates them
-         on first paint. Add new accent colors here when you add a new card accent. -->
-    <div hidden aria-hidden="true" class="lg:grid-cols-3 lg:grid-cols-4 mb-10 sm:mb-16 mb-5 sm:mb-8 mb-4 sm:mb-6 gap-4 sm:gap-6 p-5 sm:p-6 -mx-5 sm:-mx-6 -mt-5 sm:-mt-6 bg-blue-50 bg-purple-50 bg-orange-50 bg-cyan-50 bg-yellow-50 bg-red-50 bg-fuchsia-50 bg-green-50 bg-emerald-50 bg-teal-50 bg-indigo-50 bg-amber-50 bg-gray-50 bg-gray-100 bg-blue-900/40 bg-purple-900/40 bg-orange-900/40 bg-cyan-900/40 bg-yellow-900/40 bg-red-900/40 bg-fuchsia-900/40 bg-green-900/40 bg-emerald-900/40 bg-teal-900/40 bg-indigo-900/40 bg-amber-900/40 text-blue-300 text-blue-600 text-blue-700 text-purple-300 text-purple-600 text-purple-700 text-orange-300 text-orange-600 text-orange-700 text-cyan-300 text-cyan-600 text-cyan-700 text-yellow-300 text-yellow-500 text-yellow-700 text-red-300 text-red-500 text-red-700 text-fuchsia-300 text-fuchsia-600 text-fuchsia-700 text-green-300 text-green-600 text-green-700 text-emerald-300 text-emerald-500 text-emerald-600 text-emerald-700 text-teal-300 text-teal-500 text-teal-600 text-teal-700 text-indigo-300 text-indigo-400 text-indigo-600 text-indigo-700 text-amber-300 text-amber-500 text-amber-600 text-amber-700 text-gray-400 text-gray-500 text-gray-600 text-gray-700 border-blue-100 border-blue-800 border-purple-100 border-purple-800 border-orange-100 border-orange-800 border-cyan-100 border-cyan-800 border-yellow-100 border-yellow-800 border-red-100 border-red-800 border-fuchsia-100 border-fuchsia-800 border-green-100 border-green-800 border-emerald-100 border-emerald-800 border-teal-100 border-teal-800 border-indigo-100 border-indigo-800 border-amber-100 border-amber-800 border-gray-100 hover:border-blue-400 hover:border-purple-400 hover:border-orange-400 hover:border-cyan-400 hover:border-yellow-400 hover:border-red-400 hover:border-fuchsia-400 hover:border-green-400 hover:border-emerald-400 hover:border-teal-400 hover:border-indigo-400 hover:border-amber-400 hover:border-gray-400 dark:hover:border-blue-500 dark:hover:border-purple-500 dark:hover:border-orange-500 dark:hover:border-cyan-500 dark:hover:border-yellow-500 dark:hover:border-red-500 dark:hover:border-fuchsia-500 dark:hover:border-green-500 dark:hover:border-emerald-500 dark:hover:border-teal-500 dark:hover:border-indigo-500 dark:hover:border-amber-500 dark:hover:border-gray-500 group-hover:text-blue-600 group-hover:text-purple-600 group-hover:text-orange-600 group-hover:text-cyan-600 group-hover:text-yellow-600 group-hover:text-red-600 group-hover:text-fuchsia-600 group-hover:text-green-600 group-hover:text-emerald-600 group-hover:text-teal-600 group-hover:text-indigo-600 group-hover:text-amber-600 group-hover:text-gray-600 dark:group-hover:text-blue-300 dark:group-hover:text-purple-300 dark:group-hover:text-orange-300 dark:group-hover:text-cyan-300 dark:group-hover:text-yellow-300 dark:group-hover:text-red-300 dark:group-hover:text-fuchsia-300 dark:group-hover:text-green-300 dark:group-hover:text-emerald-300 dark:group-hover:text-teal-300 dark:group-hover:text-indigo-300 dark:group-hover:text-amber-300 dark:group-hover:text-gray-300 bg-green-500 bg-blue-500 bg-purple-500 bg-orange-500 bg-cyan-500 bg-yellow-500 bg-red-500 bg-fuchsia-500 bg-emerald-500 bg-teal-500 bg-indigo-500 bg-amber-500 bg-rose-50 bg-rose-500 bg-rose-900/40 text-rose-300 text-rose-600 text-rose-700 border-rose-100 border-rose-800 hover:border-rose-400 dark:hover:border-rose-500 group-hover:text-rose-600 dark:group-hover:text-rose-300"></div>
+    <!-- Tailwind class marker (do not remove). hub.js emits accent classes at
+         render time; this hidden block guarantees the CDN scanner generates
+         them on first paint. Accents are per topic now, not per card — when
+         you add a CATEGORIES entry with a new accent, add its classes here. -->
+    <div hidden aria-hidden="true" class="py-3 lg:py-2 py-3.5 lg:py-1.5 w-11 h-11 lg:w-9 lg:h-9 text-indigo-400 text-indigo-600 text-indigo-700 text-amber-400 text-amber-600 text-amber-700 text-gray-400 text-gray-500 text-gray-700 group-hover:text-indigo-600 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 dark:group-hover:text-indigo-400 group-hover:text-amber-600 group-hover:text-amber-700 dark:group-hover:text-amber-300 dark:group-hover:text-amber-400 group-hover:text-gray-600 group-hover:text-gray-700 dark:group-hover:text-gray-300 dark:group-hover:text-gray-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:text-amber-700 dark:hover:text-amber-300 hover:text-gray-700 dark:hover:text-gray-300 hover:border-indigo-400 dark:hover:border-indigo-500 hover:border-amber-400 dark:hover:border-amber-500 hover:border-gray-400 dark:hover:border-gray-500 dark:text-indigo-300 dark:text-indigo-400 dark:text-amber-300 dark:text-amber-400 dark:text-gray-300 dark:text-gray-400"></div>
 
-    <!-- Navbar -->
-    <nav class="bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Masthead -->
+    <nav id="masthead" class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
             <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg p-1.5 mr-3 shadow-md">
-                        <i class="fas fa-layer-group text-sm" aria-hidden="true"></i>
-                    </div>
-                    <span class="font-bold text-xl tracking-tight text-gray-900 dark:text-gray-100">
-                        AI <span class="text-indigo-600 dark:text-indigo-400">Hub</span>
-                    </span>
-                </div>
+                <a href="#main" class="display font-bold text-xl sm:text-2xl tracking-tight text-gray-900 dark:text-gray-100">
+                    Deep <span class="text-indigo-600 dark:text-indigo-400">Dives</span>
+                </a>
                 <button id="theme-toggle"
-                    class="w-11 h-11 sm:w-9 sm:h-9 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    class="w-11 h-11 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                     aria-label="Toggle dark mode">
                     <i class="fas fa-moon dark:hidden text-base" aria-hidden="true"></i>
                     <i class="fas fa-sun hidden dark:inline text-base" aria-hidden="true"></i>
@@ -81,102 +91,44 @@
         </div>
     </nav>
 
-    <!-- Sticky category jump-nav (appears once you scroll past the hero) -->
+    <!-- Topic nav. Slides in under the masthead once the statement block has
+         scrolled away. Fixed, not sticky, so it reserves no layout space while
+         hidden. -->
     <div id="sticky-nav"
-        class="sticky top-16 z-40 -translate-y-full opacity-0 transition-all duration-300 bg-gray-50/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 overflow-x-auto scroll-fade">
+        class="fixed top-16 inset-x-0 z-40 -translate-y-full opacity-0 transition-all duration-300 bg-white/90 dark:bg-gray-900/90 backdrop-blur border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8 py-3 overflow-x-auto scroll-fade">
             <div id="sticky-nav-pills" class="flex items-center gap-2 whitespace-nowrap"></div>
         </div>
     </div>
 
-    <!-- Hero -->
-    <header class="hero bg-white dark:bg-gray-900 border-b border-gray-200 dark:border-gray-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-10 pb-12 sm:pt-20 sm:pb-20 grid lg:grid-cols-5 gap-8 lg:gap-12 items-center">
-            <div class="lg:col-span-3">
-                <p class="text-sm font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-4">
-                    <i class="fas fa-sparkles mr-1" aria-hidden="true"></i> The Agentic AI Reference Library
-                </p>
-                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-6">
-                    Build agents.<br>
-                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-blue-600 to-teal-500">
-                        Ship the stack.
-                    </span>
-                </h1>
-                <p class="text-lg md:text-xl text-gray-500 dark:text-gray-400 leading-relaxed mb-6 max-w-2xl">
-                    Comprehensive guides for the top agent frameworks and deep-dive tutorials on the topics worth knowing deeply. Zero to production, no fluff.
-                </p>
-                <p id="hero-stats" class="text-sm text-gray-600 dark:text-gray-300 font-medium mb-8 flex flex-wrap items-center gap-y-2"></p>
-                <div class="flex flex-wrap gap-3">
-                    <a href="#cat-tutorials"
-                        class="inline-flex items-center px-5 py-3 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold shadow-md hover:shadow-lg transition-all">
-                        <i class="fas fa-graduation-cap mr-2" aria-hidden="true"></i> Start with a tutorial
-                    </a>
-                    <a href="#cat-vendor-ecosystems"
-                        class="inline-flex items-center px-5 py-3 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-indigo-400 dark:hover:border-indigo-500 text-gray-700 dark:text-gray-200 font-semibold transition-all">
-                        Browse frameworks <i class="fas fa-arrow-right ml-2 text-sm" aria-hidden="true"></i>
-                    </a>
-                </div>
-            </div>
+    <main id="main" class="max-w-5xl mx-auto px-5 sm:px-8 flex-grow w-full">
 
-            <!-- Visual: stacked card preview -->
-            <div class="lg:col-span-2 relative hidden lg:block" aria-hidden="true">
-                <div class="absolute inset-0 bg-gradient-to-br from-indigo-100 via-blue-50 to-teal-50 dark:from-indigo-900/30 dark:via-blue-900/20 dark:to-teal-900/20 rounded-3xl blur-2xl"></div>
-                <div class="relative space-y-3">
-                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg transform rotate-2">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-indigo-50 dark:bg-indigo-900/40 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-project-diagram text-indigo-600 dark:text-indigo-300" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">LangGraph</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Stateful Graph</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg ml-8">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-teal-50 dark:bg-teal-900/40 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-circle-nodes text-teal-700 dark:text-teal-300" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">Google ADK</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Agent SDK</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl p-4 shadow-lg transform -rotate-1">
-                        <div class="h-1.5 bg-green-500 -mx-4 -mt-4 mb-3 rounded-t-xl"></div>
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-green-50 dark:bg-green-900/40 rounded-lg flex items-center justify-center">
-                                <i class="fas fa-project-diagram text-green-600 dark:text-green-300" aria-hidden="true"></i>
-                            </div>
-                            <div>
-                                <p class="font-bold text-gray-900 dark:text-gray-100 text-sm">Neo4j</p>
-                                <p class="text-xs text-gray-500 dark:text-gray-400">Tutorial</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
+        <!-- Statement -->
+        <header class="pt-10 pb-8 sm:pt-16 sm:pb-12">
+            <h1 class="display text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-snug max-w-3xl">
+                Long-form guides on things worth understanding properly.
+            </h1>
+            <p class="mt-4 text-base sm:text-lg text-gray-600 dark:text-gray-400 leading-relaxed max-w-2xl">
+                Each piece starts from zero and goes all the way down — no prerequisites assumed, no
+                hand-waving at the hard part.
+            </p>
+            <p id="library-stats" class="mt-5 text-sm text-gray-500 dark:text-gray-400 font-medium flex flex-wrap items-center"></p>
+        </header>
 
-    <main id="main" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-12 flex-grow w-full">
+        <!-- Featured: most recent deep dive -->
+        <div id="featured" class="mb-14 sm:mb-20"></div>
 
         <!-- Filter -->
-        <div class="mb-6 sm:mb-12 max-w-md">
-            <label for="card-filter" class="sr-only">Filter guides and tutorials</label>
+        <div class="mb-10 sm:mb-12">
+            <label for="card-filter" class="sr-only">Filter the library</label>
             <div class="relative">
                 <i class="fas fa-search absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-500 text-sm" aria-hidden="true"></i>
-                <input id="card-filter" type="search" autocomplete="off" placeholder="Filter by name, tag, or keyword…"
-                    class="w-full pl-11 pr-4 py-2.5 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none text-base sm:text-sm transition-colors">
+                <input id="card-filter" type="search" autocomplete="off" placeholder="Filter by topic, tag, or keyword…"
+                    class="w-full pl-11 pr-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:border-indigo-400 dark:focus:border-indigo-500 focus:outline-none text-base sm:text-sm transition-colors">
             </div>
         </div>
 
-        <!-- Recently updated strip -->
-        <div id="recent-strip"></div>
-
-        <!-- Categorized hub -->
+        <!-- Topic sections -->
         <div id="hub"></div>
 
         <!-- No-results state -->
@@ -186,32 +138,27 @@
         </div>
     </main>
 
-    <footer class="bg-white dark:bg-gray-900 border-t border-gray-200 dark:border-gray-800 py-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+    <footer class="border-t border-gray-200 dark:border-gray-800 py-10 mt-8">
+        <div class="max-w-5xl mx-auto px-5 sm:px-8">
+            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                 <div>
-                    <div class="flex items-center mb-2">
-                        <div class="bg-gradient-to-r from-indigo-600 to-blue-600 text-white rounded-lg p-1 mr-2">
-                            <i class="fas fa-layer-group text-xs" aria-hidden="true"></i>
-                        </div>
-                        <span class="font-bold text-gray-900 dark:text-gray-100 tracking-tight">AI Hub</span>
-                    </div>
-                    <p class="text-sm text-gray-500 dark:text-gray-400">Curated guides for the next generation of software.</p>
+                    <p class="display font-bold text-gray-900 dark:text-gray-100 tracking-tight">Deep Dives</p>
+                    <p class="mt-1 text-sm text-gray-500 dark:text-gray-400">Things worth understanding properly.</p>
                 </div>
-                <div class="text-xs text-gray-500 dark:text-gray-400 md:text-right">
+                <div class="text-xs text-gray-500 dark:text-gray-400 sm:text-right">
                     <p>Built with HTML, Tailwind, Prism, Mermaid &middot; MIT Licensed</p>
-                    <p class="mt-1">&copy; <span id="copy-year">2026</span> AI Hub</p>
+                    <p class="mt-1">&copy; <span id="copy-year">2026</span> Deep Dives</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Bump the ?v= query string whenever hub.js or theme.js changes so visitors with a
-         cached copy see the change without a hard refresh. GitHub Pages caches assets for
-         up to 10 minutes (cache-control: max-age=600) and many browsers extend that locally. -->
+    <!-- Bump the ?v= query string whenever hub.js, theme.js, nav.js or site.css
+         changes so visitors with a cached copy see the change without a hard
+         refresh. GitHub Pages caches assets for up to 10 minutes. -->
     <script src="theme.js?v=2026-09-27" defer></script>
     <script src="nav.js?v=2026-09-27" defer></script>
-    <script src="hub.js?v=2026-09-27c" defer></script>
+    <script src="hub.js?v=2026-09-28" defer></script>
 </body>
 
 </html>

@@ -1,165 +1,161 @@
 /* ============================================================================
-   AI Hub renderer + interactivity.
+   Deep Dives — landing page renderer.
    Loaded as a deferred <script> from index.html.
+
+   The page is an editorial index, not a dashboard: one featured deep dive,
+   then each topic as a typographic list, then a compact row of cheat sheets.
+   Weight on the page follows depth of the piece, which is the whole point of
+   the site.
    ============================================================================ */
 
 (function () {
     "use strict";
 
     // ------------------------------------------------------------------------
-    // 1. Card registry
-    //    To add a new card, append one object below and pick the right
-    //    category from CATEGORIES. Required: type, category, title, href,
-    //    icon, accent, badge, tags, description. Optional overrides:
-    //    iconBg, iconColor, titleHover, tagBg, tagText, updated, lessons.
+    // 1. Registry
+    //
+    //    Topics carry the accent, not individual cards — two hues plus gray for
+    //    the whole library. Per-card accents stopped being legible at 14 cards
+    //    (see the scaling table in CLAUDE.md).
+    //
+    //    Card fields:
+    //      type        'guide' | 'tutorial'  — routing only. 'guide' links to
+    //                  guides/<file>.html, 'tutorial' to tutorial.html?slug=.
+    //      format      'deep-dive' | 'guide' | 'reference' — presentation only.
+    //                  Kept separate from `type` so a deep dive can one day be
+    //                  a plain HTML page, and a one-file tutorial can still be
+    //                  a deep dive.
+    //      minutes     approximate reading time. Derived from actual word
+    //                  counts at ~220wpm; code-heavy pages read slower, so
+    //                  treat these as a floor. Update alongside `updated`.
+    //      lessons     multi-lesson tutorials only.
+    //      tags        searchable but not rendered in the lists — they feed
+    //                  the filter without adding noise to the page.
     // ------------------------------------------------------------------------
 
     const CATEGORIES = [
-        { name: 'Tutorials',                cols: 3 },
-        { name: 'Vendor Ecosystems',        cols: 3 },
-        { name: 'Orchestration & Workflow', cols: 3 },
-        { name: 'Open-Source Frameworks',   cols: 4 },
+        {
+            name: 'AI Engineering',
+            accent: 'indigo',
+            blurb: 'Agent frameworks, orchestration, and the data layer underneath them.',
+        },
+        {
+            name: 'Finance',
+            accent: 'amber',
+            blurb: 'How money is priced, measured, and valued — built from first principles.',
+        },
+        {
+            name: 'Quick reference',
+            accent: 'gray',
+            blurb: 'One-page cheat sheets. A couple of minutes each.',
+            compact: true,
+        },
     ];
 
     const CARDS = [
-        // ---- Vendor Ecosystems ------------------------------------------------
+        // ---- AI Engineering --------------------------------------------------
         {
-            type: 'guide', category: 'Vendor Ecosystems',
-            title: 'Semantic Kernel', href: 'guides/semantickernel.html',
-            icon: 'fa-brain', accent: 'blue', iconColor: 'text-blue-700',
-            badge: 'Enterprise SDK',
-            tags: ['Python', 'C#', 'Java'],
-            description: "Microsoft's enterprise SDK. Connects LLMs to existing code via Plugins, Planners, and Memories.",
-            updated: '2026-01-18',
+            type: 'tutorial', format: 'deep-dive', category: 'AI Engineering',
+            title: 'Neo4j & GraphRAG', href: 'tutorial.html?slug=neo4j',
+            tags: ['Cypher', 'GraphRAG', 'Python', 'Neo4j', 'Graph databases'],
+            description: 'From complete novice to enterprise agentic context layers — Cypher, GraphRAG, and the graph as the memory spine for AI agents.',
+            updated: '2026-06-04', lessons: 12, minutes: 174,
         },
         {
-            type: 'guide', category: 'Vendor Ecosystems',
-            title: 'AutoGen', href: 'guides/autogen.html',
-            icon: 'fa-comments', accent: 'purple',
-            badge: 'Multi-Agent Chat',
-            tags: ['Python', '.NET'],
-            description: 'Multi-agent conversation patterns. Orchestrate dynamic group chats for complex problem solving.',
-            updated: '2025-12-03',
-        },
-        {
-            type: 'guide', category: 'Vendor Ecosystems',
+            type: 'guide', format: 'guide', category: 'AI Engineering',
             title: 'Google ADK', href: 'guides/googleadk.html',
-            icon: 'fa-circle-nodes', accent: 'teal', iconColor: 'text-teal-700',
-            badge: 'Agent SDK',
-            tags: ['Python', 'Gemini', 'Vertex AI'],
-            description: "Google's official Agent Dev Kit. Code-first, model-agnostic, with workflow agents, callbacks, and Vertex deployment.",
-            updated: '2026-06-02',
+            tags: ['Python', 'Gemini', 'Vertex AI', 'Agent SDK'],
+            description: "Google's official Agent Dev Kit: code-first, model-agnostic, with workflow agents, callbacks, and a path to Vertex deployment.",
+            updated: '2026-06-02', minutes: 17,
         },
-
-        // ---- Orchestration & Workflow ----------------------------------------
         {
-            type: 'guide', category: 'Orchestration & Workflow',
+            type: 'guide', format: 'guide', category: 'AI Engineering',
+            title: 'Semantic Kernel', href: 'guides/semantickernel.html',
+            tags: ['Python', 'C#', 'Java', 'Enterprise SDK', 'Microsoft'],
+            description: "Microsoft's enterprise SDK — connecting LLMs to code you already have via plugins, planners, and memories.",
+            updated: '2026-01-18', minutes: 12,
+        },
+        {
+            type: 'guide', format: 'guide', category: 'AI Engineering',
             title: 'LangGraph', href: 'guides/langgraph.html',
-            icon: 'fa-project-diagram', accent: 'indigo',
-            badge: 'Stateful Graph',
-            tags: ['Python', 'JS/TS'],
+            tags: ['Python', 'JS/TS', 'Stateful graph', 'Human in the loop'],
             description: 'Stateful, cyclic graphs for human-in-the-loop and complex flows. The de facto standard for graph-shaped agents.',
-            updated: '2025-12-21',
+            updated: '2025-12-21', minutes: 12,
         },
         {
-            type: 'guide', category: 'Orchestration & Workflow',
-            title: 'CrewAI', href: 'guides/crewai.html',
-            icon: 'fa-users-cog', accent: 'orange',
-            badge: 'Crew Pattern',
-            tags: ['Python'],
-            description: 'Role-playing autonomous agents. Best fit for structured, process-driven automation across a defined crew.',
-            updated: '2025-12-03',
-        },
-        {
-            type: 'guide', category: 'Orchestration & Workflow',
-            title: 'Haystack', href: 'guides/haystack.html',
-            icon: 'fa-search', accent: 'cyan', iconColor: 'text-cyan-600',
-            badge: 'RAG Pipeline',
-            tags: ['Python'],
-            description: 'Industrial-strength NLP pipelines with strong modularity. The go-to for production RAG and search.',
-            updated: '2025-12-03',
-        },
-
-        // ---- Open-Source Frameworks ------------------------------------------
-        {
-            type: 'guide', category: 'Open-Source Frameworks',
-            title: 'Smolagents', href: 'guides/smolagents.html',
-            icon: 'fa-rocket', accent: 'yellow', iconColor: 'text-yellow-500',
-            badge: 'Minimal Agents',
-            tags: ['Python'],
-            description: "Hugging Face's minimal, code-centric agents. The agent writes and runs Python to solve tasks.",
-            updated: '2025-12-03',
-        },
-        {
-            type: 'guide', category: 'Open-Source Frameworks',
+            type: 'guide', format: 'guide', category: 'AI Engineering',
             title: 'PydanticAI', href: 'guides/pydanticai.html',
-            icon: 'fa-code', accent: 'red', iconColor: 'text-red-500',
-            badge: 'Type-Safe',
-            tags: ['Python'],
-            description: 'Type-safe, validation-first agents for production. Pydantic schemas at every boundary.',
-            updated: '2025-12-20',
+            tags: ['Python', 'Type-safe', 'Validation'],
+            description: 'Type-safe, validation-first agents for production, with Pydantic schemas at every boundary.',
+            updated: '2025-12-20', minutes: 8,
         },
         {
-            type: 'guide', category: 'Open-Source Frameworks',
-            title: 'LlamaIndex', href: 'guides/llamaindex.html',
-            icon: 'fa-database', accent: 'fuchsia',
-            badge: 'Data Framework',
-            tags: ['Python', 'TS'],
-            description: 'Data-centric reasoning over your documents. Ingest, index, query, and route across RAG and agents.',
-            updated: '2025-12-03',
-        },
-        {
-            type: 'guide', category: 'Open-Source Frameworks',
-            title: 'Phidata', href: 'guides/phidata.html',
-            icon: 'fa-memory', accent: 'emerald', iconColor: 'text-emerald-500',
-            badge: 'Memory-First',
-            tags: ['Python'],
-            description: 'Memory and database-first agentic systems. Persistent memory, tools, and team coordination, baked in.',
-            updated: '2025-12-03',
-        },
-        {
-            type: 'guide', category: 'Open-Source Frameworks',
-            title: 'Swarm', href: 'guides/swarm.html',
-            icon: 'fa-robot', accent: 'gray',
-            iconBg: 'bg-gray-100', iconColor: 'text-gray-700', tagText: 'text-gray-600',
-            badge: 'Handoff Pattern',
-            tags: ['Python'],
-            description: "OpenAI's experimental pattern for agent handoffs. Lightweight, stateless, ergonomic — great for prototyping.",
-            updated: '2025-12-03',
+            type: 'guide', format: 'guide', category: 'AI Engineering',
+            title: 'CrewAI', href: 'guides/crewai.html',
+            tags: ['Python', 'Crew pattern', 'Role-playing agents'],
+            description: 'Role-playing autonomous agents — the best fit for structured, process-driven automation across a defined crew.',
+            updated: '2025-12-03', minutes: 5,
         },
 
-        // ---- Tutorials -------------------------------------------------------
+        // ---- Finance ---------------------------------------------------------
         {
-            type: 'tutorial', category: 'Tutorials',
-            title: 'Neo4j', href: 'tutorial.html?slug=neo4j',
-            icon: 'fa-project-diagram', accent: 'green',
-            badge: 'Tutorial',
-            tags: ['Cypher', 'GraphRAG', 'Python'],
-            description: 'From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.',
-            updated: '2026-06-04',
-            lessons: 12,
+            type: 'tutorial', format: 'deep-dive', category: 'Finance',
+            title: 'Global Bond Markets', href: 'tutorial.html?slug=global-bond-markets',
+            tags: ['Finance', 'Macro', 'Fixed income', 'Yield curve', 'Duration'],
+            description: 'The base price of money, explained from zero — the price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
+            updated: '2026-09-27', lessons: 9, minutes: 97,
         },
         {
-            type: 'tutorial', category: 'Tutorials',
+            type: 'tutorial', format: 'deep-dive', category: 'Finance',
             title: 'Investment Valuation',
             href: 'tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide',
-            icon: 'fa-chart-line', accent: 'amber',
-            badge: 'Tutorial',
-            tags: ['Finance', 'DCF', 'Accounting'],
-            description: 'From zero to a defensible business valuation. Accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.',
-            updated: '2026-06-15',
-            lessons: 1,
+            tags: ['Finance', 'DCF', 'Accounting', 'Multiples'],
+            description: 'From zero to a defensible business valuation — accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.',
+            updated: '2026-06-15', lessons: 1, minutes: 48,
+        },
+
+        // ---- Quick reference -------------------------------------------------
+        {
+            type: 'guide', format: 'reference', category: 'Quick reference',
+            title: 'AutoGen', href: 'guides/autogen.html',
+            tags: ['Python', '.NET', 'Multi-agent chat', 'Microsoft'],
+            description: 'Multi-agent conversation patterns and group-chat orchestration.',
+            updated: '2025-12-03', minutes: 2,
         },
         {
-            type: 'tutorial', category: 'Tutorials',
-            title: 'Global Bond Markets',
-            href: 'tutorial.html?slug=global-bond-markets',
-            icon: 'fa-landmark', accent: 'rose',
-            badge: 'Tutorial',
-            tags: ['Finance', 'Macro', 'Fixed Income'],
-            description: 'The base price of money, explained from zero. The price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
-            updated: '2026-09-27',
-            lessons: 9,
+            type: 'guide', format: 'reference', category: 'Quick reference',
+            title: 'Haystack', href: 'guides/haystack.html',
+            tags: ['Python', 'RAG', 'Pipelines', 'Search'],
+            description: 'Industrial-strength NLP pipelines for production RAG and search.',
+            updated: '2025-12-03', minutes: 2,
+        },
+        {
+            type: 'guide', format: 'reference', category: 'Quick reference',
+            title: 'LlamaIndex', href: 'guides/llamaindex.html',
+            tags: ['Python', 'TS', 'Data framework', 'RAG'],
+            description: 'Data-centric reasoning over your documents: ingest, index, query, route.',
+            updated: '2025-12-03', minutes: 2,
+        },
+        {
+            type: 'guide', format: 'reference', category: 'Quick reference',
+            title: 'Phidata', href: 'guides/phidata.html',
+            tags: ['Python', 'Memory', 'Tools'],
+            description: 'Memory and database-first agentic systems with persistent state.',
+            updated: '2025-12-03', minutes: 2,
+        },
+        {
+            type: 'guide', format: 'reference', category: 'Quick reference',
+            title: 'Smolagents', href: 'guides/smolagents.html',
+            tags: ['Python', 'Hugging Face', 'Code agents'],
+            description: "Hugging Face's minimal agents — the agent writes and runs Python.",
+            updated: '2025-12-03', minutes: 2,
+        },
+        {
+            type: 'guide', format: 'reference', category: 'Quick reference',
+            title: 'Swarm', href: 'guides/swarm.html',
+            tags: ['Python', 'OpenAI', 'Handoff pattern'],
+            description: "OpenAI's experimental pattern for lightweight agent handoffs.",
+            updated: '2025-12-03', minutes: 2,
         },
     ];
 
@@ -180,139 +176,182 @@
     function daysAgo(dateStr) {
         const d = new Date(dateStr + 'T00:00:00Z');
         const diff = Math.floor((Date.now() - d.getTime()) / 86400000);
-        if (diff <= 0)      return 'today';
-        if (diff === 1)     return 'yesterday';
-        if (diff < 30)      return `${diff}d ago`;
-        if (diff < 365)     return `${Math.floor(diff / 30)}mo ago`;
+        if (diff <= 0)  return 'today';
+        if (diff === 1) return 'yesterday';
+        if (diff < 30)  return `${diff}d ago`;
+        if (diff < 365) return `${Math.floor(diff / 30)}mo ago`;
         return `${Math.floor(diff / 365)}y ago`;
+    }
+
+    // Freshness is only worth showing while it is actually fresh; stamping a
+    // date on every row just makes older-but-still-good pieces look stale.
+    function isRecent(dateStr) {
+        const d = new Date(dateStr + 'T00:00:00Z');
+        return (Date.now() - d.getTime()) / 86400000 < 60;
+    }
+
+    function readingTime(min) {
+        if (!min) return null;
+        if (min < 60) return `${min} min`;
+        const h = Math.floor(min / 60);
+        const m = min % 60;
+        return m ? `${h} hr ${m} min` : `${h} hr`;
+    }
+
+    const FORMAT_LABEL = {
+        'deep-dive': 'Deep dive',
+        'guide': 'Guide',
+        'reference': 'Cheat sheet',
+    };
+
+    function accentFor(categoryName) {
+        const cat = CATEGORIES.find(c => c.name === categoryName);
+        return cat ? cat.accent : 'gray';
     }
 
     function searchHay(card) {
         return [
-            card.title, card.badge, card.description,
+            card.title, card.description, FORMAT_LABEL[card.format],
             ...(card.tags || []), card.category, card.type,
         ].join(' ').toLowerCase();
     }
 
-    // ------------------------------------------------------------------------
-    // 3. Card markup
-    // ------------------------------------------------------------------------
-
-    function badgeHtml(card) {
-        const a = card.accent;
-        if (card.type === 'tutorial') {
-            return `<span class="text-xs font-mono text-${a}-700 dark:text-${a}-300 bg-${a}-50 dark:bg-${a}-900/40 border border-${a}-100 dark:border-${a}-800 px-2 py-1 rounded uppercase tracking-wide font-bold">${escapeHtml(card.badge || 'Tutorial')}</span>`;
-        }
-        return `<span class="text-xs font-mono text-gray-400 dark:text-gray-500 bg-gray-50 dark:bg-gray-900 px-2 py-1 rounded">${escapeHtml(card.badge)}</span>`;
+    // The meta line under each entry: what it is, how long it is, how fresh.
+    function metaParts(card) {
+        const parts = [FORMAT_LABEL[card.format]];
+        if (card.lessons) parts.push(`${card.lessons} lesson${card.lessons === 1 ? '' : 's'}`);
+        const t = readingTime(card.minutes);
+        if (t) parts.push(t);
+        if (card.updated && isRecent(card.updated)) parts.push(`updated ${daysAgo(card.updated)}`);
+        return parts;
     }
 
-    function cardHtml(card) {
-        const a = card.accent;
-        const iconBg     = card.iconBg     || `bg-${a}-50 dark:bg-${a}-900/40`;
-        const iconColor  = card.iconColor  || `text-${a}-600 dark:text-${a}-300`;
-        const titleHover = card.titleHover || `group-hover:text-${a}-600 dark:group-hover:text-${a}-300`;
-        const tagBg      = card.tagBg      || `bg-${a}-50 dark:bg-${a}-900/40`;
-        const tagText    = card.tagText    || `text-${a}-700 dark:text-${a}-300`;
-        const tagsHtml = (card.tags || []).map(t =>
-            `<span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium ${tagBg} ${tagText}">${escapeHtml(t)}</span>`
-        ).join('');
+    // ------------------------------------------------------------------------
+    // 3. Entry markup
+    //
+    //    `.hub-card`, `data-search` and `data-category` are the hooks the live
+    //    filter and the section counters key off — keep them on every entry,
+    //    including the compact cheat-sheet chips.
+    // ------------------------------------------------------------------------
 
-        // Tutorial card variant: a top ribbon + a lessons sub-line.
-        const ribbon = card.type === 'tutorial'
-            ? `<div class="h-1.5 bg-${a}-500 -mx-5 sm:-mx-6 -mt-5 sm:-mt-6 mb-4 rounded-t-xl"></div>`
-            : '';
-        const lessonsLine = (card.type === 'tutorial' && card.lessons)
-            ? `<p class="text-xs font-medium text-${a}-700 dark:text-${a}-300 mb-2"><i class="fas fa-book-open mr-1" aria-hidden="true"></i>${card.lessons} lesson${card.lessons === 1 ? '' : 's'}</p>`
-            : '';
-
-        const hay = escapeHtml(searchHay(card));
-
+    function entryHtml(card) {
+        const a = accentFor(card.category);
+        const meta = metaParts(card).map(escapeHtml).join(' <span class="text-gray-300 dark:text-gray-600">·</span> ');
         return `
-            <a href="${escapeHtml(card.href)}" class="hub-card block group h-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2 dark:focus-visible:ring-offset-gray-900 rounded-xl" data-search="${hay}" data-category="${escapeHtml(card.category)}">
-                <div class="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 sm:p-6 h-full flex flex-col hover:shadow-md dark:hover:shadow-black/40 hover:border-${a}-400 dark:hover:border-${a}-500 transition-all duration-300">
-                    ${ribbon}
-                    <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 ${iconBg} rounded-lg flex items-center justify-center">
-                            <i class="fas ${card.icon} ${iconColor} text-xl" aria-hidden="true"></i>
-                        </div>
-                        ${badgeHtml(card)}
+            <li>
+                <a href="${escapeHtml(card.href)}"
+                   class="hub-card group block py-5 sm:py-6 border-t border-gray-100 dark:border-gray-800 transition-colors"
+                   data-search="${escapeHtml(searchHay(card))}" data-category="${escapeHtml(card.category)}">
+                    <div class="flex items-baseline gap-3">
+                        <h3 class="display text-lg sm:text-xl font-semibold text-gray-900 dark:text-gray-100 group-hover:text-${a}-600 dark:group-hover:text-${a}-400 transition-colors">${escapeHtml(card.title)}</h3>
+                        <span aria-hidden="true" class="text-${a}-600 dark:text-${a}-400 opacity-0 group-hover:opacity-100 -translate-x-1 group-hover:translate-x-0 transition-all">&rarr;</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-900 dark:text-gray-100 mb-2 ${titleHover} transition-colors">${escapeHtml(card.title)}</h3>
-                    ${lessonsLine}
-                    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed mb-6 flex-1">${escapeHtml(card.description)}</p>
-                    <div class="pt-4 border-t border-gray-100 dark:border-gray-700 flex items-center gap-2 flex-wrap">${tagsHtml}</div>
-                </div>
-            </a>
-        `;
+                    <p class="mt-1.5 text-[15px] sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed max-w-3xl">${escapeHtml(card.description)}</p>
+                    <p class="mt-2 text-xs font-medium tracking-wide text-gray-500 dark:text-gray-500">${meta}</p>
+                </a>
+            </li>`;
     }
 
-    function sectionHtml(cat, cards) {
+    // Cheat sheets get a chip, not a row: they are 2% of the library's words
+    // and should not occupy 43% of the page.
+    function chipHtml(card) {
+        return `
+            <a href="${escapeHtml(card.href)}"
+               class="hub-card inline-flex items-baseline gap-2 px-3 py-3 lg:py-2 rounded-lg border border-gray-200 dark:border-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500 hover:text-gray-900 dark:hover:text-gray-100 transition-colors"
+               data-search="${escapeHtml(searchHay(card))}" data-category="${escapeHtml(card.category)}">
+                ${escapeHtml(card.title)}
+                <span class="text-xs text-gray-400 dark:text-gray-500">${card.minutes} min</span>
+            </a>`;
+    }
+
+    function sectionHtml(cat, cards, featured) {
         if (!cards.length) return '';
         const id = slugifyCategory(cat.name);
+        // The featured piece is pulled out of its own topic list so nothing
+        // appears twice — but the topic would then look short by one, so point
+        // back up to it.
+        const crossRef = (featured && featured.category === cat.name)
+            ? `<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
+                   <a href="${escapeHtml(featured.href)}" class="underline decoration-gray-300 dark:decoration-gray-600 underline-offset-2 hover:text-${cat.accent}-700 dark:hover:text-${cat.accent}-300 transition-colors">${escapeHtml(featured.title)}</a>
+                   is featured at the top of the page.
+               </p>`
+            : '';
+        const body = cat.compact
+            ? `<div class="flex flex-wrap gap-2 pt-5 border-t border-gray-100 dark:border-gray-800">${cards.map(chipHtml).join('')}</div>`
+            : `<ul>${cards.map(entryHtml).join('')}</ul>`;
         return `
-            <section id="${id}" class="hub-section mb-10 sm:mb-16" data-category="${escapeHtml(cat.name)}">
-                <header class="mb-5 sm:mb-8">
-                    <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Category</p>
-                    <div class="flex items-end gap-4">
-                        <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">${escapeHtml(cat.name)}</h2>
-                        <div class="h-px bg-gray-200 dark:bg-gray-700 flex-1 mb-2"></div>
-                        <span class="text-xs text-gray-400 dark:text-gray-500 font-mono mb-2 hub-section-count">${cards.length}</span>
-                    </div>
+            <section id="${id}" class="hub-section mb-14 sm:mb-20" data-category="${escapeHtml(cat.name)}">
+                <header class="mb-4 flex items-baseline gap-3">
+                    <h2 class="display text-xl sm:text-2xl font-bold text-${cat.accent}-700 dark:text-${cat.accent}-400 tracking-tight">${escapeHtml(cat.name)}</h2>
+                    <span class="text-xs font-mono text-gray-400 dark:text-gray-500 hub-section-count">${cards.length}</span>
                 </header>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-${cat.cols} gap-4 sm:gap-6">
-                    ${cards.map(cardHtml).join('')}
-                </div>
-            </section>
-        `;
+                <p class="text-sm text-gray-500 dark:text-gray-400 mb-2 max-w-2xl">${escapeHtml(cat.blurb)}</p>
+                ${body}
+                ${crossRef}
+            </section>`;
     }
 
     // ------------------------------------------------------------------------
-    // 4. Hero stats + recently-updated strip
+    // 4. Featured — the most recent deep dive
+    //
+    //    Derived, never hand-flagged, so it cannot go stale. The featured piece
+    //    is suppressed from its topic list below, so nothing appears twice.
     // ------------------------------------------------------------------------
 
-    function renderHeroStats() {
-        const slot = document.getElementById('hero-stats');
-        if (!slot) return;
-        const guides    = CARDS.filter(c => c.type === 'guide').length;
-        const tutorials = CARDS.filter(c => c.type === 'tutorial').length;
-        const lessons   = CARDS.reduce((n, c) => n + (c.lessons || 0), 0);
-        const parts = [`${guides} guides`];
-        parts.push(`${tutorials} tutorial${tutorials === 1 ? '' : 's'}`);
-        if (lessons) parts.push(`${lessons} lesson${lessons === 1 ? '' : 's'} live`);
-        parts.push('open source');
-        slot.innerHTML = parts.map(p =>
-            `<span class="inline-flex items-center"><span class="w-1.5 h-1.5 bg-indigo-500 rounded-full mr-2"></span>${p}</span>`
-        ).join('<span class="mx-3 text-gray-300 dark:text-gray-700">·</span>');
+    function featuredCard() {
+        return [...CARDS]
+            .filter(c => c.format === 'deep-dive' && c.updated)
+            .sort((a, b) => (a.updated < b.updated ? 1 : -1))[0] || null;
     }
 
-    function renderRecentlyUpdated() {
-        const slot = document.getElementById('recent-strip');
+    function renderFeatured() {
+        const slot = document.getElementById('featured');
         if (!slot) return;
-        const recent = [...CARDS]
-            .filter(c => c.updated)
-            .sort((a, b) => (a.updated < b.updated ? 1 : -1))
-            .slice(0, 2);
-        if (!recent.length) return;
+        const c = featuredCard();
+        if (!c) return;
+        const a = accentFor(c.category);
+        const meta = metaParts(c).map(escapeHtml).join(' <span class="text-gray-300 dark:text-gray-600">·</span> ');
+        const tags = (c.tags || []).slice(0, 4).map(t =>
+            `<span class="text-xs text-gray-500 dark:text-gray-400">${escapeHtml(t)}</span>`
+        ).join('<span class="text-gray-300 dark:text-gray-600 text-xs">·</span>');
+
         slot.innerHTML = `
-            <section class="mb-10 sm:mb-16">
-                <header class="mb-4 sm:mb-6">
-                    <p class="text-xs font-bold text-indigo-600 dark:text-indigo-400 uppercase tracking-widest mb-1">Editor's Pick</p>
-                    <h2 class="text-2xl md:text-3xl font-extrabold text-gray-900 dark:text-gray-100 tracking-tight">Recently updated</h2>
-                </header>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                    ${recent.map(c => `
-                        <div class="relative">
-                            <span class="absolute top-3 right-3 z-10 text-xs font-mono text-indigo-600 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-900/40 border border-indigo-100 dark:border-indigo-800 px-2 py-0.5 rounded-full">Updated ${daysAgo(c.updated)}</span>
-                            ${cardHtml(c)}
-                        </div>
-                    `).join('')}
-                </div>
-            </section>
-        `;
+            <a href="${escapeHtml(c.href)}"
+               class="hub-featured group block rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800/40 p-6 sm:p-10 hover:border-${a}-400 dark:hover:border-${a}-500 transition-colors">
+                <p class="text-xs font-bold uppercase tracking-widest text-${a}-600 dark:text-${a}-400 mb-3">Latest deep dive</p>
+                <h2 class="display text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-4 group-hover:text-${a}-700 dark:group-hover:text-${a}-300 transition-colors">${escapeHtml(c.title)}</h2>
+                <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mb-5">${escapeHtml(c.description)}</p>
+                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 mb-6 flex flex-wrap items-center gap-x-2 gap-y-1">${meta}</p>
+                <span class="inline-flex items-center gap-2 text-sm font-semibold text-${a}-700 dark:text-${a}-300">
+                    Start reading
+                    <span aria-hidden="true" class="group-hover:translate-x-1 transition-transform">&rarr;</span>
+                </span>
+                <span class="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-x-2 gap-y-1">${tags}</span>
+            </a>`;
     }
 
     // ------------------------------------------------------------------------
-    // 5. Sticky category nav
+    // 5. Library stats — depth is the differentiator, so lead with it
+    // ------------------------------------------------------------------------
+
+    function renderStats() {
+        const slot = document.getElementById('library-stats');
+        if (!slot) return;
+        const pieces = CARDS.length;
+        const mins = CARDS.reduce((n, c) => n + (c.minutes || 0), 0);
+        const hours = Math.round(mins / 60);
+        const dives = CARDS.filter(c => c.format === 'deep-dive').length;
+        const parts = [
+            `${pieces} pieces`,
+            `${dives} deep dives`,
+            `~${hours} hours of reading`,
+            'open source',
+        ];
+        slot.innerHTML = parts.join('<span class="mx-2 text-gray-300 dark:text-gray-700">·</span>');
+    }
+
+    // ------------------------------------------------------------------------
+    // 6. Sticky topic nav
     // ------------------------------------------------------------------------
 
     function renderStickyNav() {
@@ -321,7 +360,7 @@
         const present = CATEGORIES.filter(cat => CARDS.some(c => c.category === cat.name));
         slot.innerHTML = present.map(cat => `
             <a href="#${slugifyCategory(cat.name)}"
-               class="text-xs font-semibold px-3 py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:text-indigo-700 dark:hover:text-indigo-300 hover:border-indigo-400 dark:hover:border-indigo-500 bg-white/70 dark:bg-gray-800/70 backdrop-blur transition-colors whitespace-nowrap">
+               class="text-xs font-semibold px-3.5 py-3.5 lg:px-3 lg:py-1.5 rounded-full border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:text-${cat.accent}-700 dark:hover:text-${cat.accent}-300 hover:border-${cat.accent}-400 dark:hover:border-${cat.accent}-500 bg-white/70 dark:bg-gray-800/70 backdrop-blur transition-colors whitespace-nowrap">
                 ${escapeHtml(cat.name)}
             </a>
         `).join('');
@@ -329,22 +368,26 @@
 
     function setupStickyNavObserver() {
         const stickyNav = document.getElementById('sticky-nav');
-        const hero = document.querySelector('header.hero');
-        if (!stickyNav || !hero) return;
+        // Watch the statement block, not the masthead: the masthead is
+        // position:sticky and therefore never leaves the viewport, so
+        // observing it would pin the topic bar hidden forever.
+        const sentinel = document.querySelector('main > header');
+        if (!stickyNav || !sentinel) return;
         const obs = new IntersectionObserver(([entry]) => {
             stickyNav.classList.toggle('-translate-y-full', entry.isIntersecting);
             stickyNav.classList.toggle('opacity-0', entry.isIntersecting);
         }, { rootMargin: '-72px 0px 0px 0px', threshold: 0 });
-        obs.observe(hero);
+        obs.observe(sentinel);
     }
 
     // ------------------------------------------------------------------------
-    // 6. Filter
+    // 7. Filter
     // ------------------------------------------------------------------------
 
     function setupFilter() {
         const input = document.getElementById('card-filter');
         const empty = document.getElementById('filter-empty');
+        const featured = document.getElementById('featured');
         if (!input) return;
 
         function apply() {
@@ -354,7 +397,10 @@
                 let visibleInSection = 0;
                 section.querySelectorAll('.hub-card').forEach(card => {
                     const match = !q || card.dataset.search.includes(q);
-                    card.style.display = match ? '' : 'none';
+                    // list entries are wrapped in <li>; chips are not
+                    const host = card.parentElement && card.parentElement.tagName === 'LI'
+                        ? card.parentElement : card;
+                    host.style.display = match ? '' : 'none';
                     if (match) { visibleInSection++; visibleTotal++; }
                 });
                 const counter = section.querySelector('.hub-section-count');
@@ -364,22 +410,19 @@
                 }
                 section.style.display = visibleInSection === 0 && q ? 'none' : '';
             });
+            // The featured block is an editorial choice, not a search result.
+            if (featured) featured.style.display = q ? 'none' : '';
             if (empty) empty.classList.toggle('hidden', visibleTotal > 0 || !q);
         }
 
         input.addEventListener('input', apply);
-        // Clear with Esc.
         input.addEventListener('keydown', e => {
             if (e.key === 'Escape') { input.value = ''; apply(); }
         });
     }
 
     // ------------------------------------------------------------------------
-    // 7. Theme toggle: handled by /theme.js (shared across hub + guides + tutorials).
-    // ------------------------------------------------------------------------
-
-    // ------------------------------------------------------------------------
-    // 8. Footer year
+    // 8. Bootstrap
     // ------------------------------------------------------------------------
 
     function setFooterYear() {
@@ -387,22 +430,23 @@
         if (slot) slot.textContent = new Date().getFullYear();
     }
 
-    // ------------------------------------------------------------------------
-    // 9. Bootstrap
-    // ------------------------------------------------------------------------
-
-    function renderHub() {
-        const hub = document.getElementById('hub');
-        if (!hub) return;
-        hub.innerHTML = CATEGORIES
-            .map(cat => sectionHtml(cat, CARDS.filter(c => c.category === cat.name)))
+    function renderIndex() {
+        const root = document.getElementById('hub');
+        if (!root) return;
+        const featured = featuredCard();
+        root.innerHTML = CATEGORIES
+            .map(cat => sectionHtml(
+                cat,
+                CARDS.filter(c => c.category === cat.name && c !== featured),
+                featured
+            ))
             .join('');
     }
 
     function init() {
-        renderHeroStats();
-        renderRecentlyUpdated();
-        renderHub();
+        renderStats();
+        renderFeatured();
+        renderIndex();
         renderStickyNav();
         setupStickyNavObserver();
         setupFilter();

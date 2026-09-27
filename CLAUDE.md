@@ -4,14 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A static site of single-page HTML guides and Markdown tutorials about AI agent frameworks, published via GitHub Pages at https://vinovator.github.io/my-ai-guides/. There is **no build step, no package manager, no test suite, and no server-side code** — everything is rendered client-side from CDN scripts.
+**Deep Dives** — a static site of long-form guides and Markdown deep dives on whatever topic is worth understanding properly (AI engineering and finance today), published via GitHub Pages at https://vinovator.github.io/my-ai-guides/. The repo and URL path are still `my-ai-guides` for historical reasons; renaming the repo would break every published link, so the display name and the path differ on purpose. There is **no build step, no package manager, no test suite, and no server-side code** — everything is rendered client-side from CDN scripts.
 
 Top-level layout:
 
 ```
 .
 ├── index.html         # the hub (entry point)
-├── hub.js             # hub's card registry + renderer + filter + sticky nav
+├── hub.js             # landing registry + editorial renderer + filter + sticky nav
 ├── tutorial.html      # shared viewer that renders any tutorial folder
 ├── site.css           # shared a11y primitives + the mobile drawer shell (every page)
 ├── nav.js             # mobile off-canvas drawer controller (every page)
@@ -60,7 +60,7 @@ All guides load the same CDN stack — keep it consistent when editing or adding
 - **Mobile shell** (below the `lg` breakpoint, 1024px). Every page with a sidebar uses the same
   off-canvas drawer; see "Two tiers of guide" below for the exact class recipe. Never ship a page
   whose sidebar is a non-collapsing `flex-shrink-0` column or a bare `hidden lg:block` — the first
-  crushes the article to a few pixels wide, the second silently deletes Back to Hub on phones.
+  crushes the article to a few pixels wide, the second silently deletes the back link on phones.
   `nav.js` (root) is the shared controller and is inert on pages with no drawer markup, so every
   page can load the same tag: `<script src="nav.js?v=YYYY-MM-DD" defer></script>`.
 - **Every page needs `<meta name="viewport" content="width=device-width, initial-scale=1.0">`.**
@@ -100,34 +100,84 @@ not apply until the CDN finishes compiling. Masterclass pages additionally scope
 full-height shell to desktop (`lg:h-screen lg:overflow-hidden`, `main` gets `lg:overflow-y-auto`)
 so that on a phone the document itself scrolls; that is what lets the iOS toolbar collapse.
 
-Every guide must include a **"Back to Hub"** link (`href="../index.html"`) in its sidebar/header — this is the only navigation back from a guide page.
+Every guide must include a **"Deep Dives"** back link (`href="../index.html"`) in its sidebar/drawer header — this is the only navigation back from a guide page.
 
-## Hub cards: data-driven registry in `hub.js`
+## Landing page: data-driven registry in `hub.js`
 
-`index.html` does NOT contain hand-authored card markup. Every card on the hub is one object in the `CARDS` array inside `hub.js`. A renderer in the same file builds the section grids at page load from `CATEGORIES` + `CARDS`.
+`index.html` does NOT contain hand-authored entry markup. Every entry is one object in the `CARDS`
+array inside `hub.js`; a renderer in the same file builds the page at load from `CATEGORIES` + `CARDS`.
 
-- **Adding any card** (guide or tutorial) = append one object to `CARDS` in `hub.js`. Don't paste card HTML.
+**The landing page is an editorial index, not a card dashboard.** Its structure, top to bottom:
+
+```
+masthead        Deep Dives · theme toggle          (sticky)
+sticky nav      topic pills, slides in on scroll
+statement       what the site is, + library stats
+featured        most recent deep dive, large block  (derived, never hand-flagged)
+filter          live search over the whole library
+topic sections  AI Engineering, Finance — typographic lists
+quick reference compact chips for the one-page cheat sheets
+```
+
+Weight on the page follows depth of the piece. That is the whole editorial premise: a 174-minute
+deep dive and a 2-minute cheat sheet must not look alike. Before adding a visual flourish, check it
+does not flatten that hierarchy.
+
+- **Adding anything** = append one object to `CARDS` in `hub.js`. Don't paste markup.
 - **After editing `hub.js`, bump the cache-buster query in `index.html`**: the `<script src="hub.js?v=YYYY-MM-DD">` tag near the end of `index.html` includes a `?v=` parameter so visitors with a stale 10-minute Pages cache pick up the new card on their next visit. Update the date string (any value distinct from the previous one works) whenever you change `hub.js`. Without this, returning users may see the old card list until their browser revalidates.
-- **Card shape**: `{ type, category, title, href, icon, accent, badge, tags, description }`. Optional fields: `iconBg`, `iconColor`, `titleHover`, `tagBg`, `tagText` (defaults derive from `accent`); `updated: 'YYYY-MM-DD'` (powers the "Recently updated" strip and sort order); `lessons: N` (tutorials only, shown next to the title).
-  - `type: 'guide'` → links to a file under `guides/`. Badge renders in the muted gray style.
-  - `type: 'tutorial'` → links to `tutorial.html?slug=<slug>`. Card gets the accent-colored top ribbon, a "📖 N lessons" sub-line, and a bold accent badge.
-- **Category**: must match a `CATEGORIES[*].name` exactly. Empty categories don't render. Today's categories: `Tutorials`, `Vendor Ecosystems`, `Orchestration & Workflow`, `Open-Source Frameworks`.
-- **Dynamic Tailwind classes**: accent-derived classes like `bg-emerald-50` are emitted at render time. A hidden `<div hidden>` marker block in `index.html` lists every accent class needed (light + dark variants, plus hover/group-hover) so Tailwind's CDN scanner generates them on first paint. **When adding a new accent**, extend that marker block.
+- **Card shape**: `{ type, format, category, title, href, tags, description, updated, minutes }`,
+  plus `lessons: N` for multi-lesson deep dives.
+  - `type: 'guide' | 'tutorial'` is **routing only** — `guides/<file>.html` vs `tutorial.html?slug=`.
+  - `format: 'deep-dive' | 'guide' | 'reference'` is **presentation only** — it sets the label in the
+    meta line, which section the entry lands in, and whether it renders as a full row or a compact
+    chip. Keeping the two apart means a deep dive can one day be a plain HTML page, and a
+    single-file tutorial can still be a deep dive.
+  - `minutes: N` is approximate reading time, derived from the real word count at ~220 wpm
+    (`sed 's/<[^>]*>/ /g' file | wc -w`). Code-heavy pages read slower, so treat it as a floor.
+    Update it alongside `updated:`.
+  - `tags` are **searchable but never rendered** in the lists — they feed the filter without adding
+    visual noise. Only the featured block shows a few.
+  - There is **no per-card accent**. Accent lives on the category (see below).
+- **Category = topic, not format.** Must match a `CATEGORIES[*].name` exactly; empty categories
+  don't render. Today: `AI Engineering` (indigo), `Finance` (amber), `Quick reference` (gray).
+  The first two are subject domains so the site can grow into any topic; `Quick reference` is the
+  one deliberate exception — a depth bucket that keeps six 2-minute cheat sheets from crowding out
+  the deep dives. Each `CATEGORIES` entry carries `{ name, accent, blurb }` and optionally
+  `compact: true` to render chips instead of rows.
+- **Featured is derived, not flagged.** `featuredCard()` picks the most recently `updated` card with
+  `format: 'deep-dive'`. It is suppressed from its own topic list so nothing appears twice, and the
+  section prints a cross-reference back up to it. Never add a `featured: true` field — it will go
+  stale the moment you publish something newer.
+- **Dynamic Tailwind classes**: accent-derived classes are emitted at render time, so a hidden
+  `<div hidden>` marker block in `index.html` lists them for the CDN scanner. It is now small
+  (indigo, amber, gray) because accents are per topic. **When you add a category with a new accent,
+  extend that marker block** with its `text-`, `hover:text-`, `group-hover:text-`, `hover:border-`
+  and `dark:` variants.
 
-### Adding a new framework guide
+### Adding a new guide
 
-1. Create `guides/<framework>.html`, following one of the two tier templates (masterclass or refresher).
-2. Append one `{ type:'guide', category:'…', … }` object to `CARDS` in `hub.js`. Match the card accent to the accent used inside the guide itself.
-3. If the new accent isn't already in use, add the relevant `bg-<accent>-50`, `text-<accent>-{600,700,300}`, `border-<accent>-{100,800}`, `hover:border-<accent>-400`, `dark:hover:border-<accent>-500`, `group-hover:text-<accent>-600`, `dark:group-hover:text-<accent>-300` classes to the hidden marker in `index.html`.
-4. Add a bullet to `README.md` under "Available Guides" with the published GitHub Pages URL (`/guides/<name>.html`).
+1. Create `guides/<framework>.html`, following one of the two tier templates (masterclass or
+   refresher) and the shared mobile shell above.
+2. Measure it: `sed 's/<[^>]*>/ /g' guides/<name>.html | wc -w`, divide by 220, round up. That is
+   `minutes`.
+3. Append one entry to `CARDS` in `hub.js` with `type:'guide'`, the right `format` (`'guide'` for
+   real prose, `'reference'` for a one-page cheat sheet), a topic `category`, `minutes`, `updated`,
+   `tags` and a one-sentence `description`. No accent — the category owns that.
+4. Bump `hub.js?v=` in `index.html`.
+5. Add a bullet to `README.md` under "Guides and cheat sheets" with the published GitHub Pages URL
+   (`/guides/<name>.html`).
 
-## Hub interactivity (`hub.js`)
+Be honest about `format`. A 2-minute page is a cheat sheet, and labelling it a guide is what made
+the old landing page misrepresent the library.
+
+## Landing page interactivity (`hub.js`)
 
 The hub has more than card rendering. Each of these lives in `hub.js`:
 
-- **Live filter** (`#card-filter`): fuzzy match on title/badge/description/tags, with per-section counters and an empty state. Esc clears.
-- **Sticky category nav** (`#sticky-nav`): pill bar that slides in below the navbar once you scroll past the hero. One pill per non-empty category.
-- **Recently updated strip** (`#recent-strip`): renders the 2 most recent cards by `updated:` date above the categorized grid, with a "Updated Xd ago" badge.
+- **Live filter** (`#card-filter`): substring match over title/description/format/tags/category, with per-section counters and an empty state. Esc clears. It keys off `.hub-card` + `data-search`, so **every entry template must keep those hooks** — list rows and compact chips alike.
+- **Sticky topic nav** (`#sticky-nav`): pill bar that slides in below the masthead once you scroll past it. One pill per non-empty category.
+- **Featured block** (`#featured`): the most recent deep dive, derived by `featuredCard()`. Hidden while a filter query is active, because it is an editorial choice rather than a search result.
+- **Library stats** (`#library-stats`): piece count, deep-dive count and total reading time, computed from `minutes`.
 - **Dark mode** (`#theme-toggle`): class-based, persisted in `localStorage` under the key `theme`, auto-detects `prefers-color-scheme: dark` on first load. A pre-paint inline `<script>` in each page's `<head>` sets the `dark` class before Tailwind loads, avoiding flash-of-light. Toggle wiring lives in the shared `theme.js` at the repo root (loaded by `index.html`, `tutorial.html`, and every guide), so the choice carries across the hub ↔ guides ↔ tutorial-viewer navigation via the same `localStorage` key. `hub.js` itself no longer owns the toggle.
 - **Footer year**: auto-updated via `new Date().getFullYear()`.
 
@@ -137,10 +187,10 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
 
 - **Layout**: each tutorial lives in a folder under `tutorials/<slug>/` at the repo root (e.g. `tutorials/neo4j/blueprint.md`, `tutorials/neo4j/lesson-01-foo.md`, …). Slugs are **lowercase** — they appear in the URL (`?slug=neo4j`) and case-sensitivity is a foot-gun on case-sensitive servers.
 - **`blueprint.md` is both the landing page AND the manifest.** The viewer renders it as the tutorial home and parses every Markdown link of the form `[Title](filename.md)` to build the sidebar/lesson list, in source order. There is no separate JSON manifest — keep the lesson order accurate by ordering the links in `blueprint.md`.
-- **`blueprint.md` is optional for single-lesson tutorials.** If the folder has no `blueprint.md`, the viewer falls into a "single-lesson mode": the sidebar collapses to just the brand header and a "Back to Hub" link, there is no Overview page, and no prev/next nav. In this mode the hub card's `href` **must** include `&lesson=<file-stem>` (e.g. `tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide`) so the viewer knows which Markdown file to fetch. The sidebar title is derived from the slug (`investment-valuation` → `Investment Valuation`). Use this for one-off long-form guides; use a blueprint for anything that's meant to grow into a multi-lesson arc.
+- **`blueprint.md` is optional for single-lesson tutorials.** If the folder has no `blueprint.md`, the viewer falls into a "single-lesson mode": the sidebar collapses to just the brand header and the back link, there is no Overview page, and no prev/next nav. In this mode the hub card's `href` **must** include `&lesson=<file-stem>` (e.g. `tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide`) so the viewer knows which Markdown file to fetch. The sidebar title is derived from the slug (`investment-valuation` → `Investment Valuation`). Use this for one-off long-form guides; use a blueprint for anything that's meant to grow into a multi-lesson arc.
 - **URL pattern**: `tutorial.html?slug=<slug>` opens the blueprint; `tutorial.html?slug=<slug>&lesson=<file-stem>` opens a specific lesson (`<file-stem>` is the lesson filename without `.md`).
 - **Authoring**: write normal Markdown. Fenced ```mermaid blocks render as diagrams; fenced ```python/```bash/```cypher/etc. blocks get Prism syntax highlighting. Lesson titles in the sidebar come from the link text in `blueprint.md`, not from inside the lesson files.
-- **Adding a tutorial**: the user drops the `<slug>/` folder; then prompt Claude to add the hub card — a single `{ type:'tutorial', category:'Tutorials', title:…, href:'tutorial.html?slug=<slug>', lessons:N, … }` object appended to `CARDS` in `hub.js`.
+- **Adding a deep dive**: the user drops the `<slug>/` folder; then prompt Claude to add the registry entry — a single `{ type:'tutorial', format:'deep-dive', category:'<topic>', title:…, href:'tutorial.html?slug=<slug>', lessons:N, minutes:N, updated:…, tags:[…], description:… }` object appended to `CARDS` in `hub.js`. If it opens a new subject, add a `CATEGORIES` entry and its accent classes to the marker block in `index.html`.
 
 ## Scaling decisions
 
@@ -148,7 +198,7 @@ This site has deliberately avoided a build step. That's good for now, but a few 
 
 | Threshold | What strains | Recommended response |
 | --- | --- | --- |
-| **~15 cards** | Per-card accent palette runs out of visually distinct colors. | Drop per-card accents; assign accents *per category* instead. Simpler registry, still gives the page rhythm. |
+| ~~**~15 cards**~~ *(done)* | Per-card accent palette ran out of visually distinct colors at 14. | **Actioned.** Accents are per category now (indigo / amber / gray), set on `CATEGORIES`. |
 | **~8 cards per category** | Category sections turn into walls. | Sub-categorize (split into two `CATEGORIES` entries), or add a "Show all (N)" disclosure that hides past the first 6. |
 | **Authors forget to update `updated:`** | Already an issue at any size. | Replace with a tiny build script (`pre-commit` or a `make` target) that runs `git log -1 --format=%cs <file>` and bakes the date into `hub.js`. Crosses the no-build-step line, but the script is ~10 lines. |
 | **Users ask "where do I read about X?"** | Filter only searches metadata, not the actual guide bodies. | Add [pagefind](https://pagefind.app/) — drops a static JSON index into `_pagefind/` at build time. Pure static site, still GitHub Pages compatible. |

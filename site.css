@@ -170,6 +170,25 @@ body.drawer-open {
     }
 }
 
+/* Prism's stylesheet only makes `pre[class*="language-"]` scrollable. A fenced
+   block with no language tag — ASCII diagrams, plain program output, the
+   financial statements in the valuation deep dive — produces a bare
+   `<pre><code>`, matches nothing, and pushes the whole page sideways on a
+   phone. Give every code block its own scroller. */
+#content pre,
+main pre {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Monospace at 14px runs wide on a 360px screen; a notch smaller fits more of
+   an ASCII table before the reader has to scroll it. */
+@media (max-width: 640px) {
+    #content pre {
+        font-size: 0.8125rem;
+    }
+}
+
 /* Mermaid: scroll a wide diagram rather than shrinking it to illegibility.
    `margin: 0 auto` on a block child centres it when it fits and collapses to
    zero when it overflows, so the diagram starts flush left and scrolls. */
