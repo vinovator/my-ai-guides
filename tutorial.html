@@ -185,6 +185,14 @@
             text-align: left;
         }
 
+        /* Honour Markdown column alignment (`| ---: |`). Without this the
+           `align` attribute marked emits is silently overridden by the rule
+           above, so the authoring syntax looks supported but does nothing. */
+        #content th[align="right"],
+        #content td[align="right"] { text-align: right; }
+        #content th[align="center"],
+        #content td[align="center"] { text-align: center; }
+
         #content th {
             background: #f9fafb;
             font-weight: 600;
@@ -443,7 +451,7 @@
         async function fetchMd(path) {
             // Default caching: GitHub Pages serves these with max-age=600, the same
             // policy as every other asset, and skipping the forced revalidation
-            // saves a round-trip per lesson — most noticeable on mobile networks.
+            // saves a round-trip per lesson, most noticeable on mobile networks.
             const res = await fetch(path);
             if (!res.ok) throw new Error(`fetch ${path} -> ${res.status}`);
             return await res.text();
@@ -459,7 +467,7 @@
                     singleMode: false,
                 };
             } catch {
-                // No blueprint.md — treat as a single-lesson tutorial.
+                // No blueprint.md, so treat this as a single-lesson tutorial.
                 // The hub card's href must include &lesson=<file-stem>.
                 return {
                     text: null,
@@ -599,8 +607,8 @@
         }
 
         // Slide images are authored at 1376px. That is the right size for the
-        // 896px column a desktop shows them in — at DPR 2 it is actually a
-        // little under — but far more than a phone needs at 350 CSS px. So the
+        // 896px column a desktop shows them in (at DPR 2 it is actually a
+        // little under), but far more than a phone needs at 350 CSS px. So the
         // fix is not to shrink the asset, it is to offer smaller siblings and
         // let the browser choose: a phone saves 32-60% of the bytes and a
         // desktop downloads exactly what it does today.
@@ -747,7 +755,7 @@
 
         // In-page nav (the "On this page" links in the sidebar). The default
         // anchor behavior scrolls the document, but <body> is overflow-hidden
-        // and <main> is the actual scroll container — so we have to scroll the
+        // and <main> is the actual scroll container, so we have to scroll the
         // target heading into view ourselves.
         document.addEventListener('click', (e) => {
             const a = e.target.closest('a.page-link');

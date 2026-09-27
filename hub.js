@@ -103,7 +103,7 @@
             title: 'Global Bond Markets', href: 'tutorial.html?slug=global-bond-markets',
             tags: ['Finance', 'Macro', 'Fixed income', 'Yield curve', 'Duration'],
             description: 'The base price of money, explained from zero: the price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
-            updated: '2026-09-27', lessons: 9, minutes: 93,
+            updated: '2026-09-27', lessons: 9, minutes: 95,
         },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance',

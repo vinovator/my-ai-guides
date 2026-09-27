@@ -30,6 +30,10 @@ The **term premium** is the extra return investors demand for bearing all of tha
 
 The term premium cannot be observed directly: it is inferred by subtracting estimated rate expectations from the actual yield, which makes it a slippery but indispensable concept. When commentators say the long end is selling off "on term premium," they mean investors are demanding more compensation for uncertainty, not that they expect higher central bank rates.
 
+It is worth knowing how large it can get, because "term premium" is easy to hear as a rounding error. Estimates of the US ten-year term premium have ranged from several percentage points in the early 1980s, when inflation was untamed and lending long felt genuinely dangerous, to **below zero** through the quantitative easing years after 2012, when a central bank with no budget constraint was buying the long end and investors accepted less than the expected path of policy rates to own it. A swing of that size is not a detail. It is most of the move.
+
+Those two blocks are the whole of a government bond yield. The diagram below stacks them, and previews the third layer that every other borrower pays on top: the **credit spread**, which a later section takes apart.
+
 <svg viewBox="0 0 700 300" width="100%" role="img" aria-label="Stacked diagram of yield components: expected policy rate at the base, term premium above it, and credit spread added only for non-government borrowers, with inflation cutting across to leave the real return" fill="none" xmlns="http://www.w3.org/2000/svg">
   <text x="140" y="24" font-size="13" fill="currentColor" text-anchor="middle" font-weight="bold" opacity="0.85">Government bond</text>
   <text x="420" y="24" font-size="13" fill="currentColor" text-anchor="middle" font-weight="bold" opacity="0.85">Corporate bond</text>
@@ -157,6 +161,8 @@ In the United States, an inversion has preceded every recession of the past half
 
 It is not a law of nature. The US curve stayed inverted for roughly two years from mid-2022 without the widely predicted recession arriving on schedule. Forecasters who treated the signal as deterministic were wrong for long enough to lose money.
 
+And even when it does work, it will not tell you when. The lag between the curve inverting and the recession arriving has historically run anywhere from about **six months to two years**, which is wide enough that the 2022 episode above sat inside the normal range rather than outside it. The signal says *something is expected*. It says almost nothing about *when*.
+
 > Treat an inversion as a warning light, not a verdict. It tells you the professional consensus expects rate cuts, which usually implies trouble. It does not tell you when, or whether the consensus is right.
 
 Two other curve movements you will read about:
@@ -168,9 +174,22 @@ Two other curve movements you will read about:
 
 ## Putting it together
 
-A ten-year government yield of 5% might decompose as roughly 3.5% of expected average policy rates plus 1.5% of term premium. A corporate bond of the same maturity rated single-A might trade at 7%, being the same 5% plus a 200 basis point credit spread. If inflation is expected to run at 2.5%, the government bond offers a real return of about 2.5% and the corporate about 4.5% before any losses from default.
+Every component of this lesson can be stacked into a single sum. Here are two ten-year bonds priced at the same moment, one issued by a government and one by a single-A rated company, with inflation expected to run at 2.5%:
 
-Every number in that paragraph moves independently, and knowing which one moved is the difference between reading the news and understanding it.
+| | Government 10-year | Corporate 10-year (single-A) |
+| --- | ---: | ---: |
+| Expected average policy rate | 3.50% | 3.50% |
+| Term premium | 1.50% | 1.50% |
+| Credit spread | none | 2.00% |
+| **Nominal yield** | **5.00%** | **7.00%** |
+| Less expected inflation | 2.50% | 2.50% |
+| **Real return, before any default** | **about 2.5%** | **about 4.5%** |
+
+Read the columns downward and you have built a yield from nothing. Read the rows across and you have the answer to a question that puzzles a lot of people: why does this company pay more than its own government? Not because anything about the company changed, but because one row was added.
+
+> Two details worth having. The credit spread is quoted as **200 basis points**, not 2%, and a basis point is one hundredth of a percentage point. And subtracting inflation is the standard shorthand rather than the exact answer: the precise real return is `1.05 / 1.025 - 1`, or 2.44%, not 2.50%. The gap is small at these levels and grows when inflation is high, which is why the shorthand is fine for reading the news and not fine for a hundred-year bond.
+
+Every number in that table moves independently, and knowing which one moved is the difference between reading the news and understanding it.
 
 ## What to carry into Lesson 3
 
