@@ -311,23 +311,67 @@
         if (!c) return;
         const a = accentFor(c.category);
         const meta = metaParts(c).map(escapeHtml).join(' <span class="text-gray-300 dark:text-gray-600">·</span> ');
-        const tags = (c.tags || []).slice(0, 4).map(t =>
-            `<span class="text-xs text-gray-500 dark:text-gray-400">${escapeHtml(t)}</span>`
-        ).join('<span class="text-gray-300 dark:text-gray-600 text-xs">·</span>');
-
         slot.innerHTML = `
             <a href="${escapeHtml(c.href)}"
-               class="hub-featured group block rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800/40 p-6 sm:p-10 hover:border-${a}-400 dark:hover:border-${a}-500 transition-colors">
+               class="hub-featured group block rounded-2xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-800/40 p-6 sm:p-8 hover:border-${a}-400 dark:hover:border-${a}-500 transition-colors">
                 <p class="text-xs font-bold uppercase tracking-widest text-${a}-600 dark:text-${a}-400 mb-3">Latest deep dive</p>
-                <h2 class="display text-2xl sm:text-4xl lg:text-5xl font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-4 group-hover:text-${a}-700 dark:group-hover:text-${a}-300 transition-colors">${escapeHtml(c.title)}</h2>
-                <p class="text-base sm:text-lg text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mb-5">${escapeHtml(c.description)}</p>
-                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 mb-6 flex flex-wrap items-center gap-x-2 gap-y-1">${meta}</p>
+                <h2 class="display text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-gray-100 tracking-tight leading-tight mb-3 group-hover:text-${a}-700 dark:group-hover:text-${a}-300 transition-colors">${escapeHtml(c.title)}</h2>
+                <p class="text-base text-gray-600 dark:text-gray-300 leading-relaxed max-w-2xl mb-4">${escapeHtml(c.description)}</p>
+                <p class="text-xs font-medium tracking-wide text-gray-500 dark:text-gray-400 mb-4 flex flex-wrap items-center gap-x-2 gap-y-1">${meta}</p>
                 <span class="inline-flex items-center gap-2 text-sm font-semibold text-${a}-700 dark:text-${a}-300">
                     Start reading
                     <span aria-hidden="true" class="group-hover:translate-x-1 transition-transform">&rarr;</span>
                 </span>
-                <span class="mt-6 pt-5 border-t border-gray-100 dark:border-gray-800 flex flex-wrap items-center gap-x-2 gap-y-1">${tags}</span>
             </a>`;
+    }
+
+    // ------------------------------------------------------------------------
+    // 4b. Breadth: what this library covers
+    //
+    //     The editorial format leads with one piece, which buries the fact that
+    //     the site spans more than one subject — measured, no topic heading was
+    //     visible in the first screen at any width. Publications solve this with
+    //     a standing section bar plus a contents page; these are both of those.
+    // ------------------------------------------------------------------------
+
+    function presentCategories() {
+        return CATEGORIES
+            .map(cat => ({ cat, items: CARDS.filter(c => c.category === cat.name) }))
+            .filter(x => x.items.length);
+    }
+
+    function renderMastheadTopics() {
+        const slot = document.getElementById('masthead-topics');
+        if (!slot) return;
+        slot.innerHTML = presentCategories().map(({ cat, items }) => `
+            <a href="#${slugifyCategory(cat.name)}"
+               class="inline-flex items-center py-3 lg:py-0 font-medium text-gray-600 dark:text-gray-300 hover:text-${cat.accent}-700 dark:hover:text-${cat.accent}-400 transition-colors whitespace-nowrap">
+                ${escapeHtml(cat.name)}
+                <span class="text-xs text-gray-400 dark:text-gray-500">${items.length}</span>
+            </a>
+        `).join('');
+    }
+
+    function renderTopicIndex() {
+        const slot = document.getElementById('topic-index');
+        if (!slot) return;
+        const tiles = presentCategories().map(({ cat, items }) => {
+            const mins = items.reduce((n, c) => n + (c.minutes || 0), 0);
+            const t = readingTime(mins);
+            return `
+                <a href="#${slugifyCategory(cat.name)}"
+                   class="group flex-1 min-w-[9rem] rounded-xl border border-gray-200 dark:border-gray-700 p-4 hover:border-${cat.accent}-400 dark:hover:border-${cat.accent}-500 transition-colors">
+                    <div class="flex items-baseline gap-2">
+                        <span class="display font-bold text-${cat.accent}-700 dark:text-${cat.accent}-400">${escapeHtml(cat.name)}</span>
+                        <span class="text-xs font-mono text-gray-400 dark:text-gray-500">${items.length}</span>
+                    </div>
+                    <p class="hidden sm:block mt-1.5 text-sm text-gray-600 dark:text-gray-400 leading-snug">${escapeHtml(cat.blurb)}</p>
+                    <p class="mt-1 sm:mt-2 text-xs text-gray-500 dark:text-gray-500">${t}</p>
+                </a>`;
+        }).join('');
+        slot.innerHTML = `
+            <p class="text-xs font-bold uppercase tracking-widest text-gray-400 dark:text-gray-500 mb-3">Browse by topic</p>
+            <div class="flex flex-wrap gap-3">${tiles}</div>`;
     }
 
     // ------------------------------------------------------------------------
@@ -445,6 +489,8 @@
 
     function init() {
         renderStats();
+        renderMastheadTopics();
+        renderTopicIndex();
         renderFeatured();
         renderIndex();
         renderStickyNav();

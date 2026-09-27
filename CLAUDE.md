@@ -110,14 +110,22 @@ array inside `hub.js`; a renderer in the same file builds the page at load from 
 **The landing page is an editorial index, not a card dashboard.** Its structure, top to bottom:
 
 ```
-masthead        Deep Dives · theme toggle          (sticky)
-sticky nav      topic pills, slides in on scroll
+masthead        Deep Dives · topic links · theme toggle   (sticky; links md+)
+topic bar       topic pills, slides in on scroll          (fixed, reserves no space)
 statement       what the site is, + library stats
-featured        most recent deep dive, large block  (derived, never hand-flagged)
+topic index     "Browse by topic" tiles: count, blurb, reading time
+featured        most recent deep dive                     (derived, never hand-flagged)
 filter          live search over the whole library
 topic sections  AI Engineering, Finance — typographic lists
 quick reference compact chips for the one-page cheat sheets
 ```
+
+**The topic index and the masthead links exist for one reason: breadth.** An editorial
+page leads with a single piece, which measured out to *no topic heading visible in the
+first screen at any width* — on a site whose whole claim is that it covers any subject.
+`renderMastheadTopics()` and `renderTopicIndex()` fix that, and the featured block is
+deliberately kept compact so they fit. If you make the featured block taller again,
+re-measure where the topic index lands.
 
 Weight on the page follows depth of the piece. That is the whole editorial premise: a 174-minute
 deep dive and a 2-minute cheat sheet must not look alike. Before adding a visual flourish, check it

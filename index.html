@@ -72,7 +72,7 @@
          render time; this hidden block guarantees the CDN scanner generates
          them on first paint. Accents are per topic now, not per card — when
          you add a CATEGORIES entry with a new accent, add its classes here. -->
-    <div hidden aria-hidden="true" class="py-3 lg:py-2 py-3.5 lg:py-1.5 w-11 h-11 lg:w-9 lg:h-9 text-indigo-400 text-indigo-600 text-indigo-700 text-amber-400 text-amber-600 text-amber-700 text-gray-400 text-gray-500 text-gray-700 group-hover:text-indigo-600 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 dark:group-hover:text-indigo-400 group-hover:text-amber-600 group-hover:text-amber-700 dark:group-hover:text-amber-300 dark:group-hover:text-amber-400 group-hover:text-gray-600 group-hover:text-gray-700 dark:group-hover:text-gray-300 dark:group-hover:text-gray-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:text-amber-700 dark:hover:text-amber-300 hover:text-gray-700 dark:hover:text-gray-300 hover:border-indigo-400 dark:hover:border-indigo-500 hover:border-amber-400 dark:hover:border-amber-500 hover:border-gray-400 dark:hover:border-gray-500 dark:text-indigo-300 dark:text-indigo-400 dark:text-amber-300 dark:text-amber-400 dark:text-gray-300 dark:text-gray-400"></div>
+    <div hidden aria-hidden="true" class="py-3 lg:py-2 py-3.5 lg:py-1.5 py-3 lg:py-0 w-11 h-11 lg:w-9 lg:h-9 min-w-[9rem] flex-1 border-indigo-200 border-amber-200 border-gray-200 dark:border-indigo-900 dark:border-amber-900 dark:border-gray-700 hover:border-indigo-400 hover:border-amber-400 bg-indigo-50 bg-amber-50 dark:bg-indigo-900/30 dark:bg-amber-900/30 dark:bg-gray-800 text-indigo-400 text-indigo-600 text-indigo-700 text-amber-400 text-amber-600 text-amber-700 text-gray-400 text-gray-500 text-gray-700 group-hover:text-indigo-600 group-hover:text-indigo-700 dark:group-hover:text-indigo-300 dark:group-hover:text-indigo-400 group-hover:text-amber-600 group-hover:text-amber-700 dark:group-hover:text-amber-300 dark:group-hover:text-amber-400 group-hover:text-gray-600 group-hover:text-gray-700 dark:group-hover:text-gray-300 dark:group-hover:text-gray-400 hover:text-indigo-700 dark:hover:text-indigo-300 hover:text-amber-700 dark:hover:text-amber-300 hover:text-gray-700 dark:hover:text-gray-300 hover:border-indigo-400 dark:hover:border-indigo-500 hover:border-amber-400 dark:hover:border-amber-500 hover:border-gray-400 dark:hover:border-gray-500 dark:text-indigo-300 dark:text-indigo-400 dark:text-amber-300 dark:text-amber-400 dark:text-gray-300 dark:text-gray-400"></div>
 
     <!-- Masthead -->
     <nav id="masthead" class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
@@ -81,6 +81,8 @@
                 <a href="#main" class="display font-bold text-xl sm:text-2xl tracking-tight text-gray-900 dark:text-gray-100">
                     Deep <span class="text-indigo-600 dark:text-indigo-400">Dives</span>
                 </a>
+                <nav id="masthead-topics" aria-label="Topics"
+                    class="hidden md:flex items-center gap-5 ml-auto mr-5 text-sm"></nav>
                 <button id="theme-toggle"
                     class="w-11 h-11 lg:w-9 lg:h-9 rounded-lg flex items-center justify-center text-gray-500 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
                     aria-label="Toggle dark mode">
@@ -114,6 +116,10 @@
             </p>
             <p id="library-stats" class="mt-5 text-sm text-gray-500 dark:text-gray-400 font-medium flex flex-wrap items-center"></p>
         </header>
+
+        <!-- Contents: what this library covers, before anything else competes
+             for the first screen. -->
+        <nav id="topic-index" aria-label="Browse by topic" class="mb-10 sm:mb-12"></nav>
 
         <!-- Featured: most recent deep dive -->
         <div id="featured" class="mb-14 sm:mb-20"></div>
@@ -158,7 +164,7 @@
          refresh. GitHub Pages caches assets for up to 10 minutes. -->
     <script src="theme.js?v=2026-09-27" defer></script>
     <script src="nav.js?v=2026-09-27" defer></script>
-    <script src="hub.js?v=2026-09-28" defer></script>
+    <script src="hub.js?v=2026-09-29" defer></script>
 </body>
 
 </html>
