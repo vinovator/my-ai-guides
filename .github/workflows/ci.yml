@@ -1,0 +1,30 @@
+# This repo has no build step: Cloudflare Pages serves it exactly as committed.
+# So CI does two things instead of building. It asserts the structural
+# invariants that have silently broken before, and it checks that the generated
+# files (sitemap.xml, the reading times in hub.js) still match the content, so
+# they cannot quietly drift out of date.
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Structural invariants
+        run: node scripts/check-site.mjs
+
+      # Fails with the exact diff if someone edits content without re-running
+      # `node scripts/generate.mjs`.
+      - name: Generated files are current
+        run: node scripts/generate.mjs --check
