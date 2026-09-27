@@ -1,4 +1,4 @@
-# Deep Dives
+# Guides
 
 Long-form guides on things worth understanding properly. Each piece starts from zero and goes all
 the way down — no prerequisites assumed, no hand-waving at the hard part.
@@ -7,7 +7,7 @@ Currently ~6 hours of reading across three multi-lesson deep dives (graph databa
 global bond markets, investment valuation), five framework guides, and six one-page cheat sheets.
 The library is organised by topic, not by format, so new subjects can be added without reshaping it.
 
-## 🚀 **[View the Live Site](https://vinovator.github.io/my-ai-guides/)**
+## 🚀 **[View the Live Site](https://guides.vinothhaldorai.com/)**
 
 This repository hosts the source code for the interactive content published at the link above. Each framework guide is a standalone HTML file; each tutorial is a folder of Markdown lessons rendered in the browser by a shared viewer (`tutorial.html`). Everything is static, zero-build, and served by GitHub Pages.
 

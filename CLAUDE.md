@@ -4,7 +4,9 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-**Deep Dives** — a static site of long-form guides and Markdown deep dives on whatever topic is worth understanding properly (AI engineering and finance today), published via GitHub Pages at https://vinovator.github.io/my-ai-guides/. The repo and URL path are still `my-ai-guides` for historical reasons; renaming the repo would break every published link, so the display name and the path differ on purpose. There is **no build step, no package manager, no test suite, and no server-side code** — everything is rendered client-side from CDN scripts.
+**Guides** — a static site of long-form guides and Markdown deep dives on whatever topic is worth understanding properly (AI engineering and finance today).
+
+**Hosting and naming.** The public entry point is **https://guides.vinothhaldorai.com/**, a Cloudflare-fronted custom subdomain; GitHub Pages also serves the same files at https://vinovator.github.io/my-ai-guides/. Because the content is reachable on two hosts, `index.html` declares `<link rel="canonical">` and `og:url`/`og:image` pointing at the subdomain — keep those on the subdomain if you touch them. The site is linked from the "Guides" tab on https://vinothhaldorai.com, so the brand is deliberately **Guides**, matching that nav label and the subdomain; the masthead shows `Vinoth Haldorai / Guides` and the footer carries a backlink, so the page reads as a section of the main site rather than an orphan. "Deep dive" remains a **content format label**, not a brand — do not confuse the two when editing copy. There is **no build step, no package manager, no test suite, and no server-side code** — everything is rendered client-side from CDN scripts.
 
 Top-level layout:
 
@@ -100,7 +102,7 @@ not apply until the CDN finishes compiling. Masterclass pages additionally scope
 full-height shell to desktop (`lg:h-screen lg:overflow-hidden`, `main` gets `lg:overflow-y-auto`)
 so that on a phone the document itself scrolls; that is what lets the iOS toolbar collapse.
 
-Every guide must include a **"Deep Dives"** back link (`href="../index.html"`) in its sidebar/drawer header — this is the only navigation back from a guide page.
+Every guide must include a **"Guides"** back link (`href="../index.html"`) in its sidebar/drawer header — this is the only navigation back from a guide page.
 
 ## Landing page: data-driven registry in `hub.js`
 
@@ -110,7 +112,7 @@ array inside `hub.js`; a renderer in the same file builds the page at load from 
 **The landing page is an editorial index, not a card dashboard.** Its structure, top to bottom:
 
 ```
-masthead        Deep Dives · topic links · theme toggle   (sticky; links md+)
+masthead        Vinoth Haldorai / Guides · topic links · toggle  (sticky; links md+)
 topic bar       topic pills, slides in on scroll          (fixed, reserves no space)
 statement       what the site is, + library stats
 topic index     "Browse by topic" tiles: count, blurb, reading time
@@ -153,9 +155,12 @@ does not flatten that hierarchy.
   the deep dives. Each `CATEGORIES` entry carries `{ name, accent, blurb }` and optionally
   `compact: true` to render chips instead of rows.
 - **Featured is derived, not flagged.** `featuredCard()` picks the most recently `updated` card with
-  `format: 'deep-dive'`. It is suppressed from its own topic list so nothing appears twice, and the
-  section prints a cross-reference back up to it. Never add a `featured: true` field — it will go
-  stale the moment you publish something newer.
+  `format: 'deep-dive'`. Never add a `featured: true` field — it will go stale the moment you publish
+  something newer. The featured piece **also appears in its topic list**: it was suppressed once to
+  avoid repeating itself, but that made the section count disagree with the masthead and the topic
+  index, which count the real total (Finance read "2" at the top and "1" at the bottom). The featured
+  block is a second treatment of the piece, not a replacement for its index entry, so every count
+  now agrees.
 - **Dynamic Tailwind classes**: accent-derived classes are emitted at render time, so a hidden
   `<div hidden>` marker block in `index.html` lists them for the CDN scanner. It is now small
   (indigo, amber, gray) because accents are per topic. **When you add a category with a new accent,

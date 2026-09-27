@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Deep Dives — Long-form guides on things worth understanding properly">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" role="img" aria-label="Guides — Long-form guides on things worth understanding properly">
     <defs>
         <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
             <stop offset="0%" stop-color="#f8fafc"/>
@@ -45,11 +45,12 @@
         <path d="M107 126 L117 126"/>
     </g>
 
-    <!-- Deep Dives wordmark -->
-    <text x="80" y="290" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="118" font-weight="700" fill="#0f172a" letter-spacing="-3">Deep <tspan fill="url(#word)">Dives</tspan></text>
+    <!-- Guides wordmark -->
+    <text x="82" y="228" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="30" font-weight="600" fill="#64748b" letter-spacing="1">VINOTH HALDORAI</text>
+    <text x="80" y="320" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="118" font-weight="700" fill="url(#word)" letter-spacing="-3">Guides</text>
 
     <!-- Tagline -->
-    <text x="82" y="350" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="32" font-weight="500" fill="#475569">Long-form guides on things worth understanding properly.</text>
+    <text x="82" y="380" font-family="Inter, system-ui, -apple-system, sans-serif" font-size="32" font-weight="500" fill="#475569">Long-form guides on things worth understanding properly.</text>
 
     <!-- Stats row -->
     <g font-family="Inter, system-ui, -apple-system, sans-serif" font-size="22" fill="#334155" font-weight="600">
@@ -65,5 +66,5 @@
 
     <!-- Bottom rule + URL -->
     <line x1="80" y1="550" x2="1120" y2="550" stroke="#cbd5e1" stroke-width="1"/>
-    <text x="80" y="585" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="20" fill="#64748b">vinovator.github.io/my-ai-guides</text>
+    <text x="80" y="585" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, monospace" font-size="20" fill="#64748b">guides.vinothhaldorai.com</text>
 </svg>

@@ -1,5 +1,5 @@
 /* ============================================================================
-   Deep Dives — landing page renderer.
+   Guides — landing page renderer.
    Loaded as a deferred <script> from index.html.
 
    The page is an editorial index, not a dashboard: one featured deep dive,
@@ -264,18 +264,9 @@
             </a>`;
     }
 
-    function sectionHtml(cat, cards, featured) {
+    function sectionHtml(cat, cards) {
         if (!cards.length) return '';
         const id = slugifyCategory(cat.name);
-        // The featured piece is pulled out of its own topic list so nothing
-        // appears twice — but the topic would then look short by one, so point
-        // back up to it.
-        const crossRef = (featured && featured.category === cat.name)
-            ? `<p class="mt-4 text-sm text-gray-500 dark:text-gray-400">
-                   <a href="${escapeHtml(featured.href)}" class="underline decoration-gray-300 dark:decoration-gray-600 underline-offset-2 hover:text-${cat.accent}-700 dark:hover:text-${cat.accent}-300 transition-colors">${escapeHtml(featured.title)}</a>
-                   is featured at the top of the page.
-               </p>`
-            : '';
         const body = cat.compact
             ? `<div class="flex flex-wrap gap-2 pt-5 border-t border-gray-100 dark:border-gray-800">${cards.map(chipHtml).join('')}</div>`
             : `<ul>${cards.map(entryHtml).join('')}</ul>`;
@@ -287,7 +278,6 @@
                 </header>
                 <p class="text-sm text-gray-500 dark:text-gray-400 mb-2 max-w-2xl">${escapeHtml(cat.blurb)}</p>
                 ${body}
-                ${crossRef}
             </section>`;
     }
 
@@ -477,13 +467,11 @@
     function renderIndex() {
         const root = document.getElementById('hub');
         if (!root) return;
-        const featured = featuredCard();
+        // Every card appears in its topic list, including the featured one.
+        // The featured block above is a different treatment of the same piece,
+        // not a replacement for its index entry.
         root.innerHTML = CATEGORIES
-            .map(cat => sectionHtml(
-                cat,
-                CARDS.filter(c => c.category === cat.name && c !== featured),
-                featured
-            ))
+            .map(cat => sectionHtml(cat, CARDS.filter(c => c.category === cat.name)))
             .join('');
     }
 
