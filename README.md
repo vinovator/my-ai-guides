@@ -26,6 +26,7 @@ Tutorials authored in plain Markdown, each in a folder under `tutorials/`. Multi
 
 - **[Neo4j](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=neo4j)** - From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.
 - **[Investment Valuation](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide)** - From zero to a defensible business valuation. Accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.
+- **[Global Bond Markets](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=global-bond-markets)** - The base price of money, explained from zero. The price-yield seesaw, duration, the yield curve, US/UK/India side by side, and eight episodes where the bond market broke something.
 
 ## 🛠️ Tech Stack
 

@@ -13,3 +13,6 @@ ehthumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Tutorial source material (Word/PowerPoint originals, not published)
+_source/
