@@ -44,6 +44,38 @@ Top-level layout:
   - From the hub (`index.html`), guides are `href="guides/foo.html"` and tutorials are `href="tutorial.html?slug=<slug>"`.
   - Do not use absolute paths starting with `/` — the site lives under a subpath (`/my-ai-guides/`) on github.io.
 
+## Shared site chrome (mirrored from vh-site)
+
+This site is one of three that share an identity: `vinothhaldorai.com` (the Astro repo
+`vh-site`), `guides.vinothhaldorai.com` (this repo) and `tools.vinothhaldorai.com`
+(`my-ai-tools`). The Guides and Tools tabs on the main site open in a new tab, so without
+shared chrome they read as orphans.
+
+**What is mirrored, and only this:**
+
+- `favicon.svg`, `favicon.ico`, `apple-touch-icon.png` at the repo root, copied byte for
+  byte from `vh-site/public/`. Every page links all three. Do not point the icon at a CDN;
+  it used to reference a Font Awesome glyph on jsdelivr, which was neither the brand nor
+  under our control.
+- The masthead wordmark `Vinoth Haldorai.` linking to `https://vinothhaldorai.com`, with
+  the same 5px dot, followed by `/ Guides`.
+- The footer nav (`Now`, `Work with me`, `Contact`) and the four socials (LinkedIn,
+  GitHub, obfuscated email, RSS), with the same `data-user`/`data-domain` email trick and
+  the same year script.
+
+**What is deliberately NOT mirrored:** fonts, colours and layout. The main site uses
+Instrument Sans, Newsreader and Schibsted Grotesk; this one uses Inter plus a system
+serif. Copying the main site's chrome CSS would pull in three font downloads and couple
+the repos' stylesheets for no benefit. Identity is shared, the design system is not. This
+is the same split Stripe and GitHub use for their docs subdomains.
+
+**Keeping it in sync.** All URLs are absolute so they resolve from any host. The shared
+surface is deliberately tiny (three nav links, four socials, three icon files) so it
+rarely changes. If the footer on `vh-site` changes, mirror it here **and** in
+`my-ai-tools/index.html`. Do not fetch a shared partial from the main site at runtime: it
+would add a cross-origin dependency, a flash of missing chrome, and a failure mode where
+the footer vanishes when the main site is slow.
+
 ## Shared conventions across guides
 
 All guides load the same CDN stack — keep it consistent when editing or adding pages:

@@ -459,11 +459,6 @@
     // 8. Bootstrap
     // ------------------------------------------------------------------------
 
-    function setFooterYear() {
-        const slot = document.getElementById('copy-year');
-        if (slot) slot.textContent = new Date().getFullYear();
-    }
-
     function renderIndex() {
         const root = document.getElementById('hub');
         if (!root) return;
@@ -484,7 +479,6 @@
         renderStickyNav();
         setupStickyNavObserver();
         setupFilter();
-        setFooterYear();
     }
 
     if (document.readyState === 'loading') {
