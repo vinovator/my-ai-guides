@@ -67,7 +67,7 @@ From Draghi's unused promise, to the Fed in 2008 and 2020, to the Bank of Englan
 
 ### Try it on a live one
 
-Run this week's headline through the five: *the US 10-year yield has climbed above 5.1%, its highest since 2007, following the Fed's first rate hike since 2023.*
+Run this week's headline through the five: *the US 10-year yield has climbed to 5.29%, its highest since 2002, following the Fed's first rate hike since 2023.*
 
 Rates story, not credit. Both ends of the curve moving, but the long end leading on inflation from the energy shock. No obvious forced sellers so far. The dollar's direction is the thing to check next. And the Fed is tightening, so the backstop is not coming.
 
