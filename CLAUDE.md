@@ -89,8 +89,8 @@ All guides load the same CDN stack — keep it consistent when editing or adding
   deliberately plain CSS, not Tailwind, because it loads synchronously — its rules are in effect
   before the Tailwind Play CDN has compiled anything. It owns the skip link, the `:focus-visible`
   rings, the mobile drawer's position/visibility, the 44px touch-target floor, the 16px form-control
-  floor that stops iOS zooming on focus, `.table-scroll`, Mermaid overflow, and image space
-  reservation. Bump its `?v=` when you change it.
+  floor that stops iOS zooming on focus, `.table-scroll`, `.figure-scroll`, Mermaid overflow, and
+  image space reservation. Bump its `?v=` when you change it.
 - **Mobile shell** (below the `lg` breakpoint, 1024px). Every page with a sidebar uses the same
   off-canvas drawer; see "Two tiers of guide" below for the exact class recipe. Never ship a page
   whose sidebar is a non-collapsing `flex-shrink-0` column or a bare `hidden lg:block` — the first
@@ -176,7 +176,8 @@ does not flatten that hierarchy.
     single-file tutorial can still be a deep dive.
   - `minutes: N` is **generated**, not hand-written. Run `node scripts/generate.mjs` after
     editing content and commit the result; CI fails if it has drifted. It counts visible words
-    at 220 wpm, excluding `<script>` and `<style>`, and rounds up so it never undersells.
+    at 220 wpm, excluding `<script>` and `<style>` (and, in deep dives, inline `<svg>` figures,
+    whose coordinates would otherwise count as words), and rounds up so it never undersells.
   - `tags` are **searchable but never rendered** in the lists — they feed the filter without adding
     visual noise. Only the featured block shows a few.
   - There is **no per-card accent**. Accent lives on the category (see below).
@@ -261,6 +262,33 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
   text-bearing slides on exactly the screens that show them largest. Add smaller siblings instead.
   Always write real `alt` text; the viewer also sets `loading="lazy"` and reserves space via
   `aspect-ratio` in `site.css`, so missing dimensions do not shift the page.
+- **Inline SVG figures** (both finance deep dives use them) follow one contract. Every figure is
+  `<svg viewBox="0 0 ~700 H" width="100%" role="img" aria-label="…full description…">` with text
+  and axes in `currentColor` so they follow the theme. **No blank lines inside an `<svg>`**: a blank
+  line ends the HTML block in CommonMark, marked stops parsing there and DOMPurify strips the rest.
+  Coloured marks carry their light-mode hex as a presentation attribute plus a `vfN` (fill) or `vsN`
+  (stroke) class, which `tutorial.html` maps to the dark-mode step of the same hue; `vring` is the
+  surface-coloured ring on markers. The eight hues and their order are validated for colour-vision
+  deficiency on both surfaces, so keep the order. At render time the viewer wraps every
+  `svg[role="img"]` in `.figure-scroll` (`site.css`), which gives figures the same 34rem floor and
+  sideways scroll on phones that tables get, instead of shrinking their labels to about 5px.
+  Mermaid diagrams get a similar floor from a `MutationObserver` in `tutorial.html` (their natural
+  width, capped at 34rem), because Mermaid stamps `width="100%"` on its SVGs and theme toggles
+  re-render them. Even so, keep tutorial flowcharts vertical (`graph TD`, or `LR` with one parent)
+  and wrap long labels with `<br/>`; a wide horizontal chain or a four-lane `sequenceDiagram` is
+  unreadable on a phone at any floor, so draw those as SVG figures instead.
+- **"Check yourself" questions** use a native `<details><summary>Show the answer</summary>…</details>`
+  block, with a blank line after `<summary>` and before `</details>` so the answer is parsed as
+  Markdown. `tutorial.html` styles it for both themes; no script is involved.
+- **Originals and build scripts live in `_source/<slug>/`**, which is git-ignored, so a source PDF,
+  deck or Word file never gets published (the bond guide's .docx/.pptx and the commodities PDF are
+  there). The **commodity-markets** deep dive is generated: its lessons are written in
+  `_source/commodity-markets/src/*.md` with `{{fig:id}}` placeholders, and
+  `python3 _source/commodity-markets/charts/build.py` computes every figure from cached data
+  (World Bank Pink Sheet, FRED, EIA), runs the checks (em dashes, blank lines in SVG, XML validity,
+  lesson links), and writes `tutorials/commodity-markets/`. Edit the `src` file, not the published
+  one, or the next build will overwrite your change; `fact-ledger.md` beside it records the source
+  of every recent figure.
 - **Adding a deep dive**: the user drops the `<slug>/` folder; then prompt Claude to add the registry entry — a single `{ type:'tutorial', format:'deep-dive', category:'<topic>', title:…, href:'tutorial.html?slug=<slug>', lessons:N, minutes:N, updated:…, tags:[…], description:… }` object appended to `CARDS` in `hub.js`. If it opens a new subject, add a `CATEGORIES` entry and its accent classes to the marker block in `index.html`.
 
 ## Checks and generated files

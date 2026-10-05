@@ -100,10 +100,17 @@
         // ---- Finance ---------------------------------------------------------
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance',
+            title: 'Commodity Markets', href: 'tutorial.html?slug=commodity-markets',
+            tags: ['Finance', 'Macro', 'Commodities', 'Futures', 'Oil', 'Gold', 'Hedging', 'Forward curve'],
+            description: 'How the world prices oil, metals, grain and gas, from zero: futures and hedging, the forward curve, what really moves prices, and fifty years of shocks from the 1973 embargo to the 2026 Hormuz crisis.',
+            updated: '2026-10-05', lessons: 14, minutes: 149,
+        },
+        {
+            type: 'tutorial', format: 'deep-dive', category: 'Finance',
             title: 'Global Bond Markets', href: 'tutorial.html?slug=global-bond-markets',
             tags: ['Finance', 'Macro', 'Fixed income', 'Yield curve', 'Duration'],
             description: 'The base price of money, explained from zero: the price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
-            updated: '2026-09-27', lessons: 9, minutes: 95,
+            updated: '2026-09-27', lessons: 9, minutes: 85,
         },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance',

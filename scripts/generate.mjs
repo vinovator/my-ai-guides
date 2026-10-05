@@ -35,12 +35,17 @@ function minutesForGuide(file) {
     return Math.max(1, Math.ceil(visibleWords(readFileSync(file, 'utf8')) / WPM));
 }
 
+// An inline <svg> figure is looked at, not read at 220wpm, yet every
+// coordinate and attribute in it splits into a "word". Nine figures added
+// ten phantom minutes to the bond guide, so strip them before counting.
+const prose = (md) => md.replace(/<svg\b[\s\S]*?<\/svg>/g, ' ');
+
 function minutesForTutorial(slug) {
     const dir = join('tutorials', slug);
     let total = 0;
     for (const f of readdirSync(dir)) {
         if (!f.endsWith('.md') || f === 'blueprint.md') continue;
-        total += words(readFileSync(join(dir, f), 'utf8'));
+        total += words(prose(readFileSync(join(dir, f), 'utf8')));
     }
     return Math.max(1, Math.ceil(total / WPM));
 }

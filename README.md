@@ -3,8 +3,8 @@
 Long-form guides on things worth understanding properly. Each piece starts from zero and goes all
 the way down — no prerequisites assumed, no hand-waving at the hard part.
 
-Currently ~6 hours of reading across three multi-lesson deep dives (graph databases and GraphRAG,
-global bond markets, investment valuation), five framework guides, and six one-page cheat sheets.
+Currently ~8 hours of reading across four deep dives (graph databases and GraphRAG, global bond
+markets, commodity markets, investment valuation), five framework guides, and six one-page cheat sheets.
 The library is organised by topic, not by format, so new subjects can be added without reshaping it.
 
 ## 🚀 **[View the Live Site](https://guides.vinothhaldorai.com/)**
@@ -31,6 +31,7 @@ Deep dives are authored in plain Markdown, each in a folder under `tutorials/`. 
 
 - **[Neo4j](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=neo4j)** - From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.
 - **[Investment Valuation](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide)** - From zero to a defensible business valuation. Accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.
+- **[Commodity Markets](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=commodity-markets)** - How the world prices oil, metals, grain and gas, explained from zero. Futures and hedging, the forward curve, what moves prices, the US, UK and India side by side, and fifty years of shocks from the 1973 embargo to the 2026 Hormuz crisis.
 - **[Global Bond Markets](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=global-bond-markets)** - The base price of money, explained from zero. The price-yield seesaw, duration, the yield curve, US/UK/India side by side, and eight episodes where the bond market broke something.
 
 ## 🛠️ Tech Stack
