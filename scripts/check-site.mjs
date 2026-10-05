@@ -17,7 +17,7 @@ const dirsIn = (p) =>
     readdirSync(p).filter((n) => !n.startsWith('.')).filter((n) => statSync(join(p, n)).isDirectory());
 
 // ---- every HTML page ----------------------------------------------------
-const htmlPages = ['index.html', 'tutorial.html', '404.html', ...readdirSync('guides').filter((f) => f.endsWith('.html')).map((f) => join('guides', f))];
+const htmlPages = ['index.html', 'tutorial.html', ...readdirSync('guides').filter((f) => f.endsWith('.html')).map((f) => join('guides', f))];
 
 for (const page of htmlPages) {
     const html = readFileSync(page, 'utf8');
@@ -32,12 +32,7 @@ for (const page of htmlPages) {
     if (!/id="main"/.test(html)) fail(page, 'missing #main for the skip link');
 
     // tutorial.html sets its canonical in JS, since each lesson is its own URL.
-    // 404.html must not be indexed at all, so it has noindex instead.
-    if (page === '404.html') {
-        if (!/<meta name="robots" content="noindex">/.test(html)) fail(page, 'missing noindex');
-        if (/rel="canonical"/.test(html)) fail(page, 'a 404 page must not declare a canonical');
-        if (/(?:href|src)="(?!https?:|#|mailto:)/.test(html)) fail(page, 'relative URL; a 404 page is served at any depth');
-    } else if (page === 'tutorial.html') {
+    if (page === 'tutorial.html') {
         if (!html.includes(`${HOST}/tutorial`)) fail(page, 'canonical does not target the subdomain');
     } else if (!new RegExp(`rel="canonical" href="${HOST}`).test(html)) {
         fail(page, 'missing canonical on the subdomain');

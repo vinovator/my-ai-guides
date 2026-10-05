@@ -259,19 +259,3 @@ main pre {
         scroll-behavior: smooth;
     }
 }
-
-/* ---------------------------------------------------------------------------
-   Hub: fade the right edge of the sticky category pills so it reads as
-   scrollable when the row is wider than the screen.
-   --------------------------------------------------------------------------- */
-.scroll-fade {
-    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent 100%);
-    mask-image: linear-gradient(to right, #000 calc(100% - 2rem), transparent 100%);
-}
-
-@media (min-width: 1024px) {
-    .scroll-fade {
-        -webkit-mask-image: none;
-        mask-image: none;
-    }
-}

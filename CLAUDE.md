@@ -14,8 +14,7 @@ Top-level layout:
 .
 ├── index.html         # the landing page; its catalogue is pre-rendered by scripts/generate.mjs
 ├── hub.js             # landing registry (CARDS) + renderer + format/search filter
-├── landing.css        # plain-CSS stylesheet for index.html and 404.html (no Tailwind there)
-├── 404.html           # branded not-found page; absolute URLs, noindex
+├── landing.css        # plain-CSS stylesheet for index.html (no Tailwind there)
 ├── tutorial.html      # shared viewer that renders any tutorial folder
 ├── site.css           # shared a11y primitives + the mobile drawer shell (every page)
 ├── nav.js             # mobile off-canvas drawer controller (every page)
@@ -167,7 +166,7 @@ colour (blue) for links and the active filter. No icon font: the three icons are
 is factual and in sentence case; describe what a piece covers, not how good it is. The guide pages
 and the tutorial viewer still declare Inter (never actually loaded), pending a site-wide pass.
 
-**No Tailwind on the landing page.** `index.html` and `404.html` are styled by `landing.css` (plain
+**No Tailwind on the landing page.** `index.html` is styled by `landing.css` (plain
 CSS with light and dark tokens keyed to `html.dark`), after the shared `site.css`. The Play CDN is
 about 400 KB of JavaScript and was the page's largest download; the guide pages and the tutorial
 viewer still use it. Do not add Tailwind classes to `hub.js` templates; add rules to `landing.css`
@@ -182,8 +181,7 @@ up the filter. CI's `generate --check` fails if the pre-render is stale, so afte
 always run the generator. Never edit inside the markers by hand.
 
 **Filter state lives in the address.** `?format=deep-dive|guide|reference` and `?q=…` are read on
-load and kept current with `history.replaceState`, so a filtered view can be shared; the 404 page
-links to `?format=deep-dive`.
+load and kept current with `history.replaceState`, so a filtered view can be shared.
 
 **Social preview.** `og:image` must be a PNG or JPEG (social networks ignore SVG), and
 `scripts/check-site.mjs` enforces it. To change the image, edit `scripts/og-image.html` and run the
@@ -329,7 +327,7 @@ node scripts/check-site.mjs         # structural invariants
 `check-site.mjs` asserts: every page has a viewport meta, the brand favicon, `site.css`,
 `theme.js`, a non-empty title, a skip link and an `#main` target; every page has a canonical on
 `guides.vinothhaldorai.com` (`tutorial.html` sets its own in JS, since each lesson is a distinct
-URL, and `404.html` must instead be `noindex` with only absolute URLs); `og:image` is a PNG or
+URL); `og:image` is a PNG or
 JPEG that exists; every Font Awesome icon carries `aria-hidden`; every card in `hub.js` points at a file or
 tutorial that exists and uses a category that is defined; every `blueprint.md` lesson link
 resolves; every slide image has its `-800` and `-1200` siblings; and every markdown image

@@ -1,5 +1,5 @@
 /* ============================================================================
-   Landing page and 404 page styles. Plain CSS, no framework.
+   Landing page styles. Plain CSS, no framework.
 
    The landing page used to load the Tailwind Play CDN (about 400 KB of
    JavaScript) to style a page that needs a few hundred lines of CSS. This
@@ -8,7 +8,7 @@
 
    One typeface: the reader's own system sans-serif. One accent: blue.
    Dark mode follows the `dark` class that theme.js puts on <html>.
-   Bump landing.css?v= in index.html and 404.html when this file changes.
+   Bump landing.css?v= in index.html when this file changes.
    ============================================================================ */
 
 :root {
@@ -266,11 +266,3 @@ main { flex: 1 0 auto; }
     display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.75rem; color: var(--faint);
 }
 @media (min-width: 640px) { .footer-base { flex-direction: row; align-items: center; justify-content: space-between; } }
-
-/* ---- 404 ---------------------------------------------------------------- */
-.notfound { padding: 4rem 0 3rem; }
-.notfound h1 { font-size: 1.875rem; font-weight: 600; color: var(--strong); }
-.notfound p { margin-top: 0.75rem; max-width: 40rem; color: var(--body); line-height: 1.65; }
-.notfound .actions { margin-top: 1.5rem; display: flex; flex-wrap: wrap; gap: 1rem; }
-.notfound .actions a { color: var(--accent); font-weight: 500; }
-.notfound .actions a:hover { text-decoration: underline; text-underline-offset: 2px; }
