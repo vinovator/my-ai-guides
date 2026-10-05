@@ -92,8 +92,10 @@
 
     <!-- Tailwind class marker (do not remove). hub.js emits these classes at
          render time; listing them here guarantees the CDN scanner generates
-         them on first paint. If hub.js gains a new class, add it here. -->
-    <div hidden aria-hidden="true" class="whitespace-nowrap py-3 lg:py-0 py-4 py-2.5 lg:py-1.5 sm:grid sm:grid-cols-[1fr_15rem] sm:gap-8 sm:mt-1 sm:text-right sm:text-lg text-[15px] leading-loose space-y-1.5 mr-5 underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-current group-hover:underline text-blue-700 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-400 border-gray-300 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-400 border-b"></div>
+         them on first paint. If hub.js gains a new class, add it here. The
+         inline display:none matters: classes such as sm:grid would otherwise
+         override the hidden attribute and draw this empty box. -->
+    <div hidden aria-hidden="true" style="display:none" class="whitespace-nowrap py-3 lg:py-0 py-4 py-2.5 lg:py-1.5 sm:grid sm:grid-cols-[1fr_15rem] sm:gap-8 sm:mt-1 sm:text-right sm:text-lg text-[15px] leading-loose space-y-1.5 mr-5 underline underline-offset-2 decoration-gray-300 dark:decoration-gray-600 hover:decoration-current group-hover:underline text-blue-700 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-400 group-hover:text-blue-700 dark:group-hover:text-blue-400 border-gray-300 dark:border-gray-600 hover:border-gray-500 dark:hover:border-gray-400 border-b mt-6 mb-14 pt-6 border-t-[3px] border-gray-900 dark:border-gray-200 sm:text-[17px] sm:text-3xl sm:text-base tracking-tight dark:text-white mt-2 mb-4"></div>
 
     <!-- Masthead -->
     <nav id="masthead" class="bg-white/90 dark:bg-gray-900/90 backdrop-blur-md border-b border-gray-200 dark:border-gray-800 sticky top-0 z-50">
@@ -225,7 +227,7 @@
          refresh. GitHub Pages caches assets for up to 10 minutes. -->
     <script src="theme.js?v=2026-09-27" defer></script>
     <script src="nav.js?v=2026-09-27" defer></script>
-    <script src="hub.js?v=2026-10-06c" defer></script>
+    <script src="hub.js?v=2026-10-06d" defer></script>
 </body>
 
 </html>

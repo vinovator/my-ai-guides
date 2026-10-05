@@ -247,7 +247,7 @@
             <li class="hub-card border-t border-gray-200 dark:border-gray-800" ${hooks(card)}>
                 <a href="${escapeHtml(card.href)}" class="group block py-4 sm:grid sm:grid-cols-[1fr_15rem] sm:gap-8">
                     <span class="block">
-                        <span class="block text-base sm:text-lg font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 group-hover:underline underline-offset-2">${escapeHtml(card.title)}</span>
+                        <span class="block text-base sm:text-[17px] font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 group-hover:underline underline-offset-2">${escapeHtml(card.title)}</span>
                         <span class="block mt-1 text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed">${escapeHtml(card.description)}</span>
                     </span>
                     <span class="block mt-2 sm:mt-1 sm:text-right text-sm text-gray-500 dark:text-gray-400 tabular">
@@ -279,12 +279,12 @@
         const full = sorted.filter(c => c.format !== 'reference');
         const sheets = sorted.filter(c => c.format === 'reference').sort((a, b) => a.title.localeCompare(b.title));
         return `
-            <section id="${id}" class="hub-section mb-12" data-category="${escapeHtml(cat.name)}" aria-labelledby="${id}-h">
+            <section id="${id}" class="hub-section mt-6 mb-14 pt-6 border-t-[3px] border-gray-900 dark:border-gray-200" data-category="${escapeHtml(cat.name)}" aria-labelledby="${id}-h">
                 <div class="flex items-baseline gap-3">
-                    <h2 id="${id}-h" class="text-xl sm:text-2xl font-semibold text-gray-900 dark:text-gray-100">${escapeHtml(cat.name)}</h2>
-                    <span class="text-sm text-gray-500 dark:text-gray-400 tabular hub-section-count">${cards.length}</span>
+                    <h2 id="${id}-h" class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${escapeHtml(cat.name)}</h2>
+                    <span class="text-sm sm:text-base text-gray-500 dark:text-gray-400 tabular hub-section-count">${cards.length}</span>
                 </div>
-                <p class="mt-1 mb-3 text-[15px] text-gray-600 dark:text-gray-400">${escapeHtml(cat.blurb)}</p>
+                <p class="mt-2 mb-4 text-base text-gray-600 dark:text-gray-400">${escapeHtml(cat.blurb)}</p>
                 <ul class="border-b border-gray-200 dark:border-gray-800">${full.map(rowHtml).join('')}${sheetsHtml(sheets)}</ul>
             </section>`;
     }
