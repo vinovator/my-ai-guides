@@ -48,7 +48,7 @@ The single most important idea in the subject. The £5 coupon never changes, so 
 
 ![Three seesaws for 2-year, 10-year and 30-year bonds showing durations of 1.9, 7.7 and 15.4 and price falls of 2%, 7% and 14%](tutorials/global-bond-markets/images/slide-05.webp)
 
-The same one-point rise in yields costs the 2-year under 2%, the 10-year about 7%, and the 30-year about 14%. The owner of a long bond is stuck with a below-market coupon for many more years, and the price falls today to compensate a buyer for all of them.
+The same one-point rise in yields costs the 2-year under 2%, the 10-year about 7%, and the 30-year about 14%. The owner of a long bond is stuck with a below-market coupon for many more years, and the price falls today to compensate a buyer for all of them. The durations shown are modified durations: each bond's balance point, the average wait for its discounted payments, divided by one plus the yield.
 
 ### 6. Duration risk materialised: Silicon Valley Bank
 

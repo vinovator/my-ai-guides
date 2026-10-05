@@ -119,35 +119,109 @@ Three lessons come out of that table.
 
 ## Duration: the number that predicts the swing
 
-That second lesson has a name and a number. **Duration** measures how sensitive a bond's price is to a change in yields.
+That second lesson has a name and a number: **duration**. The word causes confusion because it sounds like a length of time, and it is often mistaken for the bond's lifespan. In fact it measures two connected things:
 
-The practical version is a rule of thumb worth memorising:
+1. **Duration as time**, known as **Macaulay duration**: the average time you wait to receive the bond's money, with each payment weighted by what it is worth today.
+2. **Duration as risk**, known as **modified duration**: how far the bond's price swings when yields change.
 
-> Duration tells you roughly what percentage a bond's price moves for each one-percentage-point change in yield: in the opposite direction.
+The second grows directly out of the first, and the first is the easier place to start.
 
-For the three bonds above:
+### Duration as time: the balance point
 
-| Bond | Duration | Predicted move if yields rise 1 point | Actual move |
+Picture a plank with a timeline marked along it: year 0 at one end, year 5 at the other. This is a different picture from the price-yield seesaw above; here the plank measures *time*. Every payment the bond makes is a weight placed on the plank at the moment it arrives. Duration is where you would have to put the pivot for the plank to balance.
+
+<svg viewBox="0 0 700 470" width="100%" role="img" aria-label="Two balance beams marked with years 0 to 5. On the first, a zero-coupon bond has all its value as one weight at year 5, so the beam balances at exactly 5 years. On the second, a 5-year bond with a 5 percent coupon has four small weights of about 4 to 5 percent of its value at years 1 to 4 and one large weight of 82 percent at year 5; the early coupons pull the balance point left, to 4.55 years. That balance point is the Macaulay duration." fill="none" xmlns="http://www.w3.org/2000/svg">
+  <text x="20" y="52" font-size="13" fill="currentColor" font-weight="bold">5-year zero-coupon bond</text>
+  <text x="20" y="69" font-size="11.5" fill="currentColor" opacity="0.7">pays nothing until a single £100 at year 5</text>
+  <line x1="110" y1="177" x2="610" y2="177" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <rect x="596" y="87.0" width="28" height="88.0" rx="2" fill="#0ea5e9"/>
+  <text x="610" y="81.0" font-size="11" fill="currentColor" text-anchor="middle" font-weight="bold">100%</text>
+  <polygon points="610.0,180 599.0,202 621.0,202" fill="#f59e0b"/>
+  <text x="110" y="219" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 0</text>
+  <text x="210" y="219" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 1</text>
+  <text x="310" y="219" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 2</text>
+  <text x="410" y="219" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 3</text>
+  <text x="510" y="219" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 4</text>
+  <text x="610" y="219" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 5</text>
+  <text x="590.0" y="197" font-size="12" fill="#f59e0b" font-weight="bold" text-anchor="end">balance point: 5.00 years</text>
+  <text x="20" y="262" font-size="13" fill="currentColor" font-weight="bold">5-year bond with a 5% coupon</text>
+  <text x="20" y="279" font-size="11.5" fill="currentColor" opacity="0.7">£5 a year, then £105 at year 5</text>
+  <line x1="110" y1="387" x2="610" y2="387" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <rect x="196" y="380.8" width="28" height="4.2" rx="2" fill="#0ea5e9"/>
+  <text x="210" y="374.8" font-size="10.5" fill="currentColor" text-anchor="middle" opacity="0.8">4.8%</text>
+  <rect x="296" y="381.0" width="28" height="4.0" rx="2" fill="#0ea5e9"/>
+  <text x="310" y="375.0" font-size="10.5" fill="currentColor" text-anchor="middle" opacity="0.8">4.5%</text>
+  <rect x="396" y="381.2" width="28" height="3.8" rx="2" fill="#0ea5e9"/>
+  <text x="410" y="375.2" font-size="10.5" fill="currentColor" text-anchor="middle" opacity="0.8">4.3%</text>
+  <rect x="496" y="381.4" width="28" height="3.6" rx="2" fill="#0ea5e9"/>
+  <text x="510" y="375.4" font-size="10.5" fill="currentColor" text-anchor="middle" opacity="0.8">4.1%</text>
+  <rect x="596" y="312.6" width="28" height="72.4" rx="2" fill="#0ea5e9"/>
+  <text x="610" y="306.6" font-size="11" fill="currentColor" text-anchor="middle" font-weight="bold">82%</text>
+  <polygon points="564.6,390 553.6,412 575.6,412" fill="#f59e0b"/>
+  <text x="110" y="429" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 0</text>
+  <text x="210" y="429" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 1</text>
+  <text x="310" y="429" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 2</text>
+  <text x="410" y="429" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 3</text>
+  <text x="510" y="429" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 4</text>
+  <text x="610" y="429" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.7">year 5</text>
+  <text x="544.6" y="407" font-size="12" fill="#f59e0b" font-weight="bold" text-anchor="end">balance point: 4.55 years</text>
+  <text x="20" y="460" font-size="10.5" fill="currentColor" opacity="0.6">Bars show each payment's present value as a share of the price, at a 5% yield. Face value £100.</text>
+</svg>
+
+A **zero-coupon bond** pays nothing until it hands back its £100 at maturity, so all of the weight sits at the far end and the plank balances exactly there: a five-year zero-coupon bond has a duration of five years. A **coupon bond** also places smaller weights at every year along the way, and those early payments pull the balance point towards you. For a five-year bond paying 5%, the plank balances at about **4.55 years**. That balance point is the bond's true payback period.
+
+### Why the weights are present values
+
+To find the balance point exactly, you cannot simply stack up the raw payments. £5 received in five years is worth less today than £5 received next year, because you have to wait longer for it. So each payment is first converted to its **present value**: discounted at the bond's yield, which at 5% means dividing by 1.05 once for every year you wait.
+
+Here is the calculation for the five-year bond, with a 5% coupon and the market yield also at 5%, so that it trades at exactly £100:
+
+| Year | Payment | Present value at 5% | Share of the price | Year × share |
+| --- | --- | --- | --- | --- |
+| 1 | £5 | £4.76 | 4.76% | 0.048 |
+| 2 | £5 | £4.54 | 4.54% | 0.091 |
+| 3 | £5 | £4.32 | 4.32% | 0.130 |
+| 4 | £5 | £4.11 | 4.11% | 0.165 |
+| 5 | £105 (the final £5 and the £100 back) | £82.27 | 82.27% | 4.114 |
+| **Total** | | **£100.00** | **100%** | **4.55 years** |
+
+The present values add up to the price, and the last column adds up to the balance point: a **Macaulay duration of 4.55 years**. (The rows are rounded; unrounded, the total is 4.546.) Even on a bond this short, the coupons pull its centre of gravity nearly half a year earlier than its maturity.
+
+### From time to risk: modified duration
+
+Traders care about Macaulay duration, but they care far more about its close relative, which turns waiting time into price sensitivity. The conversion is a single division:
+
+> **Modified duration = Macaulay duration ÷ (1 + yield)**
+
+For our bond, 4.546 ÷ 1.05 = **4.33**. That number powers the rule of thumb worth memorising:
+
+> Modified duration tells you roughly what percentage a bond's price moves for each one-percentage-point change in yield, in the opposite direction.
+
+So if yields rise from 5% to 6%, duration predicts that the five-year bond falls about 4.33%, to roughly £95.67. Its true price is £95.79. If yields fall to 4%, duration predicts a rise to about £104.33, and the true price is £104.45. The estimate is close, and in both directions the real outcome is slightly kinder to the holder than predicted: a first glimpse of convexity, which comes next.
+
+For the three bonds in the table above:
+
+| Bond | Modified duration | Predicted move if yields rise 1 point | Actual move |
 | --- | --- | --- | --- |
 | 2-year, 5% coupon | 1.9 | −1.9% | −1.83% |
 | 10-year, 5% coupon | 7.7 | −7.7% | −7.36% |
 | 30-year, 5% coupon | 15.4 | −15.4% | −13.76% |
 
-The predictions are close, and they get less accurate the longer the bond: for a reason we are about to meet.
+The predictions get less accurate the longer the bond, for the same reason.
 
 ### Why the 10-year's duration is 7.7, not 10
 
-This is the detail that makes duration click, and most introductions skip it.
-
-You might expect a ten-year bond to have a duration of ten. It does not, and the reason is that you do not wait ten years for all of your money. You get £5 back after one year, another £5 after two, and so on. Only the final £105 arrives at year ten.
-
-Duration is the *average* time you wait for your money, weighting each payment by how much it is worth today. Those early coupons pull the average down below ten. So:
+The balance point explains the figure that surprises most people in that table. You might expect a ten-year bond to have a duration of ten. It does not, because you do not wait ten years for all of your money: £5 arrives every year, and only the final £105 arrives at year ten. Those early coupons pull the balance point back to about **8.1 years**, its Macaulay duration, and dividing by 1.05 gives the **7.7** of price sensitivity. So:
 
 - **A bond's duration is always less than its maturity**, unless it pays no coupons at all.
 - **The bigger the coupon, the shorter the duration**, because more of your money comes back early.
-- **A zero-coupon bond has a duration exactly equal to its maturity**, because there is only one payment and it arrives at the end.
+- **A zero-coupon bond's Macaulay duration is exactly its maturity**, because there is only one payment and it arrives at the end.
 
 That last point explains why the most violent bonds in existence are long-dated and low-coupon. Lesson 6 has a bond maturing in 2120 with a 0.85% coupon, whose price fell roughly 75% in three years.
+
+### What duration means in practice
+
+Duration is a measure of risk, and investors manage it deliberately. Someone who expects yields to rise **shortens duration**, moving into short bonds such as two-year government notes: the plank is short, the money comes back quickly, and a one-point rise in yields costs under 2%. The 30-year bond in the table would lose about 14% on the same move. Someone who expects yields to fall does the opposite and **extends duration** to capture a larger gain, a phrase Lesson 8 shows turning up in fund commentary.
 
 > **Duration is not maturity.** Two thirty-year bonds can behave completely differently if one pays a 7% coupon and the other pays 1%. When a fund or a bank reports its interest-rate exposure, duration is the number it reports, not average maturity.
 
@@ -220,7 +294,7 @@ That second circumstance is not a technicality. It is precisely what destroyed a
 
 - A bond is a tradable loan. Issuer, face value, coupon and maturity are fixed at issue; price and yield are set by the market and move continuously.
 - Price and yield move in **opposite directions**, because the coupon cannot change so the price must.
-- **Duration** measures the sensitivity and is always less than maturity for a coupon-paying bond. Long, low-coupon bonds are the most volatile things in the market.
+- **Duration** has two faces. **Macaulay duration** is the balance point of a bond's discounted payments, its true payback period; **modified duration** (Macaulay ÷ (1 + yield)) is the approximate percentage price move for a one-point change in yield. Both are less than maturity for a coupon-paying bond, and long, low-coupon bonds are the most volatile things in the market.
 - **Convexity** means gains slightly exceed losses for equal moves in yield.
 - Hold to maturity and the swings are irrelevant. Sell early, or mark to market, and they are everything.
 

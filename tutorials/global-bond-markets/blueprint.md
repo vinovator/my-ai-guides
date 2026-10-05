@@ -44,7 +44,7 @@ Anyone who reads financial news and wants the bond parts to stop being noise. No
 
 ### 1. [Anatomy and the Seesaw](lesson-01-anatomy-and-the-seesaw.md)
 
-What a bond actually is, the six words you need (issuer, face value, coupon, maturity, price, yield), and then the central mechanism: why price and yield move in opposite directions, how far they move, and why a 30-year bond swings eight times harder than a 2-year. Introduces **duration** and **convexity** from first principles, with a price table you can verify yourself.
+What a bond actually is, the six words you need (issuer, face value, coupon, maturity, price, yield), and then the central mechanism: why price and yield move in opposite directions, how far they move, and why a 30-year bond swings eight times harder than a 2-year. Introduces **duration** from first principles, both as the balance point of a bond's payments and as its price sensitivity, then **convexity**, with tables you can verify yourself.
 
 ### 2. [What Sets the Level of Yields](lesson-02-what-sets-the-level-of-yields.md)
 
