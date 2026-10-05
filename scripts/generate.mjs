@@ -1,5 +1,7 @@
-// Regenerates the two things that were hand-maintained and therefore drifted:
-// sitemap.xml, and the `minutes` reading time on every card in hub.js.
+// Regenerates the things that were hand-maintained and therefore drifted:
+// sitemap.xml, the `minutes` reading time on every card in hub.js, and the
+// pre-rendered catalogue inside index.html (so the served HTML lists every
+// guide for search engines, link previews and readers without JavaScript).
 //
 // The site has no build step and Cloudflare serves the repo as-is, so the
 // output is committed rather than produced at deploy time. Run this after
@@ -10,6 +12,7 @@
 
 import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from 'node:fs';
 import { join, basename } from 'node:path';
+import vm from 'node:vm';
 
 // macOS drops .DS_Store into content folders; never treat one as a tutorial.
 const dirsIn = (p) =>
@@ -75,6 +78,33 @@ hub = hub.replace(cardRe, (match, href, current) => {
     return match.replace(/minutes:\s*\d+/, `minutes: ${mins}`);
 });
 
+// ---- pre-rendered landing page -------------------------------------------
+// hub.js exposes its page fragments when it runs without a DOM. Run the
+// updated source (minutes included) and write each fragment between its
+// <!-- hub:NAME --> ... <!-- /hub:NAME --> markers in index.html.
+const indexPath = 'index.html';
+const indexBefore = readFileSync(indexPath, 'utf8');
+let index = indexBefore;
+{
+    const ctx = {};
+    vm.createContext(ctx);
+    vm.runInContext(hub, ctx);
+    const frags = ctx.__HUB_FRAGMENTS__;
+    if (!frags) {
+        problems.push('hub.js: did not expose __HUB_FRAGMENTS__');
+    } else {
+        for (const [name, html] of Object.entries(frags)) {
+            const re = new RegExp(`(<!-- hub:${name} -->)[\\s\\S]*?(<!-- /hub:${name} -->)`);
+            if (!re.test(index)) {
+                problems.push(`index.html: missing <!-- hub:${name} --> markers`);
+                continue;
+            }
+            index = index.replace(re, (m, open, close) => `${open}${html}${close}`);
+        }
+    }
+}
+if (index !== indexBefore) problems.push('index.html: pre-rendered catalogue is out of date');
+
 // ---- sitemap ------------------------------------------------------------
 const urls = [`${HOST}/`];
 for (const f of readdirSync('guides').sort()) {
@@ -107,9 +137,10 @@ if (check) {
         console.error('\nRun `node scripts/generate.mjs` and commit the result.');
         process.exit(1);
     }
-    console.log(`[generate --check] hub.js minutes and sitemap.xml (${urls.length} urls) are current`);
+    console.log(`[generate --check] hub.js minutes, index.html catalogue and sitemap.xml (${urls.length} urls) are current`);
 } else {
     if (hub !== before) writeFileSync(hubPath, hub);
+    if (index !== indexBefore) writeFileSync(indexPath, index);
     writeFileSync(sitemapPath, sitemap);
     console.log(`[generate] sitemap.xml: ${urls.length} urls`);
     if (problems.length) {

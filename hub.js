@@ -27,6 +27,8 @@
     //      lessons     multi-lesson tutorials only.
     //      updated     editorial date, YYYY-MM-DD; drives "Recently updated".
     //      tags        searchable, never rendered.
+    //      status      optional factual note shown with the entry, for a tool
+    //                  that has been renamed, replaced or retired.
     // ------------------------------------------------------------------------
 
     const CATEGORIES = [
@@ -63,6 +65,7 @@
             title: 'Semantic Kernel', href: 'guides/semantickernel.html',
             tags: ['Python', 'C#', 'Java', 'Enterprise SDK', 'Microsoft'],
             description: "Microsoft's SDK for connecting large language models to existing code through plugins, planners and memory.",
+            status: 'Microsoft now recommends Microsoft Agent Framework, its successor to Semantic Kernel and AutoGen (version 1.0, April 2026), for new projects.',
             updated: '2026-01-18', minutes: 9,
         },
         {
@@ -124,6 +127,7 @@
             title: 'AutoGen', href: 'guides/autogen.html',
             tags: ['Python', '.NET', 'Multi-agent chat', 'Microsoft'],
             description: 'Multi-agent conversation patterns and group-chat orchestration in Microsoft AutoGen.',
+            status: 'In maintenance mode since October 2025; succeeded by Microsoft Agent Framework.',
             updated: '2025-12-03', minutes: 1,
         },
         {
@@ -145,6 +149,7 @@
             title: 'Phidata', href: 'guides/phidata.html',
             tags: ['Python', 'Memory', 'Tools'],
             description: 'Agents with persistent memory and database-backed state in Phidata.',
+            status: 'Renamed Agno in January 2025; this sheet uses the earlier Phidata names.',
             updated: '2025-12-03', minutes: 1,
         },
         {
@@ -159,9 +164,11 @@
             title: 'Swarm', href: 'guides/swarm.html',
             tags: ['Python', 'OpenAI', 'Handoff pattern'],
             description: "OpenAI's experimental library for lightweight hand-offs between agents.",
+            status: 'Replaced by the OpenAI Agents SDK in March 2025; Swarm remains an educational example.',
             updated: '2025-12-03', minutes: 1,
         },
     ];
+
 
     // ------------------------------------------------------------------------
     // 2. Helpers
@@ -175,6 +182,7 @@
     const FORMAT_LABEL = Object.fromEntries(FORMATS.map(f => [f.key, f.label]));
     const FORMAT_ORDER = Object.fromEntries(FORMATS.map((f, i) => [f.key, i]));
     const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const SEP = '<span class="sep" aria-hidden="true"> · </span>';
 
     function escapeHtml(s) {
         return String(s)
@@ -201,14 +209,12 @@
     }
 
     function searchHay(card) {
-        return [
-            card.title, card.description, FORMAT_LABEL[card.format],
-            ...(card.tags || []), card.category,
-        ].join(' ').toLowerCase();
+        return [card.title, card.description, card.status || '', FORMAT_LABEL[card.format],
+            ...(card.tags || []), card.category].join(' ').toLowerCase();
     }
 
     // Newest first; on a tie, the card listed first in CARDS wins, so the
-    // order never depends on how the browser's sort treats equal dates.
+    // order never depends on how a sort treats equal dates.
     function byRecency(list) {
         return list
             .map(c => [c, CARDS.indexOf(c)])
@@ -216,60 +222,46 @@
             .map(([c]) => c);
     }
 
-    function cardsIn(cat) {
-        return CARDS.filter(c => c.category === cat.name);
-    }
-
-    function presentCategories() {
-        return CATEGORIES.map(cat => ({ cat, items: cardsIn(cat) })).filter(x => x.items.length);
-    }
-
-    const SEP = '<span class="text-gray-300 dark:text-gray-600" aria-hidden="true"> · </span>';
+    const cardsIn = cat => CARDS.filter(c => c.category === cat.name);
 
     // ------------------------------------------------------------------------
-    // 3. Entry markup
+    // 3. Markup
     //
-    //    `.hub-card`, `data-search`, `data-category` and `data-format` are the
-    //    hooks the filter keys off, so every entry carries them, including the
-    //    compact cheat-sheet links.
+    //    `.hub-card` with `data-search` and `data-format` are the filter's
+    //    hooks, so every entry carries them, cheat-sheet links included.
+    //    Classes are styled by landing.css.
     // ------------------------------------------------------------------------
 
-    function hooks(card) {
-        return `data-search="${escapeHtml(searchHay(card))}" data-category="${escapeHtml(card.category)}" data-format="${card.format}"`;
-    }
+    const hooks = card =>
+        `data-search="${escapeHtml(searchHay(card))}" data-format="${card.format}"`;
 
     function rowHtml(card) {
         const meta = [FORMAT_LABEL[card.format]];
         if (card.lessons && card.lessons > 1) meta.push(`${card.lessons} lessons`);
         const t = readingTime(card.minutes);
         if (t) meta.push(t);
+        const status = card.status
+            ? `<span class="entry-status"><b>Note:</b> ${escapeHtml(card.status)}</span>` : '';
         return `
-            <li class="hub-card border-t border-gray-200 dark:border-gray-800" ${hooks(card)}>
-                <a href="${escapeHtml(card.href)}" class="group block py-4 sm:grid sm:grid-cols-[1fr_15rem] sm:gap-8">
-                    <span class="block">
-                        <span class="block text-base sm:text-[17px] font-semibold text-gray-900 dark:text-gray-100 group-hover:text-blue-700 dark:group-hover:text-blue-400 group-hover:underline underline-offset-2">${escapeHtml(card.title)}</span>
-                        <span class="block mt-1 text-[15px] text-gray-600 dark:text-gray-400 leading-relaxed">${escapeHtml(card.description)}</span>
-                    </span>
-                    <span class="block mt-2 sm:mt-1 sm:text-right text-sm text-gray-500 dark:text-gray-400 tabular">
-                        <span class="block">${meta.map(escapeHtml).join(' · ')}</span>
-                        <span class="block">Updated ${formatDate(card.updated)}</span>
-                    </span>
-                </a>
-            </li>`;
+<li class="entry hub-card" ${hooks(card)}><a href="${escapeHtml(card.href)}">
+<span><span class="entry-title">${escapeHtml(card.title)}</span><span class="entry-desc">${escapeHtml(card.description)}</span>${status}</span>
+<span class="entry-meta tabular"><span>${meta.map(escapeHtml).join(' · ')}</span><span>Updated ${formatDate(card.updated)}</span></span>
+</a></li>`;
     }
 
-    // Cheat sheets are one page each, so they share a single line rather than
-    // taking a full row apiece.
+    // Cheat sheets share one line. Each separator sits in the same no-wrap
+    // span as the link before it, so a line never starts with a dot. Notes
+    // for renamed or replaced tools follow the line, keyed to their link.
     function sheetsHtml(cards) {
         if (!cards.length) return '';
-        // Each separator sits in the same no-wrap span as the link before it,
-        // so a line never starts with a dot.
-        const links = cards.map((c, i) => `<span class="whitespace-nowrap"><a href="${escapeHtml(c.href)}" class="hub-card text-gray-900 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-400 underline decoration-gray-300 dark:decoration-gray-600 underline-offset-2 hover:decoration-current" ${hooks(c)}>${escapeHtml(c.title)}</a>${i < cards.length - 1 ? '<span class="hub-sep text-gray-300 dark:text-gray-600" aria-hidden="true"> · </span>' : ''}</span>`);
+        const links = cards.map((c, i) =>
+            `<span class="sheet"><a href="${escapeHtml(c.href)}" class="hub-card" ${hooks(c)}>${escapeHtml(c.title)}</a>${
+                i < cards.length - 1 ? '<span class="sep hub-sep" aria-hidden="true"> · </span>' : ''}</span>`);
+        const notes = cards.filter(c => c.status).map(c =>
+            `<span class="sheet-note" data-note-for="${escapeHtml(c.href)}"><b>${escapeHtml(c.title)}:</b> ${escapeHtml(c.status)}</span>`);
         return `
-            <li class="hub-sheets border-t border-gray-200 dark:border-gray-800 py-4 text-[15px] leading-loose">
-                <span class="text-gray-600 dark:text-gray-400">Cheat sheets, one page each:</span>
-                ${links.join(' ')}
-            </li>`;
+<li class="sheets hub-sheets"><span class="sheets-label">Cheat sheets, one page each:</span> ${links.join(' ')}${
+            notes.length ? `<span class="sheet-notes">${notes.join('')}</span>` : ''}</li>`;
     }
 
     function sectionHtml(cat, cards) {
@@ -279,131 +271,114 @@
         const full = sorted.filter(c => c.format !== 'reference');
         const sheets = sorted.filter(c => c.format === 'reference').sort((a, b) => a.title.localeCompare(b.title));
         return `
-            <section id="${id}" class="hub-section mt-6 mb-14 pt-6 border-t-[3px] border-gray-900 dark:border-gray-200" data-category="${escapeHtml(cat.name)}" aria-labelledby="${id}-h">
-                <div class="flex items-baseline gap-3">
-                    <h2 id="${id}-h" class="text-2xl sm:text-3xl font-bold tracking-tight text-gray-900 dark:text-white">${escapeHtml(cat.name)}</h2>
-                    <span class="text-sm sm:text-base text-gray-500 dark:text-gray-400 tabular hub-section-count">${cards.length}</span>
-                </div>
-                <p class="mt-2 mb-4 text-base text-gray-600 dark:text-gray-400">${escapeHtml(cat.blurb)}</p>
-                <ul class="border-b border-gray-200 dark:border-gray-800">${full.map(rowHtml).join('')}${sheetsHtml(sheets)}</ul>
-            </section>`;
+<section id="${id}" class="subject hub-section" aria-labelledby="${id}-h">
+<div class="subject-head"><h2 id="${id}-h">${escapeHtml(cat.name)}</h2><span class="subject-count tabular hub-section-count" data-total="${cards.length}">${cards.length}</span></div>
+<p class="subject-blurb">${escapeHtml(cat.blurb)}</p>
+<ul class="entries">${full.map(rowHtml).join('')}${sheetsHtml(sheets)}
+</ul>
+</section>`;
     }
 
     // ------------------------------------------------------------------------
-    // 4. Page furniture
+    // 4. Fragments
+    //
+    //    Every dynamic part of the page, as HTML strings keyed by element id.
+    //    scripts/generate.mjs runs this file in Node and writes the fragments
+    //    into index.html, so the catalogue is in the served HTML for search
+    //    engines, link previews and readers without JavaScript. In the browser
+    //    the same fragments are only injected if that pre-render is missing.
     // ------------------------------------------------------------------------
 
-    function renderStats() {
-        const slot = document.getElementById('library-stats');
-        if (!slot) return;
+    function fragments() {
         const mins = CARDS.reduce((n, c) => n + (c.minutes || 0), 0);
         const dives = CARDS.filter(c => c.format === 'deep-dive').length;
-        slot.innerHTML = [
-            `${CARDS.length} guides`,
-            `${dives} deep dives`,
-            `about ${Math.round(mins / 60)} hours of reading`,
-        ].join(SEP);
+        const recent = byRecency(CARDS.filter(c => c.updated)).slice(0, 3);
+        const present = CATEGORIES.filter(cat => cardsIn(cat).length);
+        return {
+            'masthead-topics': present.map(cat =>
+                `<a href="#${slugifyCategory(cat.name)}">${escapeHtml(cat.name)}</a>`).join(''),
+            'library-stats': [`${CARDS.length} guides`, `${dives} deep dives`,
+                `about ${Math.round(mins / 60)} hours of reading`].join(SEP),
+            'format-key': FORMATS.map(f => `<span><b>${f.label}:</b> ${f.note}</span>`).join(''),
+            'recent': `<h2>Recently updated</h2><ul>${recent.map(c =>
+                `<li><a href="${escapeHtml(c.href)}">${escapeHtml(c.title)}</a>${SEP}${FORMAT_LABEL[c.format]}${SEP}<span class="tabular">${formatDate(c.updated, true)}</span></li>`).join('')}</ul>`,
+            'format-buttons': [{ key: 'all', plural: 'All' }, ...FORMATS].map(f => {
+                const n = f.key === 'all' ? CARDS.length : CARDS.filter(c => c.format === f.key).length;
+                return `<button type="button" class="fmt-btn" data-format-filter="${f.key}" aria-pressed="${f.key === 'all'}">${f.plural} <span class="count tabular">${n}</span></button>`;
+            }).join(''),
+            'hub': CATEGORIES.map(cat => sectionHtml(cat, cardsIn(cat))).join(''),
+        };
     }
 
-    function renderFormatKey() {
-        const slot = document.getElementById('format-key');
-        if (!slot) return;
-        slot.innerHTML = FORMATS.map(f =>
-            `<span class="inline-block mr-5"><span class="font-medium text-gray-700 dark:text-gray-300">${f.label}:</span> ${f.note}</span>`
-        ).join('');
-    }
-
-    function renderRecent() {
-        const slot = document.getElementById('recent');
-        if (!slot) return;
-        const items = byRecency(CARDS.filter(c => c.updated)).slice(0, 3);
-        slot.innerHTML = `
-            <h2 class="text-sm font-semibold text-gray-900 dark:text-gray-100">Recently updated</h2>
-            <ul class="mt-2 space-y-1.5">${items.map(c => `
-                <li class="text-[15px]">
-                    <a href="${escapeHtml(c.href)}" class="font-medium text-blue-700 dark:text-blue-400 hover:underline underline-offset-2">${escapeHtml(c.title)}</a>
-                    <span class="text-gray-500 dark:text-gray-400">${SEP}${FORMAT_LABEL[c.format]}${SEP}<span class="tabular">${formatDate(c.updated, true)}</span></span>
-                </li>`).join('')}
-            </ul>`;
-    }
-
-    function renderMastheadTopics() {
-        const slot = document.getElementById('masthead-topics');
-        if (!slot) return;
-        slot.innerHTML = presentCategories().map(({ cat }) => `
-            <a href="#${slugifyCategory(cat.name)}"
-               class="inline-flex items-center py-3 lg:py-0 text-gray-600 dark:text-gray-300 hover:text-blue-700 dark:hover:text-blue-400 transition-colors whitespace-nowrap">${escapeHtml(cat.name)}</a>
-        `).join('');
-    }
-
-    function renderFormatButtons() {
-        const slot = document.getElementById('format-buttons');
-        if (!slot) return;
-        const opts = [{ key: 'all', plural: 'All' }, ...FORMATS];
-        slot.innerHTML = opts.map(f => {
-            const n = f.key === 'all' ? CARDS.length : CARDS.filter(c => c.format === f.key).length;
-            return `<button type="button" data-format-filter="${f.key}" aria-pressed="${f.key === 'all'}"
-                class="fmt-btn px-3 py-2.5 lg:py-1.5 text-sm rounded-md border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-500 dark:hover:border-gray-400">${f.plural} <span class="tabular text-gray-500 dark:text-gray-400">${n}</span></button>`;
-        }).join('');
-    }
-
-    function renderIndex() {
-        const root = document.getElementById('hub');
-        if (!root) return;
-        root.innerHTML = CATEGORIES.map(cat => sectionHtml(cat, cardsIn(cat))).join('');
+    // Node (scripts/generate.mjs): hand over the fragments and stop.
+    if (typeof document === 'undefined') {
+        globalThis.__HUB_FRAGMENTS__ = fragments();
+        return;
     }
 
     // ------------------------------------------------------------------------
-    // 5. Filter: format buttons and text search combine
+    // 5. Filter: format buttons and search combine, and the state is kept in
+    //    the address (?format=deep-dive&q=bond) so a filtered view can be
+    //    shared or bookmarked.
     // ------------------------------------------------------------------------
+
+    const VALID_FORMATS = new Set(['all', ...FORMATS.map(f => f.key)]);
 
     function setupFilter() {
         const input = document.getElementById('card-filter');
         const empty = document.getElementById('filter-empty');
         const status = document.getElementById('filter-status');
-        const buttons = document.querySelectorAll('[data-format-filter]');
-        let format = 'all';
+        const buttons = [...document.querySelectorAll('[data-format-filter]')];
+        const params = new URLSearchParams(location.search);
+        let format = VALID_FORMATS.has(params.get('format')) ? params.get('format') : 'all';
+        if (input && params.get('q')) input.value = params.get('q');
+
+        function syncUrl(q) {
+            const p = new URLSearchParams(location.search);
+            format === 'all' ? p.delete('format') : p.set('format', format);
+            q ? p.set('q', q) : p.delete('q');
+            const qs = p.toString();
+            history.replaceState(null, '', location.pathname + (qs ? '?' + qs : '') + location.hash);
+        }
 
         function apply() {
-            const q = input ? input.value.toLowerCase().trim() : '';
+            const raw = input ? input.value.trim() : '';
+            const q = raw.toLowerCase();
+            const filtering = q || format !== 'all';
             let visibleTotal = 0;
+            buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.formatFilter === format)));
             document.querySelectorAll('.hub-section').forEach(section => {
-                let visibleInSection = 0;
+                let visible = 0;
                 section.querySelectorAll('.hub-card').forEach(card => {
                     const match = (!q || card.dataset.search.includes(q)) && (format === 'all' || card.dataset.format === format);
                     card.hidden = !match;
-                    if (match) { visibleInSection++; visibleTotal++; }
+                    if (match) visible++;
                 });
-                // The cheat-sheet line hides when none of its links match, and
-                // its separators follow the links that remain.
                 section.querySelectorAll('.hub-sheets').forEach(line => {
                     const links = [...line.querySelectorAll('.hub-card')];
-                    const shown = links.filter(a => !a.hidden);
-                    line.hidden = shown.length === 0;
+                    line.hidden = links.every(a => a.hidden);
                     line.querySelectorAll('.hub-sep').forEach((sep, i) => {
                         sep.hidden = links[i].hidden || links.slice(i + 1).every(a => a.hidden);
                     });
+                    line.querySelectorAll('[data-note-for]').forEach(note => {
+                        const link = links.find(a => a.getAttribute('href') === note.dataset.noteFor);
+                        note.hidden = !link || link.hidden;
+                    });
                 });
                 const counter = section.querySelector('.hub-section-count');
-                const total = section.querySelectorAll('.hub-card').length;
-                if (counter) counter.textContent = (q || format !== 'all') ? `${visibleInSection} of ${total}` : total;
-                section.hidden = visibleInSection === 0;
+                if (counter) counter.textContent = filtering ? `${visible} of ${counter.dataset.total}` : counter.dataset.total;
+                section.hidden = visible === 0;
+                visibleTotal += visible;
             });
-            const filtering = q || format !== 'all';
             if (status) status.textContent = filtering ? `Showing ${visibleTotal} of ${CARDS.length}` : '';
             if (empty) empty.hidden = visibleTotal > 0;
+            syncUrl(raw);
         }
 
-        buttons.forEach(btn => btn.addEventListener('click', () => {
-            format = btn.dataset.formatFilter;
-            buttons.forEach(b => b.setAttribute('aria-pressed', String(b === btn)));
-            apply();
-        }));
+        buttons.forEach(btn => btn.addEventListener('click', () => { format = btn.dataset.formatFilter; apply(); }));
         if (input) {
             input.addEventListener('input', apply);
-            input.addEventListener('keydown', e => {
-                if (e.key === 'Escape') { input.value = ''; apply(); }
-            });
+            input.addEventListener('keydown', e => { if (e.key === 'Escape') { input.value = ''; apply(); } });
         }
         apply();
     }
@@ -413,12 +388,15 @@
     // ------------------------------------------------------------------------
 
     function init() {
-        renderStats();
-        renderFormatKey();
-        renderRecent();
-        renderMastheadTopics();
-        renderFormatButtons();
-        renderIndex();
+        const root = document.getElementById('hub');
+        // index.html ships pre-rendered; render only if that output is absent.
+        if (root && !root.querySelector('.hub-section')) {
+            const f = fragments();
+            Object.keys(f).forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = f[id];
+            });
+        }
         setupFilter();
     }
 

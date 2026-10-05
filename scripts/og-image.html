@@ -1,0 +1,51 @@
+<!doctype html>
+<!--
+  Source for og-image.png, the 1200x630 social preview image. Social networks
+  do not render SVG previews, so the PNG is generated from this page:
+
+    "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome" --headless=new \
+      --hide-scrollbars --window-size=1200,630 \
+      --screenshot=og-image.png "file://$PWD/scripts/og-image.html"
+
+  Run from the repo root. Keep the wording in line with the landing page.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<style>
+  html, body { margin: 0; width: 1200px; height: 630px; overflow: hidden; }
+  body {
+    background: #ffffff;
+    color: #111827;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 72px 80px;
+    box-sizing: border-box;
+    border-top: 12px solid #111827;
+  }
+  .top { display: flex; align-items: center; gap: 20px; }
+  .top img { width: 72px; height: 72px; border-radius: 14px; border: 1px solid #e5e7eb; }
+  .crumb { font-size: 30px; color: #6b7280; }
+  .crumb b { color: #111827; font-weight: 600; }
+  h1 { margin: 0; font-size: 96px; font-weight: 700; letter-spacing: -0.02em; }
+  p { margin: 18px 0 0; font-size: 36px; line-height: 1.35; color: #374151; max-width: 980px; }
+  .foot { display: flex; justify-content: space-between; font-size: 26px; color: #6b7280; border-top: 2px solid #e5e7eb; padding-top: 24px; }
+</style>
+</head>
+<body>
+  <div class="top">
+    <img src="../favicon.svg" alt="">
+    <span class="crumb">Vinoth Haldorai / <b>Guides</b></span>
+  </div>
+  <div>
+    <h1>Guides</h1>
+    <p>In-depth guides on AI engineering and on finance and economics. Each one starts from the basics.</p>
+  </div>
+  <div class="foot">
+    <span>Deep dives · Guides · Cheat sheets</span>
+    <span>guides.vinothhaldorai.com</span>
+  </div>
+</body>
+</html>

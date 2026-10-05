@@ -1,7 +1,7 @@
 # Guides
 
-In-depth guides on AI engineering and on finance and economics, written by Vinoth Haldorai. Each one
-starts from the basics and builds up step by step. Free to read, no sign-up.
+In-depth guides on AI engineering and on finance and economics. Each one starts from the basics and
+builds up step by step.
 
 The library has about 10 hours of reading in 16 guides: five deep dives (graph databases and
 GraphRAG, global bond markets, commodity markets, Japan's economy, investment valuation), five

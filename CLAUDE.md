@@ -12,13 +12,15 @@ Top-level layout:
 
 ```
 .
-├── index.html         # the hub (entry point)
-├── hub.js             # landing registry + editorial renderer + filter + sticky nav
+├── index.html         # the landing page; its catalogue is pre-rendered by scripts/generate.mjs
+├── hub.js             # landing registry (CARDS) + renderer + format/search filter
+├── landing.css        # plain-CSS stylesheet for index.html and 404.html (no Tailwind there)
+├── 404.html           # branded not-found page; absolute URLs, noindex
 ├── tutorial.html      # shared viewer that renders any tutorial folder
 ├── site.css           # shared a11y primitives + the mobile drawer shell (every page)
 ├── nav.js             # mobile off-canvas drawer controller (every page)
 ├── theme.js           # shared dark/light toggle (every page)
-├── og-image.svg       # social-share image referenced by og:image
+├── og-image.png       # 1200x630 social preview, built from scripts/og-image.html
 ├── guides/            # framework guides — one .html per framework
 │   ├── autogen.html
 │   ├── crewai.html
@@ -165,10 +167,32 @@ colour (blue) for links and the active filter. No icon font: the three icons are
 is factual and in sentence case; describe what a piece covers, not how good it is. The guide pages
 and the tutorial viewer still declare Inter (never actually loaded), pending a site-wide pass.
 
+**No Tailwind on the landing page.** `index.html` and `404.html` are styled by `landing.css` (plain
+CSS with light and dark tokens keyed to `html.dark`), after the shared `site.css`. The Play CDN is
+about 400 KB of JavaScript and was the page's largest download; the guide pages and the tutorial
+viewer still use it. Do not add Tailwind classes to `hub.js` templates; add rules to `landing.css`
+and bump its `?v=`.
+
+**The catalogue is pre-rendered.** Every dynamic region of `index.html` sits between
+`<!-- hub:NAME -->` and `<!-- /hub:NAME -->` markers. `scripts/generate.mjs` runs `hub.js` in Node,
+where it exposes `fragments()` instead of touching the DOM, and writes each fragment between its
+markers, so the served HTML lists every guide for search engines, link previews and readers
+without JavaScript. In the browser `hub.js` only re-renders if that output is missing, then wires
+up the filter. CI's `generate --check` fails if the pre-render is stale, so after editing `CARDS`
+always run the generator. Never edit inside the markers by hand.
+
+**Filter state lives in the address.** `?format=deep-dive|guide|reference` and `?q=…` are read on
+load and kept current with `history.replaceState`, so a filtered view can be shared; the 404 page
+links to `?format=deep-dive`.
+
+**Social preview.** `og:image` must be a PNG or JPEG (social networks ignore SVG), and
+`scripts/check-site.mjs` enforces it. To change the image, edit `scripts/og-image.html` and run the
+command in its header comment.
+
 - **Adding anything** = append one object to `CARDS` in `hub.js`. Don't paste markup.
 - **After editing `hub.js`, bump the cache-buster query in `index.html`**: the `<script src="hub.js?v=…">` tag near the end of `index.html` includes a `?v=` parameter so visitors with a stale 10-minute Pages cache pick up the change on their next visit. Any value distinct from the previous one works.
 - **Card shape**: `{ type, format, category, title, href, tags, description, updated, minutes }`,
-  plus `lessons: N` for multi-lesson deep dives.
+  plus `lessons: N` for multi-lesson deep dives and an optional `status`.
   - `type: 'guide' | 'tutorial'` is **routing only**: `guides/<file>.html` vs `tutorial.html?slug=`.
   - `format: 'deep-dive' | 'guide' | 'reference'` sets the label, the order within a section
     (deep dives, then guides, then cheat sheets) and the format filter. `reference` items render on
@@ -181,13 +205,14 @@ and the tutorial viewer still declare Inter (never actually loaded), pending a s
     recent items (ties broken by order in `CARDS`) form "Recently updated".
   - `tags` are **searchable but never rendered**.
   - `description` is one factual sentence on what the piece covers. No slogans or superlatives.
+  - `status` is an optional factual note for a tool that has been renamed, replaced or retired
+    (AutoGen, Semantic Kernel, Phidata and Swarm carry one). It shows as "Note:" on the row, or
+    under the cheat-sheet line. Put a matching dated `<aside role="note">` at the top of the guide
+    page itself, since many readers arrive there from search.
 - **Category = subject, never format.** Must match a `CATEGORIES[*].name` exactly; empty categories
   don't render. Today: `AI engineering` and `Finance and economics`. Each entry is
   `{ name, accent, blurb }`; keep the `accent` field even though every subject uses blue, because
   `scripts/check-site.mjs` finds category names through it. A new subject is just a new entry.
-- **Dynamic Tailwind classes**: classes emitted only by `hub.js` must also appear in the hidden
-  `<div hidden>` marker block in `index.html`, so the Play CDN generates them on first paint. If you
-  add a class in a `hub.js` template, add it there too.
 
 ### Adding a new guide
 
@@ -197,8 +222,8 @@ and the tutorial viewer still declare Inter (never actually loaded), pending a s
 3. Append one entry to `CARDS` in `hub.js` with `type:'guide'`, the right `format` (`'guide'` for
    real prose, `'reference'` for a one-page cheat sheet), its subject `category`, `minutes`,
    `updated`, `tags` and a one-sentence factual `description`.
-4. Run `node scripts/generate.mjs` (fills in `minutes`, rewrites `sitemap.xml`) and
-   `node scripts/check-site.mjs`, then bump `hub.js?v=` in `index.html`.
+4. Run `node scripts/generate.mjs` (fills in `minutes`, re-renders the catalogue in `index.html`,
+   rewrites `sitemap.xml`) and `node scripts/check-site.mjs`, then bump `hub.js?v=` in `index.html`.
 5. Add a bullet to `README.md` under "Guides and cheat sheets" with the published GitHub Pages URL
    (`/guides/<name>.html`).
 
@@ -292,19 +317,20 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
 
 ## Checks and generated files
 
-Two files are generated and committed, because Cloudflare Pages serves this repo exactly as
+Three things are generated and committed, because Cloudflare Pages serves this repo exactly as
 committed and there is no build step:
 
 ```bash
-node scripts/generate.mjs           # sitemap.xml + the `minutes` on every card in hub.js
-node scripts/generate.mjs --check   # fail if either has drifted (what CI runs)
+node scripts/generate.mjs           # sitemap.xml, `minutes` in hub.js, the catalogue in index.html
+node scripts/generate.mjs --check   # fail if any has drifted (what CI runs)
 node scripts/check-site.mjs         # structural invariants
 ```
 
 `check-site.mjs` asserts: every page has a viewport meta, the brand favicon, `site.css`,
 `theme.js`, a non-empty title, a skip link and an `#main` target; every page has a canonical on
 `guides.vinothhaldorai.com` (`tutorial.html` sets its own in JS, since each lesson is a distinct
-URL); every Font Awesome icon carries `aria-hidden`; every card in `hub.js` points at a file or
+URL, and `404.html` must instead be `noindex` with only absolute URLs); `og:image` is a PNG or
+JPEG that exists; every Font Awesome icon carries `aria-hidden`; every card in `hub.js` points at a file or
 tutorial that exists and uses a category that is defined; every `blueprint.md` lesson link
 resolves; every slide image has its `-800` and `-1200` siblings; and every markdown image
 resolves and has alt text.
