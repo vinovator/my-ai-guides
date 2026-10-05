@@ -1,11 +1,12 @@
 # Guides
 
-Long-form guides on things worth understanding properly. Each piece starts from zero and goes all
-the way down — no prerequisites assumed, no hand-waving at the hard part.
+In-depth guides on AI engineering and on finance and economics, written by Vinoth Haldorai. Each one
+starts from the basics and builds up step by step. Free to read, no sign-up.
 
-Currently ~10 hours of reading across five deep dives (graph databases and GraphRAG, global bond
-markets, commodity markets, Japan's economy, investment valuation), five framework guides, and six one-page cheat sheets.
-The library is organised by topic, not by format, so new subjects can be added without reshaping it.
+The library has about 10 hours of reading in 16 guides: five deep dives (graph databases and
+GraphRAG, global bond markets, commodity markets, Japan's economy, investment valuation), five
+framework guides and six one-page cheat sheets. It is organised by subject, with format shown as a
+label, so new subjects can be added without reshaping it.
 
 ## 🚀 **[View the Live Site](https://guides.vinothhaldorai.com/)**
 
@@ -43,8 +44,8 @@ Deep dives are authored in plain Markdown, each in a folder under `tutorials/`. 
 - **Prism.js**: Syntax highlighting in guides and tutorials.
 - **marked + DOMPurify**: Client-side Markdown rendering for tutorials.
 - **Responsive and accessible**: every page works from 360px up. Below 1024px the sidebar becomes
-  an off-canvas drawer (`nav.js`); shared accessibility primitives — skip links, focus rings,
-  44px touch targets, scrollable tables — live in `site.css`.
+  an off-canvas drawer (`nav.js`). Shared accessibility primitives (skip links, focus rings,
+  44px touch targets and scrollable tables) live in `site.css`.
 
 ## 📄 License
 

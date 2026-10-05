@@ -141,64 +141,53 @@ Every guide must include a **"Guides"** back link (`href="../index.html"`) in it
 `index.html` does NOT contain hand-authored entry markup. Every entry is one object in the `CARDS`
 array inside `hub.js`; a renderer in the same file builds the page at load from `CATEGORIES` + `CARDS`.
 
-**The landing page is an editorial index, not a card dashboard.** Its structure, top to bottom:
+**The landing page is a catalogue.** It says plainly what the site is, then lists everything in it.
+Its structure, top to bottom:
 
 ```
-masthead        Vinoth Haldorai / Guides · topic links · toggle  (sticky; links md+)
-topic bar       topic pills, slides in on scroll          (fixed, reserves no space)
-statement       what the site is, + library stats
-topic index     "Browse by topic" tiles: count, blurb, reading time
-featured        most recent deep dive                     (derived, never hand-flagged)
-filter          live search over the whole library
-topic sections  AI Engineering, Finance — typographic lists
-quick reference compact chips for the one-page cheat sheets
+masthead          Vinoth Haldorai / Guides · subject links (md+) · theme toggle   (sticky)
+statement         "Guides", one factual paragraph, computed stats, the format key
+recently updated  the three most recently updated items, with dates
+controls          format buttons (All, Deep dives, Guides, Cheat sheets) + search
+subject sections  AI engineering, Finance and economics: one row per item
+                  (title, description, format · lessons · length, "Updated Mon YYYY");
+                  cheat sheets share one line at the end of their section
 ```
 
-**The topic index and the masthead links exist for one reason: breadth.** An editorial
-page leads with a single piece, which measured out to *no topic heading visible in the
-first screen at any width* — on a site whose whole claim is that it covers any subject.
-`renderMastheadTopics()` and `renderTopicIndex()` fix that, and the featured block is
-deliberately kept compact so they fit. If you make the featured block taller again,
-re-measure where the topic index lands.
+Each subject appears once as navigation (the masthead links) and once as a heading. There is no
+featured card, no topic tiles and no sticky topic bar; they were removed in October 2026 because
+they repeated the subjects four times and gave one item a different treatment from the rest.
 
-Weight on the page follows depth of the piece. That is the whole editorial premise: a 174-minute
-deep dive and a 2-minute cheat sheet must not look alike. Before adding a visual flourish, check it
-does not flatten that hierarchy.
+**Style rules for this page.** One typeface, the system sans-serif stack (`system-ui, -apple-system,
+"Segoe UI", Roboto, "Helvetica Neue", Arial`), with hierarchy from size and weight only: no serif
+display face, no uppercase tracked labels, no hover arrows, no large rounded cards. One accent
+colour (blue) for links and the active filter. No icon font: the three icons are inline SVG. Copy
+is factual and in sentence case; describe what a piece covers, not how good it is. The guide pages
+and the tutorial viewer still declare Inter (never actually loaded), pending a site-wide pass.
 
 - **Adding anything** = append one object to `CARDS` in `hub.js`. Don't paste markup.
-- **After editing `hub.js`, bump the cache-buster query in `index.html`**: the `<script src="hub.js?v=YYYY-MM-DD">` tag near the end of `index.html` includes a `?v=` parameter so visitors with a stale 10-minute Pages cache pick up the new card on their next visit. Update the date string (any value distinct from the previous one works) whenever you change `hub.js`. Without this, returning users may see the old card list until their browser revalidates.
+- **After editing `hub.js`, bump the cache-buster query in `index.html`**: the `<script src="hub.js?v=…">` tag near the end of `index.html` includes a `?v=` parameter so visitors with a stale 10-minute Pages cache pick up the change on their next visit. Any value distinct from the previous one works.
 - **Card shape**: `{ type, format, category, title, href, tags, description, updated, minutes }`,
   plus `lessons: N` for multi-lesson deep dives.
-  - `type: 'guide' | 'tutorial'` is **routing only** — `guides/<file>.html` vs `tutorial.html?slug=`.
-  - `format: 'deep-dive' | 'guide' | 'reference'` is **presentation only** — it sets the label in the
-    meta line, which section the entry lands in, and whether it renders as a full row or a compact
-    chip. Keeping the two apart means a deep dive can one day be a plain HTML page, and a
-    single-file tutorial can still be a deep dive.
+  - `type: 'guide' | 'tutorial'` is **routing only**: `guides/<file>.html` vs `tutorial.html?slug=`.
+  - `format: 'deep-dive' | 'guide' | 'reference'` sets the label, the order within a section
+    (deep dives, then guides, then cheat sheets) and the format filter. `reference` items render on
+    the shared cheat-sheet line rather than as rows.
   - `minutes: N` is **generated**, not hand-written. Run `node scripts/generate.mjs` after
     editing content and commit the result; CI fails if it has drifted. It counts visible words
     at 220 wpm, excluding `<script>` and `<style>` (and, in deep dives, inline `<svg>` figures,
     whose coordinates would otherwise count as words), and rounds up so it never undersells.
-  - `tags` are **searchable but never rendered** in the lists — they feed the filter without adding
-    visual noise. Only the featured block shows a few.
-  - There is **no per-card accent**. Accent lives on the category (see below).
-- **Category = topic, not format.** Must match a `CATEGORIES[*].name` exactly; empty categories
-  don't render. Today: `AI Engineering` (indigo), `Finance` (amber), `Quick reference` (gray).
-  The first two are subject domains so the site can grow into any topic; `Quick reference` is the
-  one deliberate exception — a depth bucket that keeps six 2-minute cheat sheets from crowding out
-  the deep dives. Each `CATEGORIES` entry carries `{ name, accent, blurb }` and optionally
-  `compact: true` to render chips instead of rows.
-- **Featured is derived, not flagged.** `featuredCard()` picks the most recently `updated` card with
-  `format: 'deep-dive'`. Never add a `featured: true` field — it will go stale the moment you publish
-  something newer. The featured piece **also appears in its topic list**: it was suppressed once to
-  avoid repeating itself, but that made the section count disagree with the masthead and the topic
-  index, which count the real total (Finance read "2" at the top and "1" at the bottom). The featured
-  block is a second treatment of the piece, not a replacement for its index entry, so every count
-  now agrees.
-- **Dynamic Tailwind classes**: accent-derived classes are emitted at render time, so a hidden
-  `<div hidden>` marker block in `index.html` lists them for the CDN scanner. It is now small
-  (indigo, amber, gray) because accents are per topic. **When you add a category with a new accent,
-  extend that marker block** with its `text-`, `hover:text-`, `group-hover:text-`, `hover:border-`
-  and `dark:` variants.
+  - `updated` is an editorial date. Every row shows it as "Updated Mon YYYY", and the three most
+    recent items (ties broken by order in `CARDS`) form "Recently updated".
+  - `tags` are **searchable but never rendered**.
+  - `description` is one factual sentence on what the piece covers. No slogans or superlatives.
+- **Category = subject, never format.** Must match a `CATEGORIES[*].name` exactly; empty categories
+  don't render. Today: `AI engineering` and `Finance and economics`. Each entry is
+  `{ name, accent, blurb }`; keep the `accent` field even though every subject uses blue, because
+  `scripts/check-site.mjs` finds category names through it. A new subject is just a new entry.
+- **Dynamic Tailwind classes**: classes emitted only by `hub.js` must also appear in the hidden
+  `<div hidden>` marker block in `index.html`, so the Play CDN generates them on first paint. If you
+  add a class in a `hub.js` template, add it there too.
 
 ### Adding a new guide
 
@@ -206,8 +195,8 @@ does not flatten that hierarchy.
    refresher) and the shared mobile shell above.
 2. Leave `minutes` at any value; step 4 fills it in.
 3. Append one entry to `CARDS` in `hub.js` with `type:'guide'`, the right `format` (`'guide'` for
-   real prose, `'reference'` for a one-page cheat sheet), a topic `category`, `minutes`, `updated`,
-   `tags` and a one-sentence `description`. No accent — the category owns that.
+   real prose, `'reference'` for a one-page cheat sheet), its subject `category`, `minutes`,
+   `updated`, `tags` and a one-sentence factual `description`.
 4. Run `node scripts/generate.mjs` (fills in `minutes`, rewrites `sitemap.xml`) and
    `node scripts/check-site.mjs`, then bump `hub.js?v=` in `index.html`.
 5. Add a bullet to `README.md` under "Guides and cheat sheets" with the published GitHub Pages URL
@@ -218,13 +207,15 @@ the old landing page misrepresent the library.
 
 ## Landing page interactivity (`hub.js`)
 
-The hub has more than card rendering. Each of these lives in `hub.js`:
-
-- **Live filter** (`#card-filter`): substring match over title/description/format/tags/category, with per-section counters and an empty state. Esc clears. It keys off `.hub-card` + `data-search`, so **every entry template must keep those hooks** — list rows and compact chips alike.
-- **Sticky topic nav** (`#sticky-nav`): pill bar that slides in below the masthead once you scroll past it. One pill per non-empty category.
-- **Featured block** (`#featured`): the most recent deep dive, derived by `featuredCard()`. Hidden while a filter query is active, because it is an editorial choice rather than a search result.
-- **Library stats** (`#library-stats`): piece count, deep-dive count and total reading time, computed from `minutes`.
-- **Dark mode** (`#theme-toggle`): class-based, persisted in `localStorage` under the key `theme`, auto-detects `prefers-color-scheme: dark` on first load. A pre-paint inline `<script>` in each page's `<head>` sets the `dark` class before Tailwind loads, avoiding flash-of-light. Toggle wiring lives in the shared `theme.js` at the repo root (loaded by `index.html`, `tutorial.html`, and every guide), so the choice carries across the hub ↔ guides ↔ tutorial-viewer navigation via the same `localStorage` key. `hub.js` itself no longer owns the toggle.
+- **Filter** (`#format-buttons` + `#card-filter`): the format buttons (`aria-pressed`) and the text
+  search combine. Search is a substring match over title, description, format, tags and category.
+  Section counts read "N of M" while filtering, `#filter-status` announces "Showing N of 16"
+  (`aria-live`), empty sections hide, and `#filter-empty` shows when nothing matches. Esc clears the
+  search. It keys off `.hub-card`, `data-search` and `data-format`, so **every entry template must
+  keep those hooks**, rows and cheat-sheet links alike.
+- **Library stats** (`#library-stats`) and the **format key** (`#format-key`) are computed from
+  `CARDS` and `FORMATS`.
+- **Dark mode** (`#theme-toggle`): class-based, persisted in `localStorage` under the key `theme`, auto-detects `prefers-color-scheme: dark` on first load. A pre-paint inline `<script>` in each page's `<head>` sets the `dark` class before Tailwind loads, avoiding flash-of-light. Toggle wiring lives in the shared `theme.js` at the repo root (loaded by `index.html`, `tutorial.html`, and every guide), so the choice carries across the hub, guides and tutorial viewer via the same `localStorage` key.
 - **Footer year**: auto-updated via `new Date().getFullYear()`.
 
 ## Tutorials (Markdown)
@@ -326,7 +317,7 @@ This site has deliberately avoided a build step. That's good for now, but a few 
 
 | Threshold | What strains | Recommended response |
 | --- | --- | --- |
-| ~~**~15 cards**~~ *(done)* | Per-card accent palette ran out of visually distinct colors at 14. | **Actioned.** Accents are per category now (indigo / amber / gray), set on `CATEGORIES`. |
+| ~~**~15 cards**~~ *(done)* | Per-card accent palette ran out of visually distinct colors at 14. | **Actioned.** The landing page now uses one accent colour; subjects are distinguished by section headings, formats by labels and a filter. |
 | **~8 cards per category** | Category sections turn into walls. | Sub-categorize (split into two `CATEGORIES` entries), or add a "Show all (N)" disclosure that hides past the first 6. |
 | ~~**Authors forget to update `updated:`**~~ *(partly done)* | Reading times drifted; `updated:` still manual. | **Actioned for `minutes` and `sitemap.xml`**, generated by `scripts/generate.mjs` with a CI `--check`. `updated:` is still hand-set, since it is an editorial signal rather than a measurable one. |
 | **Users ask "where do I read about X?"** | Filter only searches metadata, not the actual guide bodies. | Add [pagefind](https://pagefind.app/) — drops a static JSON index into `_pagefind/` at build time. Pure static site, still GitHub Pages compatible. |
