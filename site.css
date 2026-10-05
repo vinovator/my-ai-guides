@@ -170,6 +170,22 @@ body.drawer-open {
     }
 }
 
+/* tutorial.html wraps every inline SVG figure (`svg[role="img"]`) in this at
+   render time. Figures are drawn about 700 units wide with 11-13 unit labels;
+   shrunk to a 350px phone column that text lands near 5px. The same 34rem floor
+   as tables keeps it near 9-10px and lets the figure slide instead. Wider
+   columns never reach the floor, so tablets and desktops are unaffected. */
+.figure-scroll {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 1.5rem 0;
+}
+
+.figure-scroll > svg {
+    display: block;
+    min-width: 34rem;
+}
+
 /* Prism's stylesheet only makes `pre[class*="language-"]` scrollable. A fenced
    block with no language tag — ASCII diagrams, plain program output, the
    financial statements in the valuation deep dive — produces a bare

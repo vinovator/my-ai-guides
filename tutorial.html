@@ -32,7 +32,7 @@
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="site.css?v=2026-09-28">
+    <link rel="stylesheet" href="site.css?v=2026-10-05">
     <script src="https://cdn.jsdelivr.net/npm/marked@12.0.2/marked.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/dompurify@3.1.5/dist/purify.min.js"></script>
     <style>
@@ -211,6 +211,65 @@
             margin: 1.5rem 0;
         }
 
+        /* Chart palette for inline SVG figures. Every mark carries its
+           light-mode hex as a presentation attribute, so a figure still renders
+           wherever the Markdown is viewed; these classes (which outrank
+           presentation attributes) swap in the dark-mode steps. The eight hues
+           and their order are validated for colour-vision deficiency on both
+           surfaces (white and gray-900); keep the order when adding figures.
+           vfN = fill, vsN = stroke, vring = the 2px surface ring on markers. */
+        #content {
+            --viz-1: #2a78d6; --viz-2: #eb6834; --viz-3: #1baf7a; --viz-4: #eda100;
+            --viz-5: #e87ba4; --viz-6: #008300; --viz-7: #4a3aa7; --viz-8: #e34948;
+            --viz-surface: #ffffff;
+        }
+
+        html.dark #content {
+            --viz-1: #3987e5; --viz-2: #d95926; --viz-3: #199e70; --viz-4: #c98500;
+            --viz-5: #d55181; --viz-6: #008300; --viz-7: #9085e9; --viz-8: #e66767;
+            --viz-surface: #111827;
+        }
+
+        #content .vf1 { fill: var(--viz-1); }   #content .vs1 { stroke: var(--viz-1); }
+        #content .vf2 { fill: var(--viz-2); }   #content .vs2 { stroke: var(--viz-2); }
+        #content .vf3 { fill: var(--viz-3); }   #content .vs3 { stroke: var(--viz-3); }
+        #content .vf4 { fill: var(--viz-4); }   #content .vs4 { stroke: var(--viz-4); }
+        #content .vf5 { fill: var(--viz-5); }   #content .vs5 { stroke: var(--viz-5); }
+        #content .vf6 { fill: var(--viz-6); }   #content .vs6 { stroke: var(--viz-6); }
+        #content .vf7 { fill: var(--viz-7); }   #content .vs7 { stroke: var(--viz-7); }
+        #content .vf8 { fill: var(--viz-8); }   #content .vs8 { stroke: var(--viz-8); }
+        #content .vring { stroke: var(--viz-surface); }
+        #content .vsurf { fill: var(--viz-surface); }
+
+        /* "Check yourself" answers: a native <details> block, so the answer
+           stays hidden until asked for and needs no script. The summary is
+           padded to the 44px touch-target floor used everywhere else. */
+        #content details {
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            padding: 0 1rem;
+            margin: -0.5rem 0 1.5rem;
+            background: #f9fafb;
+        }
+
+        #content details > summary {
+            cursor: pointer;
+            min-height: 44px;
+            padding: 0.7rem 0;
+            font-weight: 600;
+            font-size: 0.95em;
+            color: #047857;
+        }
+
+        #content details[open] > summary {
+            border-bottom: 1px solid #e5e7eb;
+            margin-bottom: 1rem;
+        }
+
+        #content details > :last-child {
+            margin-bottom: 1rem;
+        }
+
         /* No sticky bar at lg and above, so headings need no extra offset. */
         @media (min-width: 1024px) {
             #content h2,
@@ -307,6 +366,19 @@
         html.dark #content img {
             border: 1px solid #374151;
             filter: brightness(0.92);
+        }
+
+        html.dark #content details {
+            border-color: #374151;
+            background: #111827;
+        }
+
+        html.dark #content details > summary {
+            color: #34d399;
+        }
+
+        html.dark #content details[open] > summary {
+            border-bottom-color: #374151;
         }
 
         html.dark .page-link.active {
@@ -667,6 +739,19 @@
                 wrap.appendChild(table);
             });
 
+            // Inline SVG figures are drawn about 700 units wide. Scaled into a
+            // 350px phone column their labels shrink to roughly 5px, so give
+            // them the same treatment as tables: a scroller of their own and a
+            // floor on how small they get (see .figure-scroll in site.css).
+            // Mermaid output is excluded; it already scrolls inside .mermaid.
+            $main.querySelectorAll('svg[role="img"]').forEach(svg => {
+                if (svg.closest('.figure-scroll, .mermaid')) return;
+                const wrap = document.createElement('div');
+                wrap.className = 'figure-scroll';
+                svg.replaceWith(wrap);
+                wrap.appendChild(svg);
+            });
+
             $main.querySelectorAll('img').forEach(img => {
                 img.setAttribute('loading', 'lazy');
                 img.setAttribute('decoding', 'async');
@@ -677,6 +762,23 @@
                 offerSmallVariant(img);
             });
         }
+
+        // Mermaid stamps width="100%" on every diagram, so below lg a wide one
+        // shrinks to the column: a four-lane sequence diagram ends up with
+        // ~4px labels on a phone, even though .mermaid scrolls. Give each SVG
+        // a floor instead (its natural width, capped at the 34rem floor used
+        // for figures and tables) and let the container scroll. Theme toggles
+        // re-render every diagram, so watch for new SVGs rather than fixing
+        // them once. Only childList is observed, so setting the style does
+        // not retrigger the observer.
+        const MERMAID_FLOOR_PX = 544;
+        function floorMermaid() {
+            $main.querySelectorAll('.mermaid > svg').forEach(svg => {
+                const vb = svg.viewBox && svg.viewBox.baseVal;
+                if (vb && vb.width) svg.style.minWidth = Math.min(vb.width, MERMAID_FLOOR_PX) + 'px';
+            });
+        }
+        new MutationObserver(floorMermaid).observe($main, { childList: true, subtree: true });
 
         async function renderDoc(slug, lesson) {
             let mdText;
