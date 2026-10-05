@@ -100,6 +100,13 @@
         // ---- Finance ---------------------------------------------------------
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance',
+            title: "Japan's Economy", href: 'tutorial.html?slug=japan-economy',
+            tags: ['Finance', 'Macro', 'Japan', 'Bank of Japan', 'Yen', 'JGBs', 'Monetary policy', 'Deflation', 'Carry trade'],
+            description: 'The land of the rising rates: how Japan fought deflation for a generation with zero rates, QE and yield curve control, why its exit now moves markets everywhere, and the five puzzles that explain it, from the 1985 Plaza Accord to the BOJ at 1.25%.',
+            updated: '2026-10-05', lessons: 12, minutes: 106,
+        },
+        {
+            type: 'tutorial', format: 'deep-dive', category: 'Finance',
             title: 'Commodity Markets', href: 'tutorial.html?slug=commodity-markets',
             tags: ['Finance', 'Macro', 'Commodities', 'Futures', 'Oil', 'Gold', 'Hedging', 'Forward curve'],
             description: 'How the world prices oil, metals, grain and gas, from zero: futures and hedging, the forward curve, what really moves prices, and fifty years of shocks from the 1973 embargo to the 2026 Hormuz crisis.',
@@ -110,7 +117,7 @@
             title: 'Global Bond Markets', href: 'tutorial.html?slug=global-bond-markets',
             tags: ['Finance', 'Macro', 'Fixed income', 'Yield curve', 'Duration'],
             description: 'The base price of money, explained from zero: the price-yield seesaw, duration, the curve, and eight episodes where the bond market broke something.',
-            updated: '2026-09-27', lessons: 9, minutes: 85,
+            updated: '2026-09-27', lessons: 9, minutes: 86,
         },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance',
@@ -296,9 +303,13 @@
     // ------------------------------------------------------------------------
 
     function featuredCard() {
-        return [...CARDS]
-            .filter(c => c.format === 'deep-dive' && c.updated)
-            .sort((a, b) => (a.updated < b.updated ? 1 : -1))[0] || null;
+        // Newest first; on a tie, the card listed first in CARDS wins, so the
+        // result never depends on how the browser's sort orders equal dates.
+        return CARDS
+            .map((c, i) => [c, i])
+            .filter(([c]) => c.format === 'deep-dive' && c.updated)
+            .sort(([a, i], [b, j]) => (a.updated === b.updated ? i - j : a.updated < b.updated ? 1 : -1))
+            .map(([c]) => c)[0] || null;
     }
 
     function renderFeatured() {

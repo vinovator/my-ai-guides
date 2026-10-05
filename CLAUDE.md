@@ -289,6 +289,13 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
   lesson links), and writes `tutorials/commodity-markets/`. Edit the `src` file, not the published
   one, or the next build will overwrite your change; `fact-ledger.md` beside it records the source
   of every recent figure.
+- The **japan-economy** deep dive is generated the same way from `_source/japan-economy/`:
+  `charts/fetch_data.py` caches the raw series (FRED, the BOJ time-series API, the Statistics Bureau
+  CPI files, MOF yields and intervention history, IMF DataMapper), `charts/build.py` writes
+  `tutorials/japan-economy/` (it also rejects figure `aria-label`s under 80 characters), and
+  `checks.py` recomputes every worked example and data-derived fact in the prose. Hand-entered
+  official tables (shunto history, MOF/IMF debt and creditor figures, TIC holders) sit at the top of
+  their `figs_*.py` module with their source. The PDF it was built from is in the same folder.
 - **Adding a deep dive**: the user drops the `<slug>/` folder; then prompt Claude to add the registry entry — a single `{ type:'tutorial', format:'deep-dive', category:'<topic>', title:…, href:'tutorial.html?slug=<slug>', lessons:N, minutes:N, updated:…, tags:[…], description:… }` object appended to `CARDS` in `hub.js`. If it opens a new subject, add a `CATEGORIES` entry and its accent classes to the marker block in `index.html`.
 
 ## Checks and generated files
