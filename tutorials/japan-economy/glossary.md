@@ -19,7 +19,7 @@
 | **Current account** | A country's trade in goods and services plus income flows with the rest of the world | [Lesson 9](?slug=japan-economy&lesson=lesson-09-the-big-debates) |
 | **Deflation** | A sustained fall in the general level of prices | [Lesson 1](?slug=japan-economy&lesson=lesson-01-the-machine) |
 | **Digital deficit** | The gap between what Japan pays foreign firms for cloud, software, advertising and content and what it earns from such services | [Lesson 9](?slug=japan-economy&lesson=lesson-09-the-big-debates) |
-| **Duration** | A bond's sensitivity to interest rates: roughly the percentage price change for a one-point move in its yield | [Lesson 5](?slug=japan-economy&lesson=lesson-05-yield-curve-control) |
+| **Duration** | Two linked measures: the average wait for a bond's discounted payments (Macaulay duration), and the approximate percentage price change for a one-point move in yield (modified duration, Macaulay divided by one plus the yield) | [Lesson 5](?slug=japan-economy&lesson=lesson-05-yield-curve-control) |
 | **Fiscal dominance** | When a central bank's decisions are driven by the need to keep government borrowing affordable | [Lesson 9](?slug=japan-economy&lesson=lesson-09-the-big-debates) |
 | **Fixed-rate purchase operation** | The BOJ's offer to buy unlimited amounts of a bond at a set yield, used to defend yield curve control | [Lesson 5](?slug=japan-economy&lesson=lesson-05-yield-curve-control) |
 | **Forward guidance** | A central bank's public promises about the future path of interest rates | [Lesson 2](?slug=japan-economy&lesson=lesson-02-bubble-bust-and-deflation) |

@@ -96,7 +96,7 @@
             title: "Japan's Economy", href: 'tutorial.html?slug=japan-economy',
             tags: ['Finance', 'Macro', 'Japan', 'Bank of Japan', 'Yen', 'JGBs', 'Monetary policy', 'Deflation', 'Carry trade'],
             description: "Japan's economy from the 1985 Plaza Accord to 2026: deflation, zero and negative interest rates, quantitative easing, yield curve control, the yen, government debt, and why Japanese interest rates affect markets elsewhere.",
-            updated: '2026-10-05', lessons: 12, minutes: 106,
+            updated: '2026-10-05', lessons: 12, minutes: 107,
         },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance and economics',

@@ -234,12 +234,12 @@ It offers to buy unlimited amounts of 10-year bonds at a yield of 0.25% (a fixed
 
 </details>
 
-**2. A 10-year bond has a duration of about 9.5 years. Roughly how much does its price fall if its yield rises from 0.25% to 0.5%?**
+**2. A 10-year JGB with a coupon of 0.1% has a modified duration of about 9.9. Roughly how much does its price fall if its yield rises from 0.25% to 0.5%?**
 
 <details>
 <summary>Show the answer</summary>
 
-Price change ≈ −duration × change in yield = −9.5 × 0.25% ≈ **−2.4%**. Small moves in yield mean real money on a large portfolio, which is why each widening of the band mattered to banks and insurers. (The [bond guide](?slug=global-bond-markets&lesson=lesson-01-anatomy-and-the-seesaw) explains duration.)
+Price change ≈ −modified duration × change in yield = −9.9 × 0.25% ≈ **−2.5%**. Small moves in yield mean real money on a large portfolio, which is why each widening of the band mattered to banks and insurers. With a coupon that low, almost all of the bond's value arrives at the end, so its duration is close to its full ten years. (The [bond guide](?slug=global-bond-markets&lesson=lesson-01-anatomy-and-the-seesaw) explains both meanings of duration.)
 
 </details>
 
