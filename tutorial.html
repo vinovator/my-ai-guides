@@ -520,6 +520,22 @@
             );
         }
 
+        // Markdown links between files of one tutorial are written as plain
+        // relative paths ([Lesson 1](lesson-01-foo.md)), which is also what
+        // parseLessons reads from blueprint.md. Left alone, the browser resolves
+        // them against tutorial.html and 404s, so point them at the viewer and
+        // mark them lesson-link so they navigate without a page load.
+        function rewriteDocLinks(slug) {
+            $main.querySelectorAll('a[href]').forEach(a => {
+                const m = a.getAttribute('href').match(/^(?:\.\/)?([A-Za-z0-9_-]+)\.md(#[^\s]*)?$/);
+                if (!m) return;
+                const base = `?slug=${encodeURIComponent(slug)}`;
+                const href = m[1] === 'blueprint' ? base : `${base}&lesson=${encodeURIComponent(m[1])}`;
+                a.setAttribute('href', href + (m[2] || ''));
+                if (!m[2]) a.classList.add('lesson-link');
+            });
+        }
+
         async function fetchMd(path) {
             // Default caching: GitHub Pages serves these with max-age=600, the same
             // policy as every other asset, and skipping the forced revalidation
@@ -797,6 +813,7 @@
             html = rewriteMermaid(html);
             const safe = DOMPurify.sanitize(html, { ADD_ATTR: ['class'] });
             $main.innerHTML = safe;
+            rewriteDocLinks(slug);
 
             $main.querySelectorAll('h2, h3').forEach(h => {
                 if (!h.id) h.id = slugify(h.textContent);
