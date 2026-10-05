@@ -72,6 +72,8 @@ For a buyer in Britain or India, the exchange rate matters as much as the dollar
 
 The rupee weakened from about 71 to the dollar in January 2020 to about 95 in September 2026, and the effect compounds with the oil price itself. Measured in dollars, Brent in September 2026 was 84% above its January 2020 level; measured in rupees, it was 146% above.
 
+Japan lived the same arithmetic in 2026, with the yen near its weakest against the dollar in about forty years. A weak currency turns every oil shock into a bigger one at home, which is why Tokyo intervened to support the yen with record sums; the [Japan guide](?slug=japan-economy&lesson=lesson-01-the-machine) explains what drives the yen.
+
 ---
 
 ## Interest rates and inflation

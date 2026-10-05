@@ -484,6 +484,8 @@ Almost every concept in this guide is at work:
 - **An energy shock became a food shock.** The loss of Gulf gas and fertiliser sent urea up 80% in two months, threatening next season's harvests.
 - **Governments emptied their shock absorbers.** IEA stocks were released, and the US reserve fell below 300 million barrels for the first time since 1983 (Lesson 9).
 
+The shock fell hardest on Asian importers. Japan, which in normal times receives about 93% of its crude through the strait, paid more abroad for every barrel just as its currency slid to a 40-year low, and the government spent heavily on fuel and power subsidies to cushion households. The [Japan guide](?slug=japan-economy&lesson=lesson-07-politics-war-and-a-nervous-bond-market) follows that shock through the yen, inflation and the Bank of Japan's rate decisions.
+
 It is also a live test of the cure for high prices: emergency stocks, demand destruction, and a faster switch to renewables and electric vehicles. As of early October 2026, that test is still running.
 
 > **The lesson:** The most important number in a supply crisis is not how much of a commodity exists, but how much can reach the people who need it, and how quickly.

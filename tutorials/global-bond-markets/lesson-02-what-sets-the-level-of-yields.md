@@ -91,6 +91,8 @@ Bonds are not priced by formula alone. They are sold to buyers, and the balance 
 
 QE and QT matter more than their mechanical size suggests, because a central bank is a buyer with no budget constraint and no requirement to make a profit. Its presence changes how everyone else behaves. Lesson 6 has an episode where the *promise* of central bank buying ended a crisis without a single bond being purchased.
 
+No central bank took this further than the Bank of Japan. It came to own about half of all Japanese government bonds, and from 2016 to 2024 it stopped targeting a quantity of purchases altogether and fixed the ten-year yield itself, buying whatever it took to hold it near zero. That policy, yield curve control, and what happened when inflation forced Japan to abandon it, is the subject of the [Japan guide](?slug=japan-economy&lesson=lesson-05-yield-curve-control).
+
 | Force | Pushes yields **up** | Pushes yields **down** |
 | --- | --- | --- |
 | Expected central bank rates | Expected to rise | Expected to fall |
