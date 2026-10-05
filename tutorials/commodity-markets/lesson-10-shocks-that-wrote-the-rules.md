@@ -598,4 +598,4 @@ Lesson 11 continues the story into the present, where several of these lessons a
 - [US EIA: monthly US field production of crude oil](https://www.eia.gov/dnav/pet/hist/LeafHandler.ashx?n=PET&s=MCRFPUS2&f=M)
 - [EUR-Lex: case 241/87 on the International Tin Council's suspension of the buffer stock](https://eur-lex.europa.eu/legal-content/EN/TXT/HTML/?uri=CELEX:61987CC0241)
 - [Crain's Detroit Business: Senate report on Metro International's Detroit warehouses (2014)](https://www.crainsdetroit.com/article/20141120/NEWS01/141129992/senate-report-metro-detroit-warehouses-gave-goldman-sachs-influence)
-- [Enforcement Directorate: press release on the NSEL case](https://enforcementdirectorate.gov.in/sites/default/files/latestnews/final_press_release_NSEL.pdf)
+- [Wikipedia: National Spot Exchange (the NSEL case, with sources)](https://en.wikipedia.org/wiki/National_Spot_Exchange)

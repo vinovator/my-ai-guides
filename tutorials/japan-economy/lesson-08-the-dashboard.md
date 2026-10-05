@@ -217,6 +217,6 @@ Lesson 9 takes on the five big arguments about what happens next.
 - [Ministry of Finance: JGB interest rates](https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/index.htm)
 - [Statistics Bureau of Japan: CPI, August 2026](https://www.stat.go.jp/english/data/cpi/index.html)
 - [Investing.com (Reuters): Japan revises April to June GDP to annualised 1.4% growth](https://www.investing.com/news/economy-news/japan-revises-q2-gdp-up-to-annualised-14-expansion-4890749)
-- [nippon.com (Jiji Press): unions clinch 5.01% wage hikes in 2026 shunto](https://www.nippon.com/en/news/yjj2026070300852/japan-unions-clinch-5-01-pct-wage-hikes-in-2026-shunto.html)
+- [investingLive: Japan wage hikes confirmed above 5% for a third year (5.01%, 3 July 2026)](https://investinglive.com/news/japan-wage-hikes-confirmed-to-have-topped-5-for-a-third-year-running-20260703/)
 - [The Japan Times: real wages advance for the first time in 13 months](https://www.japantimes.co.jp/business/2026/03/09/economy/japan-real-wages-advance/)
 - [IMF World Economic Outlook, April 2026](https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/JPN)

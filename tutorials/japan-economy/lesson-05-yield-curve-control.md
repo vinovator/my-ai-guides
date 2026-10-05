@@ -277,7 +277,7 @@ Lesson 6 is what happened when the world's inflation arrived at Japan's door.
 
 ## Sources
 
-- [Bank of Japan: new framework, QQE with yield curve control (21 September 2016)](https://www.boj.or.jp/en/mopo/mpmdeci/state_2016/k160921a.pdf)
+- [Bank of Japan: new framework, QQE with yield curve control (21 September 2016)](https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2016/k160921a.pdf)
 - [Ministry of Finance: JGB constant-maturity yields](https://www.mof.go.jp/english/policy/jgbs/reference/interest_rate/index.htm)
 - [Statistics Bureau of Japan: consumer price index (mobile phone charges)](https://www.stat.go.jp/english/data/cpi/index.html)
 - [Bank of Japan: Flow of Funds accounts](https://www.boj.or.jp/en/statistics/sj/index.htm)

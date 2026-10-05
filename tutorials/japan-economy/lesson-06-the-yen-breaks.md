@@ -420,5 +420,5 @@ Lesson 7 brings the story to today.
 - [Statistics Bureau of Japan: national CPI](https://www.stat.go.jp/english/data/cpi/index.html)
 - [JILPT: Rengo shunto results since 1989 (Japan Labor Issues, 2026)](https://www.jil.go.jp/english/jli/documents/2026/056-03.pdf)
 - [Bank of Japan: changes in the monetary policy framework (19 March 2024)](https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2024/k240319a.pdf)
-- [Japan Exchange Group: action to implement management that is conscious of cost of capital and stock price (2023)](https://www.jpx.co.jp/english/news/1020/20230331-01.html)
+- [Japan Exchange Group: action to implement management that is conscious of cost of capital and stock price](https://www.jpx.co.jp/english/equities/follow-up/02.html)
 - [Nikkei Inc. via FRED: Nikkei 225](https://fred.stlouisfed.org/series/NIKKEI225)

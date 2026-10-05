@@ -288,4 +288,4 @@ Lesson 4 is that something.
 - [FRED: real GDP of Japan, the United States and the euro area](https://fred.stlouisfed.org/series/JPNRGDPEXP)
 - [Bank of Japan: balance of payments statistics](https://www.boj.or.jp/en/statistics/br/bop_06/index.htm)
 - [Ministry of Finance: foreign exchange intervention operations](https://www.mof.go.jp/english/policy/international_policy/reference/feio/index.html)
-- [Bank of Japan: comprehensive monetary easing (October 2010)](https://www.boj.or.jp/en/mopo/mpmdeci/state_2010/k101005.pdf)
+- [Bank of Japan: comprehensive monetary easing (October 2010)](https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2010/k101005.pdf)

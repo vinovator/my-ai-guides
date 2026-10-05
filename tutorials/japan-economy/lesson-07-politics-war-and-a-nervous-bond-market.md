@@ -395,6 +395,6 @@ Lesson 8 takes stock of the numbers.
 - [The Japan Times: Japan's 10-year government bond hits 3% for first time in three decades](https://www.japantimes.co.jp/business/2026/09/01/economy/japan-government-bond-3-percent/)
 - [nippon.com: a landslide for Takaichi's LDP, House of Representatives election results](https://www.nippon.com/en/japan-data/h02703/)
 - [The Japan Times: Takaichi announces plan to lower consumption tax rate on food to 1% (30 July 2026)](https://www.japantimes.co.jp/news/2026/07/30/japan/politics/takaichi-decision-tax-cut/)
-- [nippon.com: FY2027 budget requests hit a record ¥143 trillion](https://www.nippon.com/en/news/yjj2026090400431/)
+- [Xinhua: Japan's FY2027 budget requests hit a record of about ¥143 trillion](https://english.news.cn/20260904/c04a3788be2444f98fa71d077b7e235d/c.html)
 - [The Japan Times: Takaichi government submits ¥18.3 trillion supplementary budget](https://www.japantimes.co.jp/business/2025/12/08/economy/japan-extra-budget/)
 - [Statistics Bureau of Japan: CPI, rice](https://www.stat.go.jp/english/data/cpi/index.html)

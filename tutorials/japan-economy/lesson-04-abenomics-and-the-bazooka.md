@@ -332,9 +332,9 @@ Lesson 5 shows how the BOJ changed tack from buying a quantity to fixing a price
 
 ## Sources
 
-- [Bank of Japan: introduction of quantitative and qualitative monetary easing (4 April 2013)](https://www.boj.or.jp/en/mopo/mpmdeci/state_2013/k130404a.pdf)
-- [Bank of Japan: expansion of QQE (31 October 2014)](https://www.boj.or.jp/en/mopo/mpmdeci/state_2014/k141031a.pdf)
-- [Bank of Japan: QQE with a negative interest rate (29 January 2016)](https://www.boj.or.jp/en/mopo/mpmdeci/state_2016/k160129a.pdf)
+- [Bank of Japan: introduction of quantitative and qualitative monetary easing (4 April 2013)](https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2013/k130404a.pdf)
+- [Bank of Japan: expansion of QQE (31 October 2014)](https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2014/k141031a.pdf)
+- [Bank of Japan: QQE with a negative interest rate (29 January 2016)](https://www.boj.or.jp/en/mopo/mpmdeci/mpr_2016/k160129a.pdf)
 - [Bank of Japan via FRED: total assets (JPNASSETS)](https://fred.stlouisfed.org/series/JPNASSETS)
 - [OECD via FRED: employment rate, women aged 15 to 64](https://fred.stlouisfed.org/series/LREM64FEJPA156S)
-- [Government Pension Investment Fund: policy asset mix](https://www.gpif.go.jp/en/investment/policy_asset_mix.html)
+- [Government Pension Investment Fund: adoption of new policy asset mix (31 October 2014)](https://www.gpif.go.jp/en/performance/pdf/adoption_of_new_policy_asset_mix.pdf)
