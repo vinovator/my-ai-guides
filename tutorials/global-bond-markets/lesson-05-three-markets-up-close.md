@@ -44,7 +44,7 @@ It is worth holding two facts together here. The world's benchmark safe asset is
 
 Gilts take their name from the gilded edges of the original paper certificates, and the market's roots reach back to the late 17th century, making it one of the oldest continuously functioning government debt markets in the world.
 
-They are issued by the **Debt Management Office** (DMO), an agency of HM Treasury, through regular auctions and: for very large long-dated deals, **syndications** run by a group of banks. **Gilt-edged market makers** act as the dealers.
+They are issued by the **Debt Management Office** (DMO), an agency of HM Treasury, through regular auctions and, for very large long-dated deals, **syndications** run by a group of banks. **Gilt-edged market makers** act as the dealers.
 
 ### Two main types
 
@@ -121,7 +121,7 @@ This month is a live demonstration of nearly everything in this guide. Read it a
 
 ### The trigger: an energy shock
 
-A prolonged conflict in the Middle East has driven up crude and refined fuel prices. US crude has risen from about **$57 a barrel in January to above $100**, after touching $113 in April.
+A prolonged conflict in the Middle East has driven up crude and refined fuel prices. US crude has risen from about **$57 a barrel in January to above $100**, after touching almost $115 in April.
 
 Dearer energy feeds inflation, and inflation is the bond investor's enemy (Lesson 2). Every subsequent move in this story descends from that one fact.
 

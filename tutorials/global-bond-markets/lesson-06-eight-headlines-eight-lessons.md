@@ -144,7 +144,7 @@ Recall the two rules from Lesson 1. Duration rises with maturity, and duration r
 | **Peak price** (late 2020) | about €139 |
 | **Price by October 2023** | about €33 |
 | **Loss for buyers at launch** | roughly 65% |
-| **Yield move** | 0.88% → around 3.3% |
+| **Yield move, launch to October 2023** | 0.88% → about 3% |
 | **ECB deposit rate over the period** | −0.5% → 4% |
 | **Modified duration, early 2024** | around 46 |
 
@@ -221,26 +221,26 @@ Within weeks most of the tax cuts were reversed, the Chancellor was sacked, and 
 
 **Concepts:** safe-haven status, leverage and the basis trade, bond vigilantes, the currency signal
 
-On **2 April 2025**, the US announced sweeping tariffs on almost all its trading partners. The first reaction followed the textbook: shares plunged and investors bought Treasuries, pushing the 10-year yield down to about **3.9%** by 4 April.
+On **2 April 2025**, the US announced sweeping tariffs on almost all its trading partners. The first reaction followed the textbook: shares plunged and investors bought Treasuries, pushing the 10-year yield down to about **4.0%** by 4 April.
 
 Then the textbook broke.
 
-<svg viewBox="0 0 700 340" width="100%" role="img" aria-label="US 10-year Treasury yield through April 2025, falling to 3.99 percent on 4 April then rising to 4.49 percent by 11 April" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 700 340" width="100%" role="img" aria-label="US 10-year Treasury yield, daily closes from 2 to 11 April 2025: it fell from 4.20 percent to 4.01 percent on 4 April as investors fled to safety, then rose every day to 4.48 percent on 11 April, a rise of 47 basis points in a week" fill="none" xmlns="http://www.w3.org/2000/svg">
   <g stroke="currentColor" opacity="0.14" stroke-width="1">
     <line x1="80" y1="50" x2="660" y2="50"/><line x1="80" y1="100" x2="660" y2="100"/>
     <line x1="80" y1="150" x2="660" y2="150"/><line x1="80" y1="200" x2="660" y2="200"/>
   </g>
   <line x1="80" y1="250" x2="660" y2="250" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
   <line x1="80" y1="40" x2="80" y2="250" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-  <polyline points="80,150 160,187.5 240,202.5 320,160 400,135 480,115 560,95 640,77.5" stroke="#f43f5e" stroke-width="2.5" fill="none"/>
-  <g fill="#f43f5e"><circle cx="80" cy="150" r="3.5"/><circle cx="160" cy="187.5" r="3.5"/><circle cx="320" cy="160" r="3.5"/><circle cx="400" cy="135" r="3.5"/><circle cx="480" cy="115" r="3.5"/><circle cx="560" cy="95" r="3.5"/></g>
-  <circle cx="240" cy="202.5" r="5.5" fill="#10b981"/>
-  <circle cx="640" cy="77.5" r="5.5" fill="#f43f5e"/>
+  <polyline points="80,150 160,185 240,197.5 320,162.5 400,135 480,115 560,100 640,80" stroke="#f43f5e" stroke-width="2.5" fill="none"/>
+  <g fill="#f43f5e"><circle cx="80" cy="150" r="3.5"/><circle cx="160" cy="185" r="3.5"/><circle cx="320" cy="162.5" r="3.5"/><circle cx="400" cy="135" r="3.5"/><circle cx="480" cy="115" r="3.5"/><circle cx="560" cy="100" r="3.5"/></g>
+  <circle cx="240" cy="197.5" r="5.5" fill="#10b981"/>
+  <circle cx="640" cy="80" r="5.5" fill="#f43f5e"/>
   <line x1="480" y1="60" x2="480" y2="250" stroke="currentColor" stroke-width="1" opacity="0.45" stroke-dasharray="4 4"/>
   <text x="486" y="72" font-size="11" fill="currentColor" opacity="0.8">9 Apr: 90-day pause</text>
-  <text x="240" y="226" font-size="11" fill="#10b981" text-anchor="middle" font-weight="bold">3.99%</text>
-  <text x="240" y="240" font-size="10" fill="currentColor" text-anchor="middle" opacity="0.7">flight to safety</text>
-  <text x="640" y="66" font-size="11" fill="#f43f5e" text-anchor="end" font-weight="bold">4.49%</text>
+  <text x="240" y="222" font-size="11" fill="#10b981" text-anchor="middle" font-weight="bold">4.01%</text>
+  <text x="240" y="236" font-size="10" fill="currentColor" text-anchor="middle" opacity="0.7">flight to safety</text>
+  <text x="640" y="68" font-size="11" fill="#f43f5e" text-anchor="end" font-weight="bold">4.48%</text>
   <g font-size="11" fill="currentColor" opacity="0.7" text-anchor="end" font-family="ui-monospace,monospace">
     <text x="70" y="54">4.6</text><text x="70" y="104">4.4</text><text x="70" y="154">4.2</text>
     <text x="70" y="204">4.0</text><text x="70" y="254">3.8</text>
@@ -250,11 +250,11 @@ Then the textbook broke.
   </g>
   <text x="26" y="145" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75" transform="rotate(-90 26 145)">Yield (%)</text>
   <text x="370" y="296" font-size="12" fill="currentColor" text-anchor="middle" font-weight="bold">US 10-year Treasury yield, April 2025</text>
-  <text x="370" y="314" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">+49 bp over the week: the largest weekly rise since November 2001</text>
-  <text x="370" y="330" font-size="10" fill="currentColor" text-anchor="middle" opacity="0.55">Approximate daily closes. The 30-year rose 47 bp, its biggest weekly move since 1987.</text>
+  <text x="370" y="314" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">+47 bp over the week: the largest weekly rise since November 2001</text>
+  <text x="370" y="330" font-size="10" fill="currentColor" text-anchor="middle" opacity="0.55">Daily closes, US Treasury constant-maturity data. The 30-year rose 44 bp, its biggest weekly rise since 1987.</text>
 </svg>
 
-Over the following week the 10-year yield climbed **49 basis points**, its biggest weekly rise since November 2001, and the 30-year rose **47 basis points**, the most since 1987.
+Over the following week the 10-year yield climbed **47 basis points**, its biggest weekly rise since November 2001, and the 30-year rose **44 basis points**, the most since 1987.
 
 For much of that week Treasuries fell *alongside* shares, which raised genuine doubts about their safe-haven status. The **dollar also fell**, to a three-year low against the euro, as investors sought safety in the yen, the Swiss franc and the euro instead.
 

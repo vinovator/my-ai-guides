@@ -16,7 +16,7 @@ Every central bank sets a very short-term interest rate: the federal funds rate 
 
 Now ask what a ten-year bond has to compete with. Instead of lending to the government for ten years, you could roll over a series of very short-term deposits, collecting whatever the central bank rate happens to be at each moment. For the ten-year bond to be worth buying, it has to offer something comparable.
 
-So the first block of a ten-year yield is **where investors expect the central bank's rate to average over the next ten years**. Not where it is today, where it is expected to be, on average, across the bond's whole life.
+So the first block of a ten-year yield is **where investors expect the central bank's rate to average over the next ten years**. Not where it is today, but where it is expected to be, on average, across the bond's whole life.
 
 This has an important consequence that catches people out. A central bank can cut rates and long-term yields can *rise* on the same day, if the cut persuades investors that inflation will be higher later. The bond market trades the expected path, not the current level.
 
@@ -153,9 +153,9 @@ Line up a single government's bond yields from the shortest maturity to the long
   <text x="520" y="272" font-size="11" fill="currentColor" text-anchor="middle" opacity="0.75">Markets expect rate cuts ahead.</text>
 </svg>
 
-The curve normally slopes **upward**, for the reason Lesson 1 gave: tying money up for longer usually earns more, because the term premium grows with commitment.
+The curve normally slopes **upward**, for the reason given earlier in this lesson: tying money up for longer usually earns more, because the term premium grows with commitment.
 
-When short-term yields rise *above* long-term ones, the curve is **inverted**. This seems perverse, why accept less for locking your money up longer?, until you remember that yields price the expected path. An inverted curve says investors expect central bank rates to be *much lower* in future than they are today. And central banks generally cut rates for one reason: the economy is deteriorating.
+When short-term yields rise *above* long-term ones, the curve is **inverted**. This seems perverse (why accept less for locking your money up longer?) until you remember that yields price the expected path. An inverted curve says investors expect central bank rates to be *much lower* in future than they are today. And central banks generally cut rates for one reason: the economy is deteriorating.
 
 ### How much to trust an inversion
 

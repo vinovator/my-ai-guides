@@ -117,7 +117,7 @@
             title: 'Global Bond Markets', href: 'tutorial.html?slug=global-bond-markets',
             tags: ['Finance', 'Macro', 'Fixed income', 'Yield curve', 'Duration'],
             description: 'How bond markets work: prices and yields, duration, the yield curve, the main participants and bond funds, with the US, UK and Indian markets compared and eight historical episodes.',
-            updated: '2026-10-05', lessons: 9, minutes: 89,
+            updated: '2026-10-05', lessons: 9, minutes: 90,
         },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance and economics',

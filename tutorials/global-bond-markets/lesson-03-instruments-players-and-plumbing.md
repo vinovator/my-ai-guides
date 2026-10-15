@@ -45,7 +45,7 @@ The rating largely sets the cost of borrowing. One mid-2026 snapshot of the Indi
 | AA new issues | around 8.5% to 9.3% |
 | Single-A issues | about 10.4% to 12.25% |
 
-Three rating notches roughly doubled the cost of money.
+Stepping down from AAA to single-A added roughly three to five percentage points to the cost of borrowing.
 
 > A rating is an opinion about the likelihood of being repaid, not a guarantee and not a recommendation. Lesson 6 opens with 2008, when 83% of the mortgage securities Moody's rated AAA in 2006 were eventually downgraded.
 
@@ -110,7 +110,7 @@ graph TD
 
 New government bonds are sold mostly through **auctions**, held on a calendar published well in advance so buyers can prepare.
 
-Bidders state the yields they are willing to accept. The government works up from the lowest-yield bids: the cheapest money for it, until its needs are filled. The result is therefore a market verdict delivered in public, and it is read closely. If the government has to accept a noticeably higher yield than the market expected just beforehand, the auction is said to have **tailed**, and it signals weak appetite for that country's debt.
+Bidders state the yields they are willing to accept. The government works up from the lowest-yield bids, which are the cheapest money for it, until its needs are filled. The result is therefore a market verdict delivered in public, and it is read closely. If the government has to accept a noticeably higher yield than the market expected just beforehand, the auction is said to have **tailed**, and it signals weak appetite for that country's debt.
 
 Companies borrow differently. An investment bank sounds out large investors, builds an **order book** of indicated demand, and sets the price where the book clears.
 
@@ -128,7 +128,7 @@ India is a partial exception worth noting: most secondary trading in government 
 
 Underneath everything sits the **repo market**, and it is the part most worth understanding because it is the part that breaks.
 
-A repurchase agreement, or repo, is a short-term loan, often just overnight: secured against bonds. An institution needing cash sells bonds with an agreement to buy them back tomorrow at a slightly higher price. Economically it is a secured loan, with the bonds as collateral and the price difference as interest.
+A repurchase agreement, or repo, is a short-term loan, often just overnight, secured against bonds. An institution needing cash sells bonds with an agreement to buy them back tomorrow at a slightly higher price. Economically it is a secured loan, with the bonds as collateral and the price difference as interest.
 
 Repo does three essential jobs:
 
@@ -150,7 +150,7 @@ Once a trade is agreed, it must actually complete: bonds move one way, cash the 
 
 - Government bonds are the **risk-free benchmark** in their own currency; everything else pays a **spread** above them.
 - The **investment grade boundary at BBB−** forces institutional selling when crossed, which amplifies downgrades.
-- Different players want different things, and **forced** participants: index funds, regulated banks, liability-matching pension funds, often move markets for reasons unrelated to opinion.
+- Different players want different things, and **forced** participants (index funds, regulated banks, liability-matching pension funds) often move markets for reasons unrelated to opinion.
 - Bonds are born at **auction**, trade **over the counter**, and are financed in the **repo market**.
 - **Repo enables leverage**, and leverage is what turns a price fall into a spiral.
 

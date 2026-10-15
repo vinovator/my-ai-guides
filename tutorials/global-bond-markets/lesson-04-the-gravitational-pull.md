@@ -96,7 +96,7 @@ Property is revalued by exactly the same logic, which is why commercial real est
 
 There is one more function, and it is useful even if you never trade.
 
-Bond investors are pricing inflation and growth years ahead, with their own money, continuously. The result is one of the best real-time readings available of what professional money actually expects, not what commentators say, but what large sums are positioned for.
+Bond investors are pricing inflation and growth years ahead, with their own money, continuously. The result is one of the best real-time readings available of what professional money actually expects: not what commentators say, but what large sums are positioned for.
 
 Several specific readings fall out of this:
 

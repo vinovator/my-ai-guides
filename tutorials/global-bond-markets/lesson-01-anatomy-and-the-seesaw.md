@@ -279,7 +279,7 @@ All of the above describes what happens to a bond's *market price*. It is easy t
 
 If you hold a bond to maturity and the issuer pays in full, **these price swings wash out entirely**. You collect every coupon and you get your £100 back. The fact that the bond was briefly worth £86 in year four is a historical curiosity; it changed nothing about what you received.
 
-You have still given something up. You may have missed out on higher rates available elsewhere, that is a real opportunity cost. Inflation may have shrunk what that £100 buys, which Lesson 2 takes seriously. But you did not lose pounds.
+You have still given something up. You may have missed out on higher rates available elsewhere, which is a real opportunity cost. Inflation may have shrunk what that £100 buys, which Lesson 2 takes seriously. But you did not lose pounds.
 
 Price risk bites in exactly two circumstances:
 

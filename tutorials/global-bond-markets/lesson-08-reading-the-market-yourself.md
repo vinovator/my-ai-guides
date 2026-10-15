@@ -149,7 +149,7 @@ The BIS and IMF publications are the most rigorous narratives available anywhere
 | --- | --- |
 | **Daily, 10 minutes** | Check the US, UK and Indian 10-year yields. Read one newsletter, Unhedged, Points of Return or the Daily Spark |
 | **Weekly** | One Odd Lots or Unhedged episode, Alphaville's latest gilt pieces, and skim CCIL's weekly update |
-| **Around big events** | Read the Fed, Bank of England or RBI statement *yourself*, before anyone's interpretation. Next on the calendar: the RBI's 5–7 October meeting and the Bank of England's 5 November decision |
+| **Around big events** | Read the Fed, Bank of England or RBI statement *yourself*, before anyone's interpretation. All three publish their meeting dates well in advance |
 | **Quarterly** | The BIS Quarterly Review, the IMF stability report, and one or two asset manager outlooks |
 
 ---
