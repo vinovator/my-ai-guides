@@ -14,7 +14,7 @@
 | **BOJ** | The Bank of Japan, the central bank, which sets short-term interest rates and carries out currency interventions decided by the Ministry of Finance | [Lesson 1](?slug=japan-economy&lesson=lesson-01-the-machine) |
 | **Call rate** | The overnight interest rate at which banks lend to each other; the BOJ's main policy target | [Lesson 1](?slug=japan-economy&lesson=lesson-01-the-machine) |
 | **Carry trade** | Borrowing in a low-interest currency, often the yen, to invest in higher-yielding assets elsewhere | [Lessons 3](?slug=japan-economy&lesson=lesson-03-false-dawn-and-the-super-yen) and [10](?slug=japan-economy&lesson=lesson-10-beyond-japan) |
-| **Consumption tax** | Japan's national sales tax: 3% from 1989, 5% from 1997, 8% from 2014 and 10% from 2019, with 8% on food | [Lesson 4](?slug=japan-economy&lesson=lesson-04-abenomics-and-the-bazooka) |
+| **Consumption tax** | Japan's national sales tax: 3% from 1989, 5% from 1997, 8% from 2014 and 10% from 2019, with 8% on food, due to fall to 1% from April 2027 | [Lesson 4](?slug=japan-economy&lesson=lesson-04-abenomics-and-the-bazooka) |
 | **Core CPI and core-core CPI** | Consumer prices excluding fresh food; and excluding both fresh food and energy | [Lesson 1](?slug=japan-economy&lesson=lesson-01-the-machine) |
 | **Current account** | A country's trade in goods and services plus income flows with the rest of the world | [Lesson 9](?slug=japan-economy&lesson=lesson-09-the-big-debates) |
 | **Deflation** | A sustained fall in the general level of prices | [Lesson 1](?slug=japan-economy&lesson=lesson-01-the-machine) |

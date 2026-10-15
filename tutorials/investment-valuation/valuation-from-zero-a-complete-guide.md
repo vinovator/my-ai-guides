@@ -11,7 +11,7 @@ This guide assumes you know almost nothing about accounting and builds every con
 Two things make it different from a textbook chapter:
 
 1. **One continuous case study.** Almost every worked number belongs to a single fictional company, **Northwind Manufacturing Ltd**. You will meet Northwind in the accounting section, learn to read its statements, then value it two completely different ways. By the end you will have valued one real-feeling business from first principles.
-2. **History woven through.** You asked where these ideas came from. Valuation was not handed down complete; it was assembled over five centuries by merchants, mathematicians, and economists. Knowing the lineage makes the formulas feel inevitable rather than arbitrary.
+2. **History woven through.** Valuation was not handed down complete; it was assembled over five centuries by merchants, mathematicians, and economists. Knowing the lineage makes the formulas feel inevitable rather than arbitrary.
 
 A suggestion: do not rush the accounting section. Most people who find valuation confusing are not confused about valuation. They are confused about accounting, and the valuation simply inherits that fog. Clear the fog first and the rest becomes almost easy.
 
@@ -596,7 +596,7 @@ Assemble the enterprise value and walk down to the share price:
 
 There is the result. Northwind's intrinsic value, on these assumptions, is about **£5.14 per share**.
 
-Two observations to carry forward. First, notice that the terminal value (£497m) is **75%** of the total enterprise value (£664m). The bulk of the company's worth lies beyond the five year forecast, which is normal, and is exactly why the terminal assumptions matter so much. Second, suppose Northwind currently trades at **£4.50** in the market. The DCF suggests it is worth £5.14, implying it is **undervalued by roughly 14%**. That gap is where an investor's interest begins.
+Two observations to carry forward. First, notice that the terminal value (£497m) is **75%** of the total enterprise value (£664m). The bulk of the company's worth lies beyond the five year forecast, which is normal, and is exactly why the terminal assumptions matter so much. Second, suppose Northwind currently trades at **£4.50** in the market. The DCF suggests it is worth £5.14, about **14% more than the market price**, implying it is undervalued. That gap is where an investor's interest begins.
 
 ## 4.7 Sensitivity, and the honest limits of the DCF
 
@@ -610,7 +610,7 @@ Holding the forecast the same but flexing only the two terminal assumptions, her
 | **Base case** | **9%** | **2.5%** | **£5.14** |
 | Optimistic | 8% | 3.0% | £7.01 |
 
-Look at that range: from **£3.96 to £7.01**, nearly a doubling, produced by moving WACC by one percentage point and growth by half a point. This is the single most important practical lesson about the DCF. It is a tool for **disciplined thinking**, not a machine for producing the truth. Its real value is that it forces you to state, explicitly and in numbers, what you believe about a company's growth, profitability, reinvestment, and risk. The output should be read as a **range** that depends on a worldview, never as a single fact.
+Look at that range: from **£3.96 to £7.01**, with the top almost 80% above the bottom, produced by moving WACC by one percentage point and growth by half a point. This is the single most important practical lesson about the DCF. It is a tool for **disciplined thinking**, not a machine for producing the truth. Its real value is that it forces you to state, explicitly and in numbers, what you believe about a company's growth, profitability, reinvestment, and risk. The output should be read as a **range** that depends on a worldview, never as a single fact.
 
 This is also precisely why we need a second, independent method to cross check the answer. We turn to it now.
 
@@ -742,7 +742,7 @@ When the methods **disagree** sharply, that is not a failure; it is a signal wor
 
 Recall Graham and Dodd's principle from 1934. Your valuation is an estimate built on uncertain assumptions, so you should never pay your full estimate of value. The **margin of safety** is the cushion between the price you pay and the value you estimate, and it protects you when (not if) some of your assumptions turn out wrong.
 
-For Northwind, the price is £4.50 and the triangulated value is roughly £5.14 to £5.94. The gap, very roughly 15% to 25%, is the margin of safety. A disciplined investor buys when that cushion is comfortably wide and passes when the price approaches or exceeds the estimate of value, no matter how attractive the company seems. The cushion, not the forecast, is what keeps you safe.
+For Northwind, the price is £4.50 and the triangulated value is roughly £5.14 to £5.94. The gap, roughly 12% to 24% of the estimated value, is the margin of safety. A disciplined investor buys when that cushion is comfortably wide and passes when the price approaches or exceeds the estimate of value, no matter how attractive the company seems. The cushion, not the forecast, is what keeps you safe.
 
 ## 6.3 The valuer's mindset
 

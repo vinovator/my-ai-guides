@@ -296,7 +296,7 @@ In the days after Russia invaded Ukraine, nickel prices surged, and a Chinese pr
 <text x="20" y="272" font-size="10.5" fill="currentColor" opacity="0.6">Sources: LME; S&amp;P Global. The 8 March trades, about $3.9 billion, were cancelled by the exchange.</text>
 </svg>
 
-On the morning of 8 March 2022 the price more than doubled within hours to above **$100,000** a tonne. The **London Metal Exchange** suspended trading for a week and cancelled about **$3.9 billion** of trades done that morning, arguing that otherwise margin calls of nearly $20 billion would have bankrupted several of its members and created systemic risk. Traders who had bought at the high prices, and had their profits cancelled, sued. The English High Court upheld the exchange's decision, but traders still argue about it, and the FCA later fined the LME for failings in its handling of the market.
+On the morning of 8 March 2022 the price more than doubled within hours to above **$100,000** a tonne. The **London Metal Exchange** suspended trading for a week and cancelled about **$3.9 billion** of trades done that morning, arguing that otherwise margin calls of nearly $20 billion would have bankrupted several of its members and created systemic risk. Firms whose profitable trades were cancelled, including the hedge fund Elliott and the trading firm Jane Street, sued. The English High Court upheld the exchange's decision, but traders still argue about it, and the FCA later fined the LME for failings in its handling of the market.
 
 > **The lesson:** An exchange is not a neutral machine; it has to make judgement calls under pressure, and someone always bears the loss. **Exchange governance** is part of the plumbing.
 
