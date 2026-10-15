@@ -110,7 +110,7 @@
             title: 'Commodity Markets', href: 'tutorial.html?slug=commodity-markets',
             tags: ['Finance', 'Macro', 'Commodities', 'Futures', 'Oil', 'Gold', 'Hedging', 'Forward curve'],
             description: 'How oil, metals, grain and gas are traded and priced: physical and futures markets, hedging, the forward curve, the main price drivers, and major market shocks from 1973 to 2026.',
-            updated: '2026-10-05', lessons: 14, minutes: 149,
+            updated: '2026-10-05', lessons: 14, minutes: 150,
         },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance and economics',

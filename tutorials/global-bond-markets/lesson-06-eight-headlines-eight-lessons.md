@@ -207,7 +207,7 @@ graph TD
   E --> A
 ```
 
-This is the mechanism Lesson 3 warned about. Leverage converts a price fall into a *forced* sale, and forced selling converts a sell-off into a spiral. Nobody in the loop was speculating; every participant was doing the prudent thing given their constraints, which is precisely what makes such loops so hard to stop.
+This is the mechanism Lesson 3 warned about. Leverage converts a price fall into a *forced* sale, and forced selling converts a sell-off into a spiral. Nobody in the loop was speculating; every participant was doing the prudent thing given their constraints, which is precisely what makes such loops so hard to stop. The [derivatives guide](?slug=derivatives&lesson=lesson-07-swaps) works through the swap arithmetic behind those collateral calls: a rise of 1.5 percentage points in long yields takes about £22 million off every £100 million of 30-year swaps a pension fund holds.
 
 The **Bank of England had been preparing to sell gilts under QT and was forced to do the exact opposite.** On 28 September it launched emergency purchases of long-dated gilts, eventually buying around **£19 billion**, explicitly to protect financial stability rather than to loosen policy.
 
@@ -266,7 +266,7 @@ Analysts pointed to three forces:
 2. **Possible selling by foreign holders.**
 3. **A rotation from bonds into shares** after the tariff pause.
 
-The basis trade had also amplified the "dash for cash" of March 2020, when even Treasuries briefly became hard to sell and the Fed had to buy them on an enormous scale.
+The basis trade had also amplified the "dash for cash" of March 2020, when even Treasuries briefly became hard to sell and the Fed had to buy them on an enormous scale. The [derivatives guide](?slug=derivatives&lesson=lesson-06-futures-and-daily-settlement) explains how the trade works and why its leverage turns funding stress into forced selling.
 
 On **9 April**, the President paused most of the new country-specific tariffs for 90 days, keeping a 10% baseline while raising tariffs on China. The spike in yields was widely seen as having pushed the administration toward the pause, and he later said he had been watching the bond market.
 

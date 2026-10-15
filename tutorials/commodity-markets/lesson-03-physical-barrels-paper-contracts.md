@@ -375,6 +375,8 @@ Swaps are usually traded **over the counter** (OTC), meaning privately between t
 | **Collateral** | Daily margin set by the clearing house | Negotiated collateral agreements |
 | **Typical users** | Everyone, from funds to farmers | Corporates, banks, merchants |
 
+The [derivatives guide](?slug=derivatives&lesson=lesson-02-the-four-building-blocks) takes these instruments apart in depth: how options are priced without anyone forecasting, what the Greeks measure, and how clearing houses and margin hold the market together.
+
 ---
 
 ## Check yourself
