@@ -1,4 +1,4 @@
-# Derivatives from First Principles
+# Risk, Leverage and the Price of Uncertainty
 
 *What derivatives are, how they are priced without anyone forecasting anything, who uses them, how they go wrong, and how the US, the UK and India run their markets.*
 
