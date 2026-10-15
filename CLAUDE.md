@@ -297,8 +297,8 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
   block, with a blank line after `<summary>` and before `</details>` so the answer is parsed as
   Markdown. `tutorial.html` styles it for both themes; no script is involved.
 - **Originals and build scripts live in `_source/<slug>/`**, which is git-ignored, so a source PDF,
-  deck or Word file never gets published (the bond guide's .docx/.pptx and the commodities PDF are
-  there). The **commodity-markets** deep dive is generated: its lessons are written in
+  deck or Word file never gets published (the bond guide's .docx/.pptx and the commodity, Japan and
+  derivatives PDFs are there). The **commodity-markets** deep dive is generated: its lessons are written in
   `_source/commodity-markets/src/*.md` with `{{fig:id}}` placeholders, and
   `python3 _source/commodity-markets/charts/build.py` computes every figure from cached data
   (World Bank Pink Sheet, FRED, EIA), runs the checks (em dashes, blank lines in SVG, XML validity,
@@ -319,7 +319,10 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
   writes `tutorials/derivatives/`, and `charts/checks.py` recomputes every worked number and
   "Check yourself" answer. Formulas sit in `<details><summary>For the curious: …` blocks, written
   in plain text with `<sub>`/`<sup>`, since the site has no maths renderer. Lesson 16 reuses
-  figures from the other lessons by placeholder, so edit a figure once in its `figs_*.py`.
+  figures from the other lessons by placeholder, so edit a figure once in its `figs_*.py`. The PDF
+  it was built from and `fact-ledger.md` are in the same folder, and `qa/qa.html?slug=…&lesson=…&w=390&theme=dark`,
+  served locally and loaded with headless Chrome's `--dump-dom`, prints one `QARESULT` line per page
+  (horizontal overflow, unwrapped figures, Mermaid failures, console errors).
 - **Adding a deep dive**: the user drops the `<slug>/` folder; then prompt Claude to add the registry entry — a single `{ type:'tutorial', format:'deep-dive', category:'<topic>', title:…, href:'tutorial.html?slug=<slug>', lessons:N, minutes:N, updated:…, tags:[…], description:… }` object appended to `CARDS` in `hub.js`. If it opens a new subject, add a `CATEGORIES` entry and its accent classes to the marker block in `index.html`.
 
 ## Checks and generated files
