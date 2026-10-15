@@ -124,7 +124,7 @@ COVID lockdowns cut global oil demand by roughly a fifth at their worst, and sto
 <text x="20" y="322" font-size="10.5" fill="currentColor" opacity="0.6">Source: US EIA via FRED (WTI spot). Holders of expiring futures paid buyers to take the oil.</text>
 </svg>
 
-The damage spread to people who had never seen Cushing. MCX's April crude contract in India, settled against the WTI price (Lesson 9), also closed below zero, and retail investors in a Chinese bank's crude oil product suffered heavy losses. OPEC+ then agreed a record output cut of 9.7 million barrels a day.
+The damage spread to people who had never seen Cushing. MCX's April crude contract in India, settled against the WTI price (Lesson 9), also closed below zero, and retail investors in a Chinese bank's crude oil product suffered heavy losses. OPEC+ had agreed a record output cut of 9.7 million barrels a day on 12 April, but it did not take effect until May, too late for the expiring contract.
 
 Lesson 6 explained why contango is normally capped by the cost of carry. Here storage effectively ran out, the cost of carrying a barrel became greater than the barrel itself, and the cap disappeared. Retail investors in futures-based products learned the hard way about expiry, rolling and what traders call "super contango".
 
@@ -140,7 +140,7 @@ Gas prices began climbing in 2021 as economies reopened, Asian demand for LNG ro
 
 Then Russia invaded Ukraine. European gas, priced at the Dutch TTF hub, hit a record of about **€340 per megawatt hour** in August 2022.
 
-<svg viewBox="0 0 680 340" width="100%" role="img" aria-label="Line chart of monthly natural gas prices in Europe, Japan and the United States, 2019 to September 2026, in dollars per million British thermal units. Prices were similar and low in 2019 and 2020. European prices then soared to a monthly average of $70 in August 2022, while US prices stayed far lower. In 2026 European and Asian prices rose again with the Gulf crisis while US gas stayed near $3." fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 680 340" width="100%" role="img" aria-label="Line chart of monthly natural gas prices in Europe, Japan and the United States, 2019 to September 2026, in dollars per million British thermal units. Prices were similar and low in 2019 and 2020. European prices then soared to a monthly average of $70 in August 2022, while US prices stayed far lower. In 2026 European and Asian prices rose again with the Hormuz crisis while US gas stayed near $3." fill="none" xmlns="http://www.w3.org/2000/svg">
 <text x="20" y="28" font-size="14" fill="currentColor" font-weight="600">One fuel, three prices</text>
 <text x="20" y="45.5" font-size="11.5" fill="currentColor" opacity="0.72">Natural gas, monthly average, dollars per million British thermal units (mmBtu)</text>
 <line x1="80" y1="284" x2="570" y2="284" stroke="currentColor" stroke-width="1" stroke-opacity="0.45"/>
@@ -484,7 +484,7 @@ Almost every concept in this guide is at work:
 - **An energy shock became a food shock.** The loss of Gulf gas and fertiliser sent urea up 80% in two months, threatening next season's harvests.
 - **Governments emptied their shock absorbers.** IEA stocks were released, and the US reserve fell below 300 million barrels for the first time since 1983 (Lesson 9).
 
-The shock fell hardest on Asian importers. Japan, which in normal times receives about 93% of its crude through the strait, paid more abroad for every barrel just as its currency slid to a 40-year low, and the government spent heavily on fuel and power subsidies to cushion households. The [Japan guide](?slug=japan-economy&lesson=lesson-07-politics-war-and-a-nervous-bond-market) follows that shock through the yen, inflation and the Bank of Japan's rate decisions.
+The shock fell hardest on Asian importers. Japan, which in normal times receives more than 90% of its crude through the strait, paid more abroad for every barrel just as its currency slid to a 40-year low, and the government spent heavily on fuel and power subsidies to cushion households. The [Japan guide](?slug=japan-economy&lesson=lesson-07-politics-war-and-a-nervous-bond-market) follows that shock through the yen, inflation and the Bank of Japan's rate decisions.
 
 It is also a live test of the cure for high prices: emergency stocks, demand destruction, and a faster switch to renewables and electric vehicles. As of early October 2026, that test is still running.
 

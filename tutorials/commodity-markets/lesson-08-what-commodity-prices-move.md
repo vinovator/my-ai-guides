@@ -156,7 +156,7 @@ Nitrogen fertiliser is made from natural gas, and by most estimates between a th
 
 ## The long-run consequence: security and diversification
 
-Every major shock changes behaviour for decades. The 1970s oil crises created strategic reserves and fuel-efficiency standards. The 2022 crisis pushed Europe off Russian pipeline gas. The 2026 crisis is accelerating diversification away from Gulf supply routes. Renewables and electric vehicles are increasingly seen as **energy security**, not just climate policy, but they create new dependencies on copper, lithium and rare earths, many of them processed mainly in China (Lesson 11).
+Every major shock changes behaviour for decades. The 1970s oil crises created strategic reserves and fuel-efficiency standards. The 2022 crisis pushed Europe off Russian pipeline gas. The 2026 crisis is accelerating diversification away from routes through the Strait of Hormuz. Renewables and electric vehicles are increasingly seen as **energy security**, not just climate policy, but they create new dependencies on copper, lithium and rare earths, many of them processed mainly in China (Lesson 11).
 
 > Commodity shocks travel. A price that starts in a tanker market ends up in a central bank's decision, a government's budget, a company's results and a family's shopping, and it reshapes policy long after the price itself has fallen.
 

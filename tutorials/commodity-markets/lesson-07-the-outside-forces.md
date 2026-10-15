@@ -250,7 +250,7 @@ Demand follows the seasons: gas and heating oil peak in winter, US petrol demand
 <text x="240" y="141" font-size="11.5" fill="currentColor" text-anchor="end" opacity="0.9">US petrol: driving season</text>
 <rect x="415" y="128" width="110.8" height="20" rx="4" class="vf2" fill="#eb6834"/>
 <text x="532.8" y="142" font-size="10.5" fill="currentColor" opacity="0.8">Memorial Day to Labor Day</text>
-<text x="240" y="177" font-size="11.5" fill="currentColor" text-anchor="end" opacity="0.9">Atlantic hurricanes: Gulf oil and refining</text>
+<text x="240" y="177" font-size="11.5" fill="currentColor" text-anchor="end" opacity="0.9">Atlantic hurricanes: US Gulf oil and refining</text>
 <rect x="421.8" y="164" width="203" height="20" rx="4" class="vf8" fill="#e34948"/>
 <text x="523.3" y="178" font-size="10.5" text-anchor="middle" fill="#111827" font-weight="600">June to November</text>
 <text x="240" y="213" font-size="11.5" fill="currentColor" text-anchor="end" opacity="0.9">India: southwest monsoon</text>

@@ -239,7 +239,7 @@ Two of them are worth seeing in action. The **crack spread** turns a refinery's 
 
 The **Brent-WTI spread** tells the story of American oil over fifteen years.
 
-<svg viewBox="0 0 680 330" width="100%" role="img" aria-label="Line chart of Brent minus WTI, monthly averages, January 2010 to September 2026. The gap widened to $25.3 in September 2011 when US crude was trapped inland by pipeline limits and the export ban, shrank to a few dollars after the ban was lifted in December 2015, and jumped to $21.8 in April 2026 as Gulf supply was cut off." fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg viewBox="0 0 680 330" width="100%" role="img" aria-label="Line chart of Brent minus WTI, monthly averages, January 2010 to September 2026. The gap widened to $25.3 in September 2011 when US crude was trapped inland by pipeline limits and the export ban, shrank to a few dollars after the ban was lifted in December 2015, and jumped to $21.8 in April 2026 as supply through Hormuz was cut off." fill="none" xmlns="http://www.w3.org/2000/svg">
 <text x="20" y="28" font-size="14" fill="currentColor" font-weight="600">A spread that tells a story: Brent minus WTI</text>
 <text x="20" y="45.5" font-size="11.5" fill="currentColor" opacity="0.72">Monthly average spot prices, dollars a barrel, 2010 to September 2026</text>
 <line x1="80" y1="270" x2="630" y2="270" stroke="currentColor" stroke-width="1" stroke-opacity="0.12"/>
@@ -273,7 +273,7 @@ The **Brent-WTI spread** tells the story of American oil over fifteen years.
 <text x="144" y="120.1" font-size="10.5" fill="currentColor" opacity="0.8">US crude trapped inland</text>
 <circle cx="606.5" cy="121.5" r="4.5" class="vf2 vring" fill="#eb6834" stroke="#ffffff" stroke-width="2"><title>April 2026: $21.8</title></circle>
 <text x="596.5" y="125.5" font-size="11.5" fill="currentColor" text-anchor="end" font-weight="600">$21.8</text>
-<text x="596.5" y="139.5" font-size="10.5" fill="currentColor" text-anchor="end" opacity="0.8">Gulf supply cut off</text>
+<text x="596.5" y="139.5" font-size="10.5" fill="currentColor" text-anchor="end" opacity="0.8">Hormuz supply cut off</text>
 <text x="20" y="322" font-size="10.5" fill="currentColor" opacity="0.6">Source: World Bank Commodity Price Data (Pink Sheet). Brent is a spot price; futures spreads are narrower.</text>
 </svg>
 
@@ -297,7 +297,7 @@ Storage: 3 × $12 = $36. Financing: $10,000 × 6% × ¼ = $150. Ceiling: $10,000
 <details>
 <summary>Show the answer</summary>
 
-$100 × (1/1.01)^12 ≈ **$88.70**, a loss of about 11% with no change in the oil price.
+$100 × (1/1.01)^12 ≈ **$88.74**, a loss of about 11% with no change in the oil price.
 
 </details>
 

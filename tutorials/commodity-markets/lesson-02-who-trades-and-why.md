@@ -205,12 +205,12 @@ Because it mostly earns from **spreads**, not from the price level. It hedges th
 
 </details>
 
-**3. In the Atlantic example, freight jumps from $3.50 to $4.80 a barrel because war-risk insurance has soared. What happens to the trade?**
+**3. In the Atlantic example, freight jumps from $3.50 to $4.80 a barrel because tanker rates have soared. What happens to the trade?**
 
 <details>
 <summary>Show the answer</summary>
 
-The margin becomes $85.00 − $80.00 − $4.80 − $0.40 = **−$0.20** a barrel, a loss of $200,000 on the cargo. The merchant will not do the trade at those prices. Either the European price has to rise or the Gulf Coast price has to fall until the margin is positive again, which is exactly how a jump in shipping costs pulls regional prices apart. In 2026 war-risk premiums for tankers in the Gulf rose from a fraction of a per cent of a ship's value to several per cent per transit, and trade routes shifted accordingly.
+The margin becomes $85.00 − $80.00 − $4.80 − $0.40 = **−$0.20** a barrel, a loss of $200,000 on the cargo. The merchant will not do the trade at those prices. Either the European price has to rise or the Gulf Coast price has to fall until the margin is positive again, which is exactly how a jump in shipping costs pulls regional prices apart. Insurance can do the same: in 2026 war-risk premiums for tankers entering the Persian Gulf rose from a fraction of a per cent of a ship's value to several per cent per transit, and trade routes shifted accordingly.
 
 </details>
 

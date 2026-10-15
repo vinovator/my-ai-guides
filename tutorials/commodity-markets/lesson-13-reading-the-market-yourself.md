@@ -89,7 +89,7 @@ Short-cycle supply such as shale responds in months, mines and oilfields in year
 
 Run this week's story through the six: *in early October 2026, diesel is acutely short. Russia has extended its ban on diesel exports to the end of the month, Chinese refiners have suspended most fuel exports for October, and Brent is around $100 a barrel with the Strait of Hormuz still disrupted.*
 
-1. **Balances:** two of the world's largest fuel exporters are holding supply back, on top of the Gulf disruption, at a time when emergency stocks have already been drawn down.
+1. **Balances:** two of the world's largest fuel exporters are holding supply back, on top of the Hormuz disruption, at a time when emergency stocks have already been drawn down.
 2. **The curve:** steep backwardation; prompt supply is scarce. The World Bank's monthly average for physical Brent in September was $116.80, well above where futures traded.
 3. **Physical or paper:** physical. Refined products are tighter than crude, which is why diesel and jet fuel have risen faster than oil.
 4. **Forced sellers:** none obvious yet; watch for exchanges raising margins if prices jump again.

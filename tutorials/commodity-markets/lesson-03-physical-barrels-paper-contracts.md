@@ -85,7 +85,7 @@ The **spot market** is for immediate or near-term delivery, and most physical de
 <text x="20" y="292" font-size="10.5" fill="currentColor" opacity="0.6">Dots: daily Dated Brent assessments. Real contracts vary the number of pricing days.</text>
 </svg>
 
-The formula travels well. An Indian refiner buying Gulf crude typically pays a price linked to the Dubai and Oman benchmarks. A copper smelter buying ore concentrate pays the London Metal Exchange price, minus charges for turning the concentrate into metal. A North Sea cargo might be priced at Dated Brent plus 80 cents, averaged over the days around loading, exactly as above.
+The formula travels well. An Indian refiner buying Middle Eastern crude typically pays a price linked to the Dubai and Oman benchmarks. A copper smelter buying ore concentrate pays the London Metal Exchange price, minus charges for turning the concentrate into metal. A North Sea cargo might be priced at Dated Brent plus 80 cents, averaged over the days around loading, exactly as above.
 
 This is why benchmarks matter so much. If the benchmark moves by a dollar, billions of dollars of physical contracts move with it, which is also why their integrity is policed so closely (Lesson 10 tells the story of the London gold fix).
 

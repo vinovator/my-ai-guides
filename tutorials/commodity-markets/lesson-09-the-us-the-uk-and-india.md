@@ -50,7 +50,7 @@ The **Commodity Futures Trading Commission** (CFTC), created in 1974, administer
 
 CME Group dominates. Its **CBOT** arm lists corn, soybeans and wheat; **NYMEX** lists WTI crude, Henry Hub natural gas, petrol and diesel; **COMEX** lists gold, silver and copper; and CME itself lists livestock. **ICE Futures US**, formerly the New York Board of Trade, lists the "softs": sugar, arabica coffee, cocoa, cotton and orange juice.
 
-The benchmarks set here price far beyond America: WTI at Cushing, Henry Hub gas in Louisiana, the CBOT grain and oilseed contracts that price much of the world's farm trade, and COMEX gold and copper, the most actively traded futures for those metals.
+The benchmarks set here price far beyond America: WTI at Cushing, Henry Hub gas in Louisiana, the CBOT grain and oilseed contracts that price much of the world's farm trade, and COMEX gold and copper, among the most actively traded futures for those metals.
 
 ### Rules that matter
 
@@ -167,7 +167,7 @@ Since December 2021, SEBI has suspended futures trading in seven farm commoditie
 
 ### Policy levers
 
-The government sets **Minimum Support Prices** for more than 20 crops, buys and stores grain through the Food Corporation of India, and distributes free grain to roughly 800 million people. It uses export bans and duties freely (wheat in May 2022, non-basmati white rice from July 2023 until September 2024, and repeated curbs on sugar and onions), imposes stock limits on traders, and changes import duties on edible oils and gold. Petrol and diesel prices are set by state-owned fuel retailers, but taxes form a large share of the pump price, and in March 2026 the government cut excise duty by ₹10 a litre to cushion the Gulf shock (Lesson 8).
+The government sets **Minimum Support Prices** for more than 20 crops, buys and stores grain through the Food Corporation of India, and distributes free grain to roughly 800 million people. It uses export bans and duties freely (wheat in May 2022, non-basmati white rice from July 2023 until September 2024, and repeated curbs on sugar and onions), imposes stock limits on traders, and changes import duties on edible oils and gold. Petrol and diesel prices are set by state-owned fuel retailers, but taxes form a large share of the pump price, and in March 2026 the government cut excise duty by ₹10 a litre to cushion the Hormuz shock (Lesson 8).
 
 ### Gold
 
