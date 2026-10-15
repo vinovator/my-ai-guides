@@ -232,7 +232,7 @@ the old landing page misrepresent the library.
 
 - **Filter** (`#format-buttons` + `#card-filter`): the format buttons (`aria-pressed`) and the text
   search combine. Search is a substring match over title, description, format, tags and category.
-  Section counts read "N of M" while filtering, `#filter-status` announces "Showing N of 16"
+  Section counts read "N of M" while filtering, `#filter-status` announces "Showing N of 17"
   (`aria-live`), empty sections hide, and `#filter-empty` shows when nothing matches. Esc clears the
   search. It keys off `.hub-card`, `data-search` and `data-format`, so **every entry template must
   keep those hooks**, rows and cheat-sheet links alike.
@@ -277,7 +277,8 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
   text-bearing slides on exactly the screens that show them largest. Add smaller siblings instead.
   Always write real `alt` text; the viewer also sets `loading="lazy"` and reserves space via
   `aspect-ratio` in `site.css`, so missing dimensions do not shift the page.
-- **Inline SVG figures** (both finance deep dives use them) follow one contract. Every figure is
+- **Inline SVG figures** (the commodity, Japan and derivatives deep dives use them) follow one
+  contract. Every figure is
   `<svg viewBox="0 0 ~700 H" width="100%" role="img" aria-label="…full description…">` with text
   and axes in `currentColor` so they follow the theme. **No blank lines inside an `<svg>`**: a blank
   line ends the HTML block in CommonMark, marked stops parsing there and DOMPurify strips the rest.
@@ -311,6 +312,14 @@ In addition to the per-framework HTML guides, the repo supports **multi-lesson t
   `checks.py` recomputes every worked example and data-derived fact in the prose. Hand-entered
   official tables (shunto history, MOF/IMF debt and creditor figures, TIC holders) sit at the top of
   their `figs_*.py` module with their source. The PDF it was built from is in the same folder.
+- The **derivatives** deep dive is generated the same way from `_source/derivatives/`:
+  `charts/fetch_data.py` caches FRED series and the BIS SDMX OTC-derivatives API, `charts/bs.py`
+  holds the Black-Scholes helper and the running example (a £105 call on a £100 share at 23.2%
+  volatility, costing £3.00) that Lessons 3 to 5 and every option figure share, `charts/build.py`
+  writes `tutorials/derivatives/`, and `charts/checks.py` recomputes every worked number and
+  "Check yourself" answer. Formulas sit in `<details><summary>For the curious: …` blocks, written
+  in plain text with `<sub>`/`<sup>`, since the site has no maths renderer. Lesson 16 reuses
+  figures from the other lessons by placeholder, so edit a figure once in its `figs_*.py`.
 - **Adding a deep dive**: the user drops the `<slug>/` folder; then prompt Claude to add the registry entry — a single `{ type:'tutorial', format:'deep-dive', category:'<topic>', title:…, href:'tutorial.html?slug=<slug>', lessons:N, minutes:N, updated:…, tags:[…], description:… }` object appended to `CARDS` in `hub.js`. If it opens a new subject, add a `CATEGORIES` entry and its accent classes to the marker block in `index.html`.
 
 ## Checks and generated files

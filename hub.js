@@ -40,7 +40,7 @@
         {
             name: 'Finance and economics',
             accent: 'blue',
-            blurb: 'How markets and economies work: bonds, commodities, company valuation and the economy of Japan.',
+            blurb: 'How markets and economies work: bonds, commodities, derivatives, company valuation and the economy of Japan.',
         },
     ];
 
@@ -91,6 +91,13 @@
         },
 
         // ---- Finance and economics -------------------------------------------
+        {
+            type: 'tutorial', format: 'deep-dive', category: 'Finance and economics',
+            title: 'Derivatives', href: 'tutorial.html?slug=derivatives',
+            tags: ['Finance', 'Derivatives', 'Options', 'Futures', 'Swaps', 'Credit default swaps', 'Hedging', 'Volatility', 'Clearing', 'Margin', 'Black-Scholes'],
+            description: 'How forwards, futures, options and swaps work and are priced, who uses them, how clearing and margin hold the market together, how it goes wrong, and how the US, UK and India regulate it, with 24 episodes from 1973 to 2026.',
+            updated: '2026-10-15', lessons: 16, minutes: 194,
+        },
         {
             type: 'tutorial', format: 'deep-dive', category: 'Finance and economics',
             title: "Japan's Economy", href: 'tutorial.html?slug=japan-economy',

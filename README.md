@@ -3,10 +3,10 @@
 In-depth guides on AI engineering and on finance and economics. Each one starts from the basics and
 builds up step by step.
 
-The library has about 10 hours of reading in 16 guides: five deep dives (graph databases and
-GraphRAG, global bond markets, commodity markets, Japan's economy, investment valuation), five
-framework guides and six one-page cheat sheets. It is organised by subject, with format shown as a
-label, so new subjects can be added without reshaping it.
+The library has about 13 hours of reading in 17 guides: six deep dives (graph databases and
+GraphRAG, global bond markets, commodity markets, derivatives, Japan's economy, investment
+valuation), five framework guides and six one-page cheat sheets. It is organised by subject, with
+format shown as a label, so new subjects can be added without reshaping it.
 
 ## 🚀 **[View the Live Site](https://guides.vinothhaldorai.com/)**
 
@@ -32,6 +32,7 @@ Deep dives are authored in plain Markdown, each in a folder under `tutorials/`. 
 
 - **[Neo4j](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=neo4j)** - From complete novice to enterprise agentic context layers. Cypher, GraphRAG, and Neo4j as the memory spine for AI agents.
 - **[Investment Valuation](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=investment-valuation&lesson=valuation-from-zero-a-complete-guide)** - From zero to a defensible business valuation. Accounting fundamentals, DCF, and multiples, built history-forward around one fictional company.
+- **[Derivatives](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=derivatives)** - Derivatives from first principles. Forwards, futures, options and swaps, priced without forecasting; the Greeks, margin, clearing and collateral; six patterns behind fifty years of blow-ups; retail markets and the US, UK and India side by side; and twenty-four episodes from the first listed options in 1973 to the Hormuz shock of 2026.
 - **[Commodity Markets](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=commodity-markets)** - How the world prices oil, metals, grain and gas, explained from zero. Futures and hedging, the forward curve, what moves prices, the US, UK and India side by side, and fifty years of shocks from the 1973 embargo to the 2026 Hormuz crisis.
 - **[Japan's Economy](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=japan-economy)** - The land of the rising rates. How Japan fought deflation for a generation with zero rates, quantitative easing and yield curve control, why its exit now moves markets everywhere, and the five puzzles that explain it, from the 1985 Plaza Accord to the BOJ at 1.25%.
 - **[Global Bond Markets](https://vinovator.github.io/my-ai-guides/tutorial.html?slug=global-bond-markets)** - The base price of money, explained from zero. The price-yield seesaw, duration, the yield curve, US/UK/India side by side, and eight episodes where the bond market broke something.
