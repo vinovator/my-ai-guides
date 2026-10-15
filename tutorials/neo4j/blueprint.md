@@ -93,7 +93,6 @@ This page is the map of the course: the goal it works towards, the stack it uses
 The arc moves from the data model, through the query language and modeling, into Python, then algorithms and vectors, then GraphRAG, then the agentic layer, and finally enterprise scale.
 
 ### [Lesson 1: Origins and foundations](lesson-01-origins-and-foundations.md)
-- **Status:** complete.
 - **Objectives:** understand the white space Neo4j filled and its significance today; internalize the property graph model.
 - **Concepts:** the relational impedance mismatch and the cost of JOINs on connected data; the history from founding through Cypher, openCypher, and the ISO GQL standard; the four building blocks (nodes, relationships, properties, labels); index-free adjacency.
 - **Hands-on:** start the server, open the Browser, create and read a first graph with CREATE and MATCH, in both a neutral and a banking frame.
@@ -102,7 +101,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `CREATE`, `MATCH`, `RETURN`, node and relationship pattern syntax.
 
 ### [Lesson 2: Cypher fluency I, reading graphs](lesson-02-cypher-fluency-reading.md)
-- **Status:** complete.
 - **Objectives:** read and shape data from the graph with confidence.
 - **Concepts:** the read-query clause pipeline (MATCH, OPTIONAL MATCH, WHERE, WITH, RETURN, ORDER BY, SKIP, LIMIT); filtering; aggregation and Cypher implicit grouping; OPTIONAL MATCH and nulls; variable-length and shortest paths; WITH as the pipeline connector.
 - **Hands-on:** reset, seed a richer banking dataset, then progressively filter, shape, aggregate, and traverse.
@@ -111,7 +109,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `WHERE`, `ORDER BY`, `LIMIT`, `SKIP`, `DISTINCT`, `count`, `sum`, `avg`, `collect`, `OPTIONAL MATCH`, variable-length paths, `WITH`.
 
 ### [Lesson 3: Cypher fluency II, writing and integrity](lesson-03-writing-and-integrity.md)
-- **Status:** complete.
 - **Objectives:** create and change data correctly and idempotently.
 - **Concepts:** CREATE versus MERGE and upsert semantics (the most common beginner trap); SET and REMOVE; DELETE and DETACH DELETE; uniqueness constraints and node keys; indexes; query parameters and why they matter for performance and safety.
 - **Hands-on:** make ingestion idempotent so re-running does not duplicate data; add constraints and indexes.
@@ -120,7 +117,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `MERGE`, `ON CREATE SET`, `ON MATCH SET`, `SET`, `REMOVE`, `DELETE`, `DETACH DELETE`, `CREATE CONSTRAINT`, `CREATE INDEX`, parameters.
 
 ### [Lesson 4: Data modeling for graphs](lesson-04-data-modeling.md)
-- **Status:** complete.
 - **Objectives:** turn a domain into a sound graph model.
 - **Concepts:** the modeling questions (node versus property versus relationship); when to reify a relationship into a node, for example a Transaction as a node rather than an edge; modeling time, hierarchies, and many-to-many; refactoring an existing model; mapping a relational schema to a graph.
 - **Hands-on:** evolve the banking model into a fraud-ready and customer-360-ready shape.
@@ -129,7 +125,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** modeling patterns, schema refactoring with Cypher and APOC.
 
 ### [Lesson 5: Loading real data](lesson-05-loading-real-data.md)
-- **Status:** complete.
 - **Objectives:** get realistic volumes of data into the graph cleanly.
 - **Concepts:** LOAD CSV with batching; bulk import with neo4j-admin for large initial loads; APOC for loading and transformation; data cleaning and type handling.
 - **Hands-on:** generate and load a synthetic banking dataset large enough for meaningful algorithms.
@@ -138,7 +133,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `LOAD CSV`, `CALL ... IN TRANSACTIONS`, neo4j-admin import, APOC load procedures.
 
 ### [Lesson 6: Python integration with the official driver](lesson-06-python-driver.md)
-- **Status:** complete.
 - **Objectives:** operate the graph from Python the way an application would.
 - **Concepts:** the driver and sessions; managed transaction functions versus explicit transactions; parameterized queries; consuming records; connection pooling; error handling and retries; an introduction to async.
 - **Hands-on:** build a small Python module that reads and writes the banking graph.
@@ -147,7 +141,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `GraphDatabase.driver`, `session`, `execute_read`, `execute_write`, parameters, result consumption.
 
 ### [Lesson 7: Graph algorithms with GDS](lesson-07-graph-algorithms-gds.md)
-- **Status:** complete.
 - **Objectives:** compute structure and insight that queries alone cannot.
 - **Concepts:** graph projections and the catalog; centrality (PageRank, betweenness); community detection (Louvain, label propagation, weakly connected components); similarity (node similarity, K nearest neighbors); pathfinding; node embeddings (FastRP, node2vec) as the bridge to vectors.
 - **Hands-on:** detect communities and rank influential accounts.
@@ -156,7 +149,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** `gds.graph.project`, `gds.pageRank`, `gds.louvain`, `gds.nodeSimilarity`, embedding procedures.
 
 ### [Lesson 8: Vectors and the semantic layer](lesson-08-vectors-semantic-layer.md)
-- **Status:** complete.
 - **Objectives:** add semantic similarity to the graph.
 - **Concepts:** what embeddings are; creating vector indexes in Neo4j; storing Gemini embeddings on nodes; vector similarity queries; combining vector search with graph traversal for hybrid retrieval.
 - **Hands-on:** embed text on nodes with the Gemini API and query by similarity, then enrich results by traversal.
@@ -165,7 +157,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** vector index creation, vector query procedures, Gemini embeddings via google-genai.
 
 ### [Lesson 9: GraphRAG I, building the knowledge graph](lesson-09-graphrag-build.md)
-- **Status:** complete.
 - **Objectives:** turn unstructured text into a knowledge graph.
 - **Concepts:** entity and relationship extraction with an LLM; schema-guided extraction to keep the graph clean; the neo4j-graphrag knowledge-graph builder pipeline; the LLM Knowledge Graph Builder tool.
 - **Hands-on:** build a knowledge graph from a set of banking documents.
@@ -174,7 +165,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** neo4j-graphrag pipeline components, schema definition, Gemini extraction.
 
 ### [Lesson 10: GraphRAG II, retrieval and grounding](lesson-10-graphrag-retrieval.md)
-- **Status:** complete.
 - **Objectives:** answer grounded, explainable, multi-hop questions.
 - **Concepts:** retriever types (vector, vector plus Cypher, text-to-Cypher, hybrid); assembling a GraphRAG pipeline with Gemini; grounding answers in retrieved subgraphs; evaluation, guardrails, and returning citations for explainability.
 - **Hands-on:** build a banking question-answering pipeline that grounds answers in the graph.
@@ -183,7 +173,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** neo4j-graphrag retrievers and the GraphRAG class, Gemini generation.
 
 ### [Lesson 11: The agentic layer with ADK and MCP](lesson-11-agentic-layer-adk-mcp.md)
-- **Status:** complete.
 - **Objectives:** expose the graph to an agent as a context and memory layer.
 - **Concepts:** wiring Neo4j to a Google ADK agent through the official MCP server or MCP Toolbox; designing pre-validated query tools rather than open-ended Cypher; text-to-Cypher as a controlled tool; persistent agent memory with neo4j-agent-memory and the preload-memory pattern; multi-agent orchestration; least-privilege read access for agents.
 - **Hands-on:** build a banking context-layer agent that retrieves grounded context and remembers across sessions.
@@ -192,7 +181,6 @@ The arc moves from the data model, through the query language and modeling, into
 - **Constructs:** ADK agent and tool definitions, McpToolset, MCP server configuration, neo4j-agent-memory.
 
 ### [Lesson 12: From laptop to enterprise](lesson-12-laptop-to-enterprise.md)
-- **Status:** complete.
 - **Objectives:** understand what changes when this becomes a production enterprise system.
 - **Concepts:** Community versus Enterprise (role-based access control, multiple databases, clustering, hot backups, security); production concerns (authentication, least-privilege users for agents, read-only roles, query timeouts, observability, auditability); scaling and the managed Aura option; data governance; the reference architecture for an enterprise agentic context layer; how the banking patterns generalize to other relational-heavy domains such as utilities.
 - **Hands-on:** harden the project and sketch the enterprise reference architecture.
@@ -229,47 +217,3 @@ A revision and lookup companion to the twelve lessons. Active-recall flashcards 
 **Enterprise direction.** Managed Aura, governance and RBAC, agentic GraphRAG through MCP endpoints, and integration with a wider context layer that also includes a document store and a general vector store. Keep the framing from Lesson 1: Neo4j is the knowledge and memory spine, not the whole context layer.
 
 **Project ideas to reinforce.** A personal knowledge graph of your own notes and reading; a domain knowledge graph in a field you know well; and a small multi-agent system where one agent reasons over the graph while another manages memory.
-
----
-
-## 7. Progress tracker
-
-| Lesson | Title | Status |
-| --- | --- | --- |
-| 1 | Origins and foundations | Complete |
-| 2 | Cypher fluency I, reading graphs | Complete |
-| 3 | Cypher fluency II, writing and integrity | Complete |
-| 4 | Data modeling for graphs | Complete |
-| 5 | Loading real data | Complete |
-| 6 | Python integration with the official driver | Complete |
-| 7 | Graph algorithms with GDS | Complete |
-| 8 | Vectors and the semantic layer | Complete |
-| 9 | GraphRAG I, building the knowledge graph | Complete |
-| 10 | GraphRAG II, retrieval and grounding | Complete |
-| 11 | The agentic layer with ADK and MCP | Complete |
-| 12 | From laptop to enterprise | Complete |
-
-**Appendices.**
-
-| Appendix | Title | Status |
-| --- | --- | --- |
-| 1 | Capstone, the banking context-layer agent | Complete |
-| 2 | Flashcards and quick reference | Complete |
-
-**Changelog.**
-- Lesson 1 delivered: history, significance, property graph model, first queries.
-- Blueprint created as the reference for all subsequent lessons.
-- Lesson 2 delivered.
-- Environment pinned to Neo4j 5.26 LTS: Cypher 5, vector index procedures for Lesson 8, Enterprise features deferred to Lesson 12.
-- Lesson 3 delivered: MERGE and upsert semantics, SET and REMOVE, DELETE and DETACH DELETE, constraints, indexes, and parameters; banking ingestion made idempotent.
-- Lesson 4 delivered: graph modeling questions, reifying relationships into nodes, modeling time and hierarchies, schema refactoring; banking model evolved for fraud and customer 360.
-- Lesson 5 delivered: loading real data with LOAD CSV, batched transactions, neo4j-admin import, and APOC; synthetic banking dataset prepared for the algorithms and vectors arc.
-- Lesson 6 delivered: Python integration with the official driver, sessions and managed transactions, parameterized reads and writes, error handling and retries; reusable banking data-access layer.
-- Lesson 7 delivered: Graph Data Science projections and catalog, centrality, community detection, similarity, pathfinding, and node embeddings; fraud rings and central mule accounts surfaced on the banking graph.
-- Lesson 8 delivered: vectors and the semantic layer, Gemini embeddings on nodes, Neo4j vector indexes, vector queries combined with graph traversal for hybrid retrieval over banking notes and policy text.
-- Lesson 9 delivered: GraphRAG I, schema-guided entity and relationship extraction with the neo4j-graphrag knowledge-graph builder; banking knowledge graph constructed from policy and product documents.
-- Lesson 10 delivered: GraphRAG II, retriever types and pipeline assembly with Gemini, grounded answers with citations and the supporting subgraph; banking question-answering pipeline producing explainable responses.
-- Lesson 11 delivered: the agentic layer with Google ADK and MCP, pre-validated query tools, controlled text-to-Cypher, persistent agent memory with neo4j-agent-memory, and least-privilege read access; banking context-layer agent reaching the graph through MCP.
-- Lesson 12 delivered: from laptop to enterprise, Community versus Enterprise boundary, RBAC and least-privilege agent users, query timeouts and observability, managed Aura, and the reference architecture for an enterprise agentic context layer; capstone arc complete.
-- Appendix 1 delivered: the banking context-layer agent capstone, assembling the graph model, ingestion, GDS, vector indexes, GraphRAG on Gemini, and the ADK + MCP agent with persistent memory into one runnable end-to-end project (previously listed as Lesson 13, reclassified as an appendix).
-- Appendix 2 delivered: flashcards and quick reference, an active-recall companion with a course-wide summary table, the ten durable ideas, and a Cypher cheat-sheet.
