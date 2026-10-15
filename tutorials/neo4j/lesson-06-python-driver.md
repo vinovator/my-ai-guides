@@ -357,7 +357,7 @@ The repository is the reusable data layer the rest of the course builds on. In L
 4. Write an idempotent `upsert_customer` as a managed write transaction, run it twice for the same id, and confirm with a count that no duplicate appears.
 5. Deliberately trigger and catch a `ConstraintError` by creating a customer with an id that already exists.
 
-Report your code, the printed results, and the error you caught. A worked solution is the `BankingRepository` class in Part 9.
+Check your code, the printed results and the error you caught against the worked solution, the `BankingRepository` class in Part 9.
 
 ---
 

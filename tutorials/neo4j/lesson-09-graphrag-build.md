@@ -274,7 +274,7 @@ The knowledge graph you built is the product-and-policy backbone of the context 
 4. Inspect: report the entity types and counts, the relationship counts, and one product with its fee, policy, and source chunk.
 5. If extraction looks messy, improve the entity descriptions and rebuild, and note what changed.
 
-Report your schema, the build output, and the inspection results. There is no single solution; the goal is a clean graph that matches your schema.
+Check the build output and the inspection results against your schema. There is no single solution; the goal is a clean graph that matches your schema.
 
 ---
 

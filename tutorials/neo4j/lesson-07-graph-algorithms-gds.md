@@ -288,7 +288,7 @@ This is precisely the structural-insight layer that an enterprise context layer 
 5. Write `pagerank` and `community` back, then write one query that lists the top three accounts by PageRank within the largest community.
 6. Drop the projection.
 
-Report the PageRank leaders, the size of the hub's community, and your final combined query. A worked solution is at the bottom of this file.
+Note the PageRank leaders, the size of the hub's community and your final combined query, then compare them with the worked solution at the bottom of this file.
 
 ---
 

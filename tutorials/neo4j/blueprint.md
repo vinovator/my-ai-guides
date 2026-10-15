@@ -2,7 +2,7 @@
 
 ### From complete novice to enterprise agentic context layers
 
-This document is the master plan for the tutorial. It is the single reference used to generate every lesson, so the course stays coherent, sequenced, and aligned to the end goal. Treat it as a living document: the progress tracker at the end records what is complete and what is next.
+This page is the map of the course: the goal it works towards, the stack it uses, the conventions every lesson follows, and what each lesson covers, in order.
 
 ---
 
@@ -10,7 +10,7 @@ This document is the master plan for the tutorial. It is the single reference us
 
 **Goal.** Build practical, deep capability with Neo4j, with a specific destination: a grounded, explainable context and memory layer for enterprise agentic applications. Neo4j is positioned as the knowledge and memory spine of that layer, used inside a GraphRAG pattern, not as the entire context layer on its own. The course also produces the transferable skill of thinking and modeling in graphs.
 
-**Confirmed stack.**
+**The stack.**
 - Database: Neo4j Community Edition 5.26 LTS (the final 5.x release, supported through June 2028), installed from the tarball, run locally.
 - Language: Python.
 - Agent framework: Google Agent Development Kit (ADK).
@@ -57,7 +57,7 @@ This document is the master plan for the tutorial. It is the single reference us
 
 **Visualization.** Neo4j Browser for everyday work, NeoDash for dashboards, and Bloom where a license is available.
 
-**Version: Neo4j 5.26 LTS (confirmed).** This is the long-term support release, stable and supported through June 2028, and it runs on Java 17 or Java 21. It supports everything this course needs. Concrete implications:
+**Version: Neo4j 5.26 LTS.** This is the long-term support release, stable and supported through June 2028, and it runs on Java 17 or Java 21. It supports everything this course needs. Concrete implications:
 - Cypher version is Cypher 5. The course uses Cypher 5 syntax. Cypher 25 and the newer in-Cypher vector SEARCH clause arrived with the 2025.06 and 2026 release lines and are out of scope for this install.
 - Vector indexes are available. Lesson 8 uses the Cypher 5 vector index procedures (for example, db.index.vector.queryNodes), not the newer SEARCH syntax.
 - APOC and a matching Graph Data Science version install as plugins and cover the algorithms used here.
@@ -79,13 +79,12 @@ This document is the master plan for the tutorial. It is the single reference us
 3. Intuition.
 4. Concrete hands-on (runnable, step by step).
 5. Banking application.
-6. Your turn (a task to complete and report back).
+6. Your turn (a task to try yourself, with a worked solution where one applies).
 7. Success criteria.
 8. New constructs introduced (a quick-reference list).
 
 **Data safety.** No destructive operation runs against shared data without an explicit, labelled reset step.
 
-**Writing style of deliverables.** No contractions. No em-dashes; use commas, colons, or restructured sentences.
 
 ---
 

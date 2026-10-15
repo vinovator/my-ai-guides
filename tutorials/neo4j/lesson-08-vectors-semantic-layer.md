@@ -310,7 +310,7 @@ Semantic search over customer notes, enriched by traversal, is a real context-la
 4. Run a semantic search for a fraud-related query with `RETRIEVAL_QUERY` and confirm the fraud notes rank above the others.
 5. Extend the search into a hybrid query that also returns each matched customer's transaction count and total outflow.
 
-Report your notes, the search results with scores, and the hybrid output. A worked solution is the `BankingSemanticLayer` class in Part 8.
+Compare your search results, their scores and the hybrid output with the worked solution, the `BankingSemanticLayer` class in Part 8.
 
 ---
 

@@ -326,7 +326,7 @@ The service answers grounded, explainable questions for a banking agent. Asked w
 4. Build a `Text2CypherRetriever` over the operational graph and answer a counting or aggregation question about a customer.
 5. Turn on a grounding prompt and `return_context=True`, and print both the answer and its evidence.
 
-Report your three retrievers, the answers, and one answer with its evidence. The `BankingGraphRAG` class in Part 9 is a worked solution for the VectorCypher path.
+Compare the three retrievers' answers, and check that at least one answer comes back with its evidence. The `BankingGraphRAG` class in Part 9 is a worked solution for the VectorCypher path.
 
 ---
 

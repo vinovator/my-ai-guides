@@ -352,7 +352,7 @@ RETURN count(c) AS upserted;
    ```
 4. Then try to violate the constraint on purpose, for example by creating a second Customer with an existing id, and read the error message.
 
-Report the queries you wrote, the before and after counts, and what the constraint violation error said. A worked solution is at the bottom of this file.
+Note the before and after counts and what the constraint violation error says, then compare your queries with the worked solution at the bottom of this file.
 
 ---
 

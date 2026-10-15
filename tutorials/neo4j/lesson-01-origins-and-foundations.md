@@ -73,9 +73,9 @@ The query language matured alongside the engine. Cypher, the declarative languag
 | 2011 | Cypher, a declarative query language created by Andres Taylor, is introduced |
 | 2013 | The O'Reilly book Graph Databases is published |
 | 2015 | openCypher opens the language to the wider industry |
-| 2020 | The managed cloud service, Neo4j Aura, launches |
+| 2019 | The managed cloud service, Neo4j Aura, launches in November |
 | 2021 | A 325 million dollar Series F closes, the largest funding round in database history at the time |
-| 2022 | Neo4j 5.0 is released in October |
+| 2022 | Neo4j 5 becomes generally available in November |
 | 2023 | Native vector search is added, aligning the database with the generative AI wave |
 | April 2024 | GQL becomes an ISO standard, the first new ISO database query language standard since SQL |
 | December 2024 | Neo4j 5.26 LTS is released, the final 5.x version, supported through June 2028 |
@@ -264,7 +264,7 @@ Model and create a small scenario from scratch, then query it.
 2. Have both accounts send a payment to the same merchant.
 3. Write a MATCH that returns both customers who paid that merchant.
 
-Run it, then report back the queries you wrote and what the final MATCH returned. This is, in miniature, the shared-counterparty pattern that opens fraud analytics, and it leads directly into Lesson 2. A worked solution is at the very bottom of this file if you want to check after trying.
+Run it and note what the final MATCH returns. This is, in miniature, the shared-counterparty pattern that opens fraud analytics, and it leads directly into Lesson 2. A worked solution is at the very bottom of this file if you want to check after trying.
 
 ---
 

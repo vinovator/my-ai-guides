@@ -217,7 +217,7 @@ This final task is design, not code.
 3. Map each control and component to one of the five operating-model capabilities in Part 8.
 4. Pick a non-banking domain you know, ideally utilities, and describe in a few lines how the same architecture would serve it.
 
-Report your architecture sketch, your controls list, and your domain generalization.
+Write down your architecture sketch, your controls list and your domain generalization, and check them against the success criteria below.
 
 ---
 

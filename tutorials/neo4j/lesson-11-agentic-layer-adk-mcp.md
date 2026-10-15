@@ -324,7 +324,7 @@ You now have the capstone in reach: a banking context-layer agent that answers a
 4. Add `PreloadMemoryTool` with a configured `MemoryClient`, tell the agent a fact about a customer in one session, and confirm it recalls the fact in a new session.
 5. Note which design, open Cypher or pre-validated tools, you would choose for a customer-facing deployment, and why.
 
-Report your agent definitions, a transcript of the agent answering with tool calls, and the memory recall across sessions.
+Keep a transcript of the agent answering with tool calls and recalling memory across sessions, and check it against the success criteria below.
 
 ---
 

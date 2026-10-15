@@ -250,7 +250,7 @@ Steps:
 3. Aggregate with `count(DISTINCT m)` and alias it, for example `sharedMerchants`.
 4. Order by that count, descending.
 
-Run it, then report back the query you wrote and the rows it returned. The solution is at the very bottom of this file if you want to check after trying.
+Run it and note the rows it returns. The solution is at the very bottom of this file if you want to check after trying.
 
 ---
 

@@ -266,7 +266,7 @@ Refactor the Lesson 2 dataset toward this model, then query it.
    - Find Transactions with an amount over a threshold within a date window.
    - Find pairs of customers who share an address.
 
-Report your refactor queries, the two question queries, and what they returned. A worked solution is at the bottom of this file.
+Compare your refactor queries, the two question queries and their results with the worked solution at the bottom of this file.
 
 ---
 
