@@ -1,4 +1,4 @@
-# The Land of the Rising Rates
+# Japan's Economy: The Land of the Rising Rates
 
 *An intuitive guide to Japan's economy: how a generation of falling prices turned it into the world's macroeconomic laboratory, and why its exit from that era now moves markets everywhere.*
 
